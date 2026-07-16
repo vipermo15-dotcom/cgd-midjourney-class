@@ -1,0 +1,226 @@
+<title>미드저니 무드보드 실습 가이드</title>
+<style>
+  :root {
+    --paper: #f7f5ef;
+    --paper-raised: #fffdf8;
+    --ink: #1c1b1e;
+    --ink-soft: #55524c;
+    --ink-faint: #918c7e;
+    --rule: #d8d3c7;
+    --accent: #c34a2c;
+    --accent-soft: #c34a2c1a;
+    --accent-2: #2e5339;
+    --accent-2-soft: #2e53391a;
+    --mono: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
+    --sans: -apple-system, "Apple SD Gothic Neo", "Pretendard", "Malgun Gothic", "Segoe UI", sans-serif;
+  }
+  :root[data-theme="dark"] {
+    --paper: #17191b; --paper-raised: #1f2123; --ink: #ece8df; --ink-soft: #a39c8c;
+    --ink-faint: #6b665a; --rule: #34302a; --accent: #e2734f; --accent-soft: #e2734f26;
+    --accent-2: #6fae7c; --accent-2-soft: #6fae7c22;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #17191b; --paper-raised: #1f2123; --ink: #ece8df; --ink-soft: #a39c8c;
+      --ink-faint: #6b665a; --rule: #34302a; --accent: #e2734f; --accent-soft: #e2734f26;
+      --accent-2: #6fae7c; --accent-2-soft: #6fae7c22;
+    }
+  }
+  @media print {
+    :root {
+      --paper: #f7f5ef !important; --paper-raised: #fffdf8 !important; --ink: #1c1b1e !important;
+      --ink-soft: #55524c !important; --ink-faint: #918c7e !important; --rule: #d8d3c7 !important;
+      --accent: #c34a2c !important; --accent-soft: #c34a2c1a !important;
+      --accent-2: #2e5339 !important; --accent-2-soft: #2e53391a !important;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans);
+    line-height: 1.65;
+  }
+  .page {
+    max-width: 780px; margin: 0 auto; padding: 4.5em 2em 6em;
+  }
+  .doc-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    border-bottom: 1px solid var(--rule); padding-bottom: .8em; margin-bottom: .4em;
+    font-family: var(--mono); font-size: 11.5px; letter-spacing: .06em; color: var(--ink-faint);
+    text-transform: uppercase;
+  }
+  .doc-head .accent { color: var(--accent); }
+
+  h1 {
+    font-size: clamp(30px, 4vw, 42px); font-weight: 800; letter-spacing: -0.01em;
+    margin: .5em 0 .1em; text-wrap: balance;
+  }
+  .subtitle { color: var(--ink-soft); font-size: 15px; margin: 0 0 2em; }
+
+  h2 {
+    font-size: 24px; font-weight: 800; letter-spacing: -0.005em;
+    margin: 2.4em 0 .2em; padding-top: 1.4em; border-top: 1px solid var(--rule);
+  }
+  h2:first-of-type { border-top: none; padding-top: 0; }
+  .kicker {
+    font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: .3em; display: block;
+  }
+  p { margin: .6em 0; }
+  strong { font-weight: 700; }
+
+  pre.prompt {
+    font-family: var(--mono); font-size: 14px; background: var(--ink); color: var(--paper);
+    padding: 1em 1.2em; line-height: 1.65; white-space: pre-wrap; word-break: break-word;
+    margin: .8em 0; border-left: 3px solid var(--accent);
+  }
+  code.inline {
+    font-family: var(--mono); background: var(--accent-soft); color: var(--accent);
+    padding: .1em .35em; font-size: .9em;
+  }
+
+  table {
+    border-collapse: collapse; width: 100%; font-size: 14.5px; margin: 1em 0;
+  }
+  th, td {
+    text-align: left; padding: .55em .8em .55em 0; border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  th {
+    font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase;
+    color: var(--ink-faint); font-weight: 500;
+  }
+
+  ol.steps { list-style: none; margin: .8em 0; padding: 0; }
+  ol.steps li {
+    display: grid; grid-template-columns: 1.8em 1fr; gap: .6em;
+    padding: .5em 0; border-bottom: 1px solid var(--rule); align-items: baseline;
+  }
+  ol.steps li:last-child { border-bottom: none; }
+  ol.steps li .n { font-family: var(--mono); color: var(--accent); font-size: 13px; }
+
+  ul.checklist { list-style: none; margin: .8em 0; padding: 0; }
+  ul.checklist li {
+    padding: .5em 0; border-bottom: 1px solid var(--rule);
+    display: flex; gap: .7em; font-size: 15px;
+  }
+  ul.checklist li::before { content: "☐"; color: var(--accent); flex-shrink: 0; }
+
+  .goal-tag {
+    display: inline-block; font-family: var(--mono); font-size: 11px; letter-spacing: .06em;
+    text-transform: uppercase; color: var(--accent-2); background: var(--accent-2-soft);
+    border: 1px solid var(--accent-2); padding: .2em .6em; margin-bottom: .6em;
+  }
+
+  .note-box {
+    background: var(--paper-raised); border: 1px solid var(--rule); padding: 1em 1.2em;
+    margin: 1em 0; font-size: 14.5px;
+  }
+  .note-box ul { margin: .3em 0 0; padding-left: 1.2em; }
+  .note-box li { margin: .3em 0; }
+
+  .footer-note {
+    margin-top: 3em; padding-top: 1em; border-top: 1px solid var(--rule);
+    font-family: var(--mono); font-size: 11.5px; color: var(--ink-faint); text-align: center;
+  }
+  @media print { .page { padding: 1.5em 0 3em; } }
+</style>
+
+<div class="page">
+  <div class="doc-head"><span class="accent">PROOF · GUIDE</span><span>MIDJOURNEY WORKSHOP</span></div>
+  <h1>미드저니 무드보드 실습 가이드</h1>
+  <p class="subtitle">서울시기술교육원 컴퓨터그래픽디자인과 · 심화 실습 (스타일 일관성)<br><code class="inline">실습워크북</code>(기본 프롬프트 문법)를 먼저 끝낸 뒤 진행하세요.</p>
+
+  <h2><span class="kicker">Concept</span>무드보드란?</h2>
+  <p>무드보드(Moodboard)는 내가 고른 참고 이미지들을 모아 "나만의 스타일 프로필"을 만드는 기능입니다. 매번 프롬프트로 스타일을 길게 설명하지 않아도, 무드보드 코드 하나만 붙이면 그 톤·색감·질감이 유지된 채로 새로운 이미지를 계속 만들 수 있습니다.</p>
+  <p><strong>언제 유용한가요?</strong></p>
+  <ul class="checklist" style="pointer-events:none;">
+    <li style="border-bottom:none;">클라이언트 브랜드 톤을 여러 장에 걸쳐 통일해야 할 때</li>
+  </ul>
+  <p style="margin-top:-.6em; color:var(--ink-soft); font-size:14.5px;">포트폴리오 전체를 하나의 분위기로 통일하고 싶을 때 · 매번 같은 스타일 키워드를 반복 입력하기 번거로울 때도 유용합니다.</p>
+
+  <h2><span class="kicker">Guide</span>사용 방법</h2>
+  <ol class="steps">
+    <li><span class="n">01</span><div><code class="inline">midjourney.com</code>에 로그인한 뒤 상단 메뉴에서 <strong>Personalize → Moodboards</strong>로 이동합니다.</div></li>
+    <li><span class="n">02</span><div><strong>New Moodboard</strong>를 눌러 새 무드보드를 만들고 알아볼 수 있는 이름을 붙입니다. (예: 포트폴리오-미니멀)</div></li>
+    <li><span class="n">03</span><div>이미지를 추가합니다 — 기기 업로드 / URL 붙여넣기 / 내 갤러리에서 선택. 톤·색감·질감이 통일된 <strong>5~10장</strong>으로 시작하세요. (최대 100장)</div></li>
+    <li><span class="n">04</span><div>저장하면 고유 무드보드 코드가 발급됩니다. (<code class="inline">--profile</code> 뒤에 붙는 코드)</div></li>
+    <li><span class="n">05</span><div>프롬프트 맨 끝에 <code class="inline">--profile [내 코드]</code>를 추가해서 생성합니다.</div></li>
+  </ol>
+
+  <h2><span class="kicker">Warm-up</span>좋은 무드보드 이미지 고르는 기준</h2>
+  <ul class="checklist">
+    <li>컬러 팔레트가 비슷한가 (예: 전부 파스텔 / 전부 흑백)</li>
+    <li>질감·조명 톤이 비슷한가 (예: 전부 매트 / 전부 광택)</li>
+    <li>너무 다른 스타일을 섞지 않았는가 (사진+일러스트 혼합 시 결과 불안정)</li>
+    <li>최소 5장 이상 모았는가</li>
+  </ul>
+
+  <h2><span class="kicker">실습 01</span>나만의 무드보드 만들기</h2>
+  <span class="goal-tag">목표 · 5~10장짜리 무드보드 1개 완성</span>
+  <p>내가 좋아하는 스타일 이미지 5~10장을 모아 Moodboards 페이지에서 새 무드보드를 만들고 이름을 정한 뒤 업로드합니다.</p>
+  <pre class="prompt">내 무드보드 이름: ______________________
+내 무드보드 코드: ______________________</pre>
+  <ul class="checklist">
+    <li>이미지 5장 이상 업로드 완료</li>
+    <li>이름 저장 완료</li>
+    <li>코드 복사해서 메모장에 보관</li>
+  </ul>
+
+  <h2><span class="kicker">실습 02</span>무드보드 코드로 이미지 생성하기</h2>
+  <span class="goal-tag">목표 · 서로 다른 주제 3장에서 톤 유지 확인</span>
+  <p><strong>참고 프롬프트</strong></p>
+  <pre class="prompt">minimalist workspace desk setup, top view --profile [내 코드] --ar 1:1 --v 6</pre>
+  <p><strong>나의 프롬프트로 바꿔보기</strong></p>
+  <table>
+    <tr><th>순서</th><th>주제 키워드</th><th>완성 프롬프트</th></tr>
+    <tr><td>1</td><td></td><td><code class="inline">[주제] --profile [내 코드] --ar 1:1 --v 6</code></td></tr>
+    <tr><td>2</td><td></td><td><code class="inline">[주제] --profile [내 코드] --ar 1:1 --v 6</code></td></tr>
+    <tr><td>3</td><td></td><td><code class="inline">[주제] --profile [내 코드] --ar 1:1 --v 6</code></td></tr>
+  </table>
+  <ul class="checklist">
+    <li>주제 3개가 서로 달라도 색감/톤이 비슷하게 유지되는가</li>
+    <li>원하는 톤이 아니면 무드보드로 돌아가 이미지를 추가/삭제 후 재시도 (실시간 반영)</li>
+  </ul>
+
+  <h2><span class="kicker">실습 03</span>무드보드 강도 조절하기 (--sw)</h2>
+  <span class="goal-tag">목표 · style weight 값에 따른 차이 관찰</span>
+  <p><code class="inline">--sw</code>(style weight)로 무드보드가 결과에 얼마나 강하게 반영될지 조절합니다. 기본값은 100입니다. 낮은 값(0~50)은 무드보드 영향이 약해지고 프롬프트가 우세해지며, 높은 값(500~1000)은 무드보드 톤이 프롬프트보다 우선됩니다.</p>
+  <p><strong>비교 실습</strong> — 같은 프롬프트로 <code class="inline">--sw</code> 값만 바꿔 3장을 생성하고 차이를 관찰하세요.</p>
+  <pre class="prompt">brand poster design, bold typography --profile [내 코드] --sw 50  --ar 3:4 --v 6
+brand poster design, bold typography --profile [내 코드] --sw 100 --ar 3:4 --v 6
+brand poster design, bold typography --profile [내 코드] --sw 500 --ar 3:4 --v 6</pre>
+  <ul class="checklist">
+    <li>--sw 값에 따라 결과가 실제로 달라지는지 확인했는가</li>
+    <li>내 프로젝트에 맞는 적정 --sw 값을 하나 골랐는가</li>
+  </ul>
+
+  <h2><span class="kicker">심화 · 선택</span>무드보드 + 스타일 코드(--sref) 조합</h2>
+  <p>무드보드 여러 개를 동시에 쓰거나, 무드보드와 <code class="inline">--sref</code> 스타일 코드를 함께 섞을 수도 있습니다.</p>
+  <pre class="prompt">[주제 프롬프트] --profile [코드1] [코드2] --sref [스타일코드] --sw 200 --ar 1:1 --v 6</pre>
+  <ul class="checklist">
+    <li>무드보드 코드 2개 이상 조합해서 생성해봤는가</li>
+    <li>결과가 두 무드보드의 특징을 섞어 보여주는지 확인했는가</li>
+  </ul>
+
+  <h2><span class="kicker">Tip</span>팁 &amp; 주의사항</h2>
+  <div class="note-box">
+    <ul>
+      <li>무드보드는 언제든 이미지를 추가/삭제해 스타일을 다시 학습시킬 수 있습니다. 결과가 마음에 안 들면 새로 만들지 말고 기존 무드보드를 수정하세요.</li>
+      <li>이미지가 너무 적으면(5장 미만) 스타일이 잘 안 잡힙니다. 반대로 너무 다양한 스타일을 섞으면 결과가 불안정해집니다.</li>
+      <li>무드보드 코드는 팀원·클라이언트와 공유할 수 있어 브랜드 프로젝트의 톤을 통일하는 데 유용합니다.</li>
+      <li>저작권이 있는 타인의 이미지를 무단으로 업로드하지 않도록 주의하세요. 개인 학습 목적이어도 상업 프로젝트 결과물에는 저작권 이슈가 남을 수 있습니다.</li>
+    </ul>
+  </div>
+
+  <h2><span class="kicker">제출</span>제출 체크리스트</h2>
+  <ul class="checklist">
+    <li>무드보드 1개 생성 완료 (이름 + 이미지 5장 이상)</li>
+    <li>무드보드 코드를 적용한 이미지 3장 생성 (실습 2)</li>
+    <li>--sw 값 비교 실습 결과 캡처 3장 (실습 3)</li>
+    <li>파일명: 이름_무드보드실습.png 형식으로 저장</li>
+    <li>다음 수업 전까지 제출</li>
+  </ul>
+
+  <div class="footer-note">서울시기술교육원 컴퓨터그래픽디자인과 · 미드저니 워크숍 무드보드 실습가이드</div>
+</div>

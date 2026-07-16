@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>미드저니 수업자료 다운로드</title>
+<style>
+  :root {
+    --paper: #f7f5ef;
+    --paper-raised: #fffdf8;
+    --ink: #1c1b1e;
+    --ink-soft: #55524c;
+    --ink-faint: #918c7e;
+    --rule: #d8d3c7;
+    --accent: #c34a2c;
+    --accent-soft: #c34a2c1a;
+    --accent-2: #2e5339;
+    --accent-2-soft: #2e53391a;
+    --mono: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
+    --sans: -apple-system, "Apple SD Gothic Neo", "Pretendard", "Malgun Gothic", "Segoe UI", sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #17191b; --paper-raised: #1f2123; --ink: #ece8df; --ink-soft: #a39c8c;
+      --ink-faint: #6b665a; --rule: #34302a; --accent: #e2734f; --accent-soft: #e2734f26;
+      --accent-2: #6fae7c; --accent-2-soft: #6fae7c22;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); line-height: 1.65; }
+  .page { max-width: 780px; margin: 0 auto; padding: 4.5em 2em 6em; }
+  .doc-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    border-bottom: 1px solid var(--rule); padding-bottom: .8em; margin-bottom: .4em;
+    font-family: var(--mono); font-size: 11.5px; letter-spacing: .06em; color: var(--ink-faint);
+    text-transform: uppercase;
+  }
+  .doc-head .accent { color: var(--accent); }
+  h1 { font-size: clamp(30px, 4vw, 42px); font-weight: 800; letter-spacing: -0.01em; margin: .5em 0 .1em; }
+  .subtitle { color: var(--ink-soft); font-size: 15px; margin: 0 0 2.5em; }
+
+  .card {
+    display: flex; justify-content: space-between; align-items: center; gap: 1em;
+    background: var(--paper-raised); border: 1px solid var(--rule);
+    padding: 1.2em 1.4em; margin-bottom: .9em;
+  }
+  .card .meta h3 { margin: 0 0 .25em; font-size: 17px; }
+  .card .meta p { margin: 0; color: var(--ink-soft); font-size: 13.5px; }
+  .card .links { display: flex; gap: .5em; flex-shrink: 0; }
+  .card a.dl {
+    font-family: var(--mono); font-size: 12px; letter-spacing: .03em; text-decoration: none;
+    color: var(--ink); background: var(--accent-soft); border: 1px solid var(--accent);
+    padding: .5em .9em; white-space: nowrap;
+  }
+  .card a.dl:hover { background: var(--accent); color: var(--paper-raised); }
+  .card a.view {
+    font-family: var(--mono); font-size: 12px; letter-spacing: .03em; text-decoration: none;
+    color: var(--ink-soft); border: 1px solid var(--rule); padding: .5em .9em; white-space: nowrap;
+  }
+  .card a.view:hover { border-color: var(--ink-soft); color: var(--ink); }
+
+  .footer-note {
+    margin-top: 3em; padding-top: 1em; border-top: 1px solid var(--rule);
+    font-family: var(--mono); font-size: 11.5px; color: var(--ink-faint); text-align: center;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="doc-head"><span class="accent">PROOF · DOWNLOAD</span><span>MIDJOURNEY WORKSHOP</span></div>
+  <h1>미드저니 수업자료 다운로드</h1>
+  <p class="subtitle">서울시기술교육원 컴퓨터그래픽디자인과<br>아래 자료를 다운로드하거나 웹에서 바로 확인하세요.</p>
+
+  <div class="card">
+    <div class="meta"><h3>수업 슬라이드</h3><p>21p · 개념 · 프롬프트 문법 · 실전 사례 · 고급 기법</p></div>
+    <div class="links"><a class="view" href="slides.html">웹으로 보기</a><a class="dl" href="slides.pdf" download>PDF 다운로드</a></div>
+  </div>
+
+  <div class="card">
+    <div class="meta"><h3>실습 워크북</h3><p>5p · 빈칸 채우기형 실습 가이드</p></div>
+    <div class="links"><a class="view" href="workbook.html">웹으로 보기</a><a class="dl" href="workbook.pdf" download>PDF 다운로드</a></div>
+  </div>
+
+  <div class="card">
+    <div class="meta"><h3>실습용 프롬프트 10종 세트</h3><p>4p · 복사-즉시-사용 완성 프롬프트</p></div>
+    <div class="links"><a class="view" href="prompts.html">웹으로 보기</a><a class="dl" href="prompts.pdf" download>PDF 다운로드</a></div>
+  </div>
+
+  <div class="card">
+    <div class="meta"><h3>무드보드 실습 가이드</h3><p>7p · 스타일 일관성 심화 실습 (--profile · --sw)</p></div>
+    <div class="links"><a class="view" href="moodboard.html">웹으로 보기</a><a class="dl" href="moodboard.pdf" download>PDF 다운로드</a></div>
+  </div>
+
+  <div class="footer-note">서울시기술교육원 컴퓨터그래픽디자인과 · 미드저니 워크숍</div>
+</div>
+</body>
+</html>

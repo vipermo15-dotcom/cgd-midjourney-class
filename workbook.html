@@ -1,0 +1,226 @@
+<title>미드저니 실습 워크북</title>
+<style>
+  :root {
+    --paper: #f7f5ef;
+    --paper-raised: #fffdf8;
+    --ink: #1c1b1e;
+    --ink-soft: #55524c;
+    --ink-faint: #918c7e;
+    --rule: #d8d3c7;
+    --accent: #c34a2c;
+    --accent-soft: #c34a2c1a;
+    --accent-2: #2e5339;
+    --accent-2-soft: #2e53391a;
+    --mono: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
+    --sans: -apple-system, "Apple SD Gothic Neo", "Pretendard", "Malgun Gothic", "Segoe UI", sans-serif;
+  }
+  :root[data-theme="dark"] {
+    --paper: #17191b; --paper-raised: #1f2123; --ink: #ece8df; --ink-soft: #a39c8c;
+    --ink-faint: #6b665a; --rule: #34302a; --accent: #e2734f; --accent-soft: #e2734f26;
+    --accent-2: #6fae7c; --accent-2-soft: #6fae7c22;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #17191b; --paper-raised: #1f2123; --ink: #ece8df; --ink-soft: #a39c8c;
+      --ink-faint: #6b665a; --rule: #34302a; --accent: #e2734f; --accent-soft: #e2734f26;
+      --accent-2: #6fae7c; --accent-2-soft: #6fae7c22;
+    }
+  }
+  @media print {
+    :root {
+      --paper: #f7f5ef !important; --paper-raised: #fffdf8 !important; --ink: #1c1b1e !important;
+      --ink-soft: #55524c !important; --ink-faint: #918c7e !important; --rule: #d8d3c7 !important;
+      --accent: #c34a2c !important; --accent-soft: #c34a2c1a !important;
+      --accent-2: #2e5339 !important; --accent-2-soft: #2e53391a !important;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans);
+    line-height: 1.65;
+  }
+  .page {
+    max-width: 780px; margin: 0 auto; padding: 4.5em 2em 6em;
+  }
+  .doc-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    border-bottom: 1px solid var(--rule); padding-bottom: .8em; margin-bottom: .4em;
+    font-family: var(--mono); font-size: 11.5px; letter-spacing: .06em; color: var(--ink-faint);
+    text-transform: uppercase;
+  }
+  .doc-head .accent { color: var(--accent); }
+
+  h1 {
+    font-size: clamp(30px, 4vw, 42px); font-weight: 800; letter-spacing: -0.01em;
+    margin: .5em 0 .1em; text-wrap: balance;
+  }
+  .subtitle { color: var(--ink-soft); font-size: 15px; margin: 0 0 2em; }
+
+  h2 {
+    font-size: 24px; font-weight: 800; letter-spacing: -0.005em;
+    margin: 2.4em 0 .2em; padding-top: 1.4em; border-top: 1px solid var(--rule);
+  }
+  h2:first-of-type { border-top: none; padding-top: 0; }
+  .kicker {
+    font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: .3em; display: block;
+  }
+  p { margin: .6em 0; }
+  strong { font-weight: 700; }
+
+  pre.prompt {
+    font-family: var(--mono); font-size: 14px; background: var(--ink); color: var(--paper);
+    padding: 1em 1.2em; line-height: 1.65; white-space: pre-wrap; word-break: break-word;
+    margin: .8em 0; border-left: 3px solid var(--accent);
+  }
+  code.inline {
+    font-family: var(--mono); background: var(--accent-soft); color: var(--accent);
+    padding: .1em .35em; font-size: .9em;
+  }
+
+  table {
+    border-collapse: collapse; width: 100%; font-size: 14.5px; margin: 1em 0;
+  }
+  th, td {
+    text-align: left; padding: .55em .8em .55em 0; border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  th {
+    font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase;
+    color: var(--ink-faint); font-weight: 500;
+  }
+
+  ol.steps { list-style: none; margin: .8em 0; padding: 0; }
+  ol.steps li {
+    display: grid; grid-template-columns: 1.8em 1fr; gap: .6em;
+    padding: .5em 0; border-bottom: 1px solid var(--rule); align-items: baseline;
+  }
+  ol.steps li:last-child { border-bottom: none; }
+  ol.steps li .n { font-family: var(--mono); color: var(--accent); font-size: 13px; }
+
+  ul.checklist { list-style: none; margin: .8em 0; padding: 0; }
+  ul.checklist li {
+    padding: .5em 0; border-bottom: 1px solid var(--rule);
+    display: flex; gap: .7em; font-size: 15px;
+  }
+  ul.checklist li::before { content: "☐"; color: var(--accent); flex-shrink: 0; }
+
+  .goal-tag {
+    display: inline-block; font-family: var(--mono); font-size: 11px; letter-spacing: .06em;
+    text-transform: uppercase; color: var(--accent-2); background: var(--accent-2-soft);
+    border: 1px solid var(--accent-2); padding: .2em .6em; margin-bottom: .6em;
+  }
+
+  .footer-note {
+    margin-top: 3em; padding-top: 1em; border-top: 1px solid var(--rule);
+    font-family: var(--mono); font-size: 11.5px; color: var(--ink-faint); text-align: center;
+  }
+  @media print { .page { padding: 1.5em 0 3em; } }
+</style>
+
+<div class="page">
+  <div class="doc-head"><span class="accent">PROOF · WORKBOOK</span><span>MIDJOURNEY WORKSHOP</span></div>
+  <h1>미드저니 실습 워크북</h1>
+  <p class="subtitle">서울시기술교육원 컴퓨터그래픽디자인과 · 입문 실습<br>슬라이드 자료(미드저니-수업슬라이드)와 함께 사용하세요.</p>
+
+  <h2><span class="kicker">Guide</span>사용 방법</h2>
+  <ol class="steps">
+    <li><span class="n">01</span><div><code class="inline">midjourney.com</code>에 접속해 로그인합니다. (또는 Discord 미드저니 서버 + <code class="inline">/imagine</code>)</div></li>
+    <li><span class="n">02</span><div>아래 각 실습의 빈칸을 자신의 상황에 맞게 채워 프롬프트를 완성합니다.</div></li>
+    <li><span class="n">03</span><div>결과 4장 중 마음에 드는 1장을 골라 U1~U4로 확대(Upscale)합니다.</div></li>
+    <li><span class="n">04</span><div>완성 프롬프트와 결과 이미지를 캡처해 과제 폴더에 저장합니다.</div></li>
+  </ol>
+
+  <h2><span class="kicker">Warm-up</span>프롬프트 구조 채워보기</h2>
+  <p>문법: <strong>주제 + 스타일 + 디테일 + 파라미터</strong> (파라미터는 항상 맨 끝)</p>
+  <pre class="prompt">[무엇을 그릴지] [스타일 형용사 2~3개] [재질/색감/구도] --ar [비율] --v 6</pre>
+  <p><strong>직접 써보기</strong></p>
+  <pre class="prompt">______________________________________________
+______________________________________________ --ar ____ --v 6</pre>
+  <p style="color:var(--ink-soft); font-size:14px;">체크: 파라미터가 문장 중간에 끼어 있지 않은지, 용도(포트폴리오/SNS/인쇄)가 드러나는지 확인하세요.</p>
+
+  <h2><span class="kicker">실습 01</span>포트폴리오 표지 만들기</h2>
+  <span class="goal-tag">목표 · 여백 있는 표지 이미지 1장</span>
+  <p><strong>참고 프롬프트</strong></p>
+  <pre class="prompt">minimalist portfolio cover design, clean white background,
+subtle grid lines, professional typography space, soft shadows,
+print ready --ar 3:4 --style raw --v 6</pre>
+  <p><strong>나의 프롬프트로 바꿔보기</strong></p>
+  <table>
+    <tr><th>항목</th><th>참고 값</th><th>나의 값</th></tr>
+    <tr><td>전체 톤</td><td>minimalist / dark / gradient / organic 중 택1</td><td></td></tr>
+    <tr><td>배경 색/재질</td><td>clean white background</td><td></td></tr>
+    <tr><td>여백 지시어</td><td>typography space, soft shadows</td><td></td></tr>
+    <tr><td>비율</td><td>--ar 3:4 (포트폴리오 표지 표준)</td><td></td></tr>
+  </table>
+  <pre class="prompt">완성 프롬프트:
+______________________________________________
+______________________________________________</pre>
+  <ul class="checklist">
+    <li>결과 4장 생성 완료</li>
+    <li>1장 Upscale 완료</li>
+    <li>텍스트는 미드저니가 아니라 이후 편집 툴에서 얹을 계획 확인</li>
+  </ul>
+
+  <h2><span class="kicker">실습 02</span>SNS 콘텐츠 배경 만들기</h2>
+  <span class="goal-tag">목표 · 인스타그램 피드용 정사각 배경 1장</span>
+  <p><strong>참고 프롬프트</strong></p>
+  <pre class="prompt">warm earthy tone social media background for food brand,
+natural texture, appetizing and fresh feel --ar 1:1 --v 6</pre>
+  <p><strong>나의 프롬프트로 바꿔보기</strong></p>
+  <table>
+    <tr><th>항목</th><th>참고 값</th><th>나의 값</th></tr>
+    <tr><td>업종 키워드</td><td>food brand</td><td>(예: fashion brand, tech startup, cafe)</td></tr>
+    <tr><td>색감 톤</td><td>warm earthy tone</td><td></td></tr>
+    <tr><td>분위기 형용사</td><td>appetizing and fresh feel</td><td></td></tr>
+    <tr><td>비율</td><td>--ar 1:1</td><td></td></tr>
+  </table>
+  <pre class="prompt">완성 프롬프트:
+______________________________________________
+______________________________________________</pre>
+  <ul class="checklist">
+    <li>업종 키워드를 문장 맨 앞에 배치했는가</li>
+    <li>로고/문구 없이 배경만 생성했는가</li>
+  </ul>
+
+  <h2><span class="kicker">실습 03</span>브랜드 · 패키지 컨셉 목업</h2>
+  <span class="goal-tag">목표 · 클라이언트 제안용 패키지 목업 초안 1장</span>
+  <p><strong>참고 프롬프트</strong></p>
+  <pre class="prompt">eco-friendly product packaging design mockup, kraft paper texture,
+minimalist label design, natural colors, store shelf presentation
+--ar 4:3 --v 6</pre>
+  <p><strong>나의 프롬프트로 바꿔보기</strong></p>
+  <table>
+    <tr><th>항목</th><th>참고 값</th><th>나의 값</th></tr>
+    <tr><td>제품군</td><td>product packaging</td><td>(예: 화장품, 음료, 문구)</td></tr>
+    <tr><td>재질 지시어</td><td>kraft paper texture</td><td>(예: glass, matte black, glossy)</td></tr>
+    <tr><td>연출 맥락</td><td>store shelf presentation</td><td></td></tr>
+  </table>
+  <pre class="prompt">완성 프롬프트:
+______________________________________________
+______________________________________________</pre>
+  <ul class="checklist">
+    <li>재질을 명시했는가 (재질을 안 넣으면 플라스틱 느낌으로 뭉뚱그려짐)</li>
+    <li>이 결과물은 "초안"이며 최종 납품에는 실제 디자인 작업이 필요함을 이해했는가</li>
+  </ul>
+
+  <h2><span class="kicker">심화 · 선택</span>--sref로 연작 만들기</h2>
+  <p>같은 스타일을 유지하며 3장 이상 만들어야 할 때 사용합니다.</p>
+  <ol class="steps">
+    <li><span class="n">01</span><div>실습 1~3 중 마음에 든 결과 1장의 이미지 URL을 복사합니다. (Upscale 후 이미지 우클릭 → 링크 복사)</div></li>
+    <li><span class="n">02</span><div>새 프롬프트 맨 끝에 아래 파라미터를 추가합니다.</div></li>
+  </ol>
+  <pre class="prompt">[새로운 주제 프롬프트] --sref [복사한 URL] --sw 80 --ar 1:1 --v 6</pre>
+  <p>주제만 바꿔가며 2~3장을 더 생성해 톤이 유지되는지 확인합니다.</p>
+
+  <h2><span class="kicker">제출</span>제출 체크리스트</h2>
+  <ul class="checklist">
+    <li>완성 프롬프트 3개 (실습 1, 2, 3)</li>
+    <li>각 결과 이미지 1장씩 (Upscale 완료본)</li>
+    <li>파일명: 이름_실습번호.png 형식으로 저장</li>
+    <li>다음 수업 전까지 제출</li>
+  </ul>
+
+  <div class="footer-note">서울시기술교육원 컴퓨터그래픽디자인과 · 미드저니 워크숍 실습워크북</div>
+</div>
