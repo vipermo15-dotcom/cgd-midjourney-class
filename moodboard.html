@@ -127,7 +127,7 @@
 </style>
 
 <div class="page">
-  <div class="doc-head"><span class="accent">PROOF · GUIDE</span><span>MIDJOURNEY WORKSHOP</span></div>
+  <div class="doc-head"><span class="accent">PROOF · GUIDE</span><span>MIDJOURNEY WORKSHOP · V8.1</span></div>
   <h1>미드저니 무드보드 실습 가이드</h1>
   <p class="subtitle">서울시기술교육원 컴퓨터그래픽디자인과 · 심화 실습 (스타일 일관성)<br><code class="inline">실습워크북</code>(기본 프롬프트 문법)를 먼저 끝낸 뒤 진행하세요.</p>
 
@@ -170,13 +170,13 @@
   <h2><span class="kicker">실습 02</span>무드보드 코드로 이미지 생성하기</h2>
   <span class="goal-tag">목표 · 서로 다른 주제 3장에서 톤 유지 확인</span>
   <p><strong>참고 프롬프트</strong></p>
-  <pre class="prompt">minimalist workspace desk setup, top view --profile [내 코드] --ar 1:1 --v 6</pre>
+  <pre class="prompt">minimalist workspace desk setup, top view --profile [내 코드] --ar 1:1 --v 8.1</pre>
   <p><strong>나의 프롬프트로 바꿔보기</strong></p>
   <table>
     <tr><th>순서</th><th>주제 키워드</th><th>완성 프롬프트</th></tr>
-    <tr><td>1</td><td></td><td><code class="inline">[주제] --profile [내 코드] --ar 1:1 --v 6</code></td></tr>
-    <tr><td>2</td><td></td><td><code class="inline">[주제] --profile [내 코드] --ar 1:1 --v 6</code></td></tr>
-    <tr><td>3</td><td></td><td><code class="inline">[주제] --profile [내 코드] --ar 1:1 --v 6</code></td></tr>
+    <tr><td>1</td><td></td><td><code class="inline">[주제] --profile [내 코드] --ar 1:1 --v 8.1</code></td></tr>
+    <tr><td>2</td><td></td><td><code class="inline">[주제] --profile [내 코드] --ar 1:1 --v 8.1</code></td></tr>
+    <tr><td>3</td><td></td><td><code class="inline">[주제] --profile [내 코드] --ar 1:1 --v 8.1</code></td></tr>
   </table>
   <ul class="checklist">
     <li>주제 3개가 서로 달라도 색감/톤이 비슷하게 유지되는가</li>
@@ -187,9 +187,9 @@
   <span class="goal-tag">목표 · style weight 값에 따른 차이 관찰</span>
   <p><code class="inline">--sw</code>(style weight)로 무드보드가 결과에 얼마나 강하게 반영될지 조절합니다. 기본값은 100입니다. 낮은 값(0~50)은 무드보드 영향이 약해지고 프롬프트가 우세해지며, 높은 값(500~1000)은 무드보드 톤이 프롬프트보다 우선됩니다.</p>
   <p><strong>비교 실습</strong> — 같은 프롬프트로 <code class="inline">--sw</code> 값만 바꿔 3장을 생성하고 차이를 관찰하세요.</p>
-  <pre class="prompt">brand poster design, bold typography --profile [내 코드] --sw 50  --ar 3:4 --v 6
-brand poster design, bold typography --profile [내 코드] --sw 100 --ar 3:4 --v 6
-brand poster design, bold typography --profile [내 코드] --sw 500 --ar 3:4 --v 6</pre>
+  <pre class="prompt">brand poster design, bold typography --profile [내 코드] --sw 50  --ar 3:4 --v 8.1
+brand poster design, bold typography --profile [내 코드] --sw 100 --ar 3:4 --v 8.1
+brand poster design, bold typography --profile [내 코드] --sw 500 --ar 3:4 --v 8.1</pre>
   <ul class="checklist">
     <li>--sw 값에 따라 결과가 실제로 달라지는지 확인했는가</li>
     <li>내 프로젝트에 맞는 적정 --sw 값을 하나 골랐는가</li>
@@ -197,7 +197,7 @@ brand poster design, bold typography --profile [내 코드] --sw 500 --ar 3:4 --
 
   <h2><span class="kicker">심화 · 선택</span>무드보드 + 스타일 코드(--sref) 조합</h2>
   <p>무드보드 여러 개를 동시에 쓰거나, 무드보드와 <code class="inline">--sref</code> 스타일 코드를 함께 섞을 수도 있습니다.</p>
-  <pre class="prompt">[주제 프롬프트] --profile [코드1] [코드2] --sref [스타일코드] --sw 200 --ar 1:1 --v 6</pre>
+  <pre class="prompt">[주제 프롬프트] --profile [코드1] [코드2] --sref [스타일코드] --sw 200 --ar 1:1 --v 8.1</pre>
   <ul class="checklist">
     <li>무드보드 코드 2개 이상 조합해서 생성해봤는가</li>
     <li>결과가 두 무드보드의 특징을 섞어 보여주는지 확인했는가</li>

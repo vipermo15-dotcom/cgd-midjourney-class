@@ -1,0 +1,249 @@
+<title>미드저니 스타일·캐릭터·옴니 레퍼런스 실습 가이드</title>
+<style>
+  :root {
+    --paper: #f7f5ef;
+    --paper-raised: #fffdf8;
+    --ink: #1c1b1e;
+    --ink-soft: #55524c;
+    --ink-faint: #918c7e;
+    --rule: #d8d3c7;
+    --accent: #c34a2c;
+    --accent-soft: #c34a2c1a;
+    --accent-2: #2e5339;
+    --accent-2-soft: #2e53391a;
+    --warn: #b8860b;
+    --warn-soft: #b8860b1f;
+    --mono: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
+    --sans: -apple-system, "Apple SD Gothic Neo", "Pretendard", "Malgun Gothic", "Segoe UI", sans-serif;
+  }
+  :root[data-theme="dark"] {
+    --paper: #17191b; --paper-raised: #1f2123; --ink: #ece8df; --ink-soft: #a39c8c;
+    --ink-faint: #6b665a; --rule: #34302a; --accent: #e2734f; --accent-soft: #e2734f26;
+    --accent-2: #6fae7c; --accent-2-soft: #6fae7c22; --warn: #e0b23f; --warn-soft: #e0b23f22;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #17191b; --paper-raised: #1f2123; --ink: #ece8df; --ink-soft: #a39c8c;
+      --ink-faint: #6b665a; --rule: #34302a; --accent: #e2734f; --accent-soft: #e2734f26;
+      --accent-2: #6fae7c; --accent-2-soft: #6fae7c22; --warn: #e0b23f; --warn-soft: #e0b23f22;
+    }
+  }
+  @media print {
+    :root {
+      --paper: #f7f5ef !important; --paper-raised: #fffdf8 !important; --ink: #1c1b1e !important;
+      --ink-soft: #55524c !important; --ink-faint: #918c7e !important; --rule: #d8d3c7 !important;
+      --accent: #c34a2c !important; --accent-soft: #c34a2c1a !important;
+      --accent-2: #2e5339 !important; --accent-2-soft: #2e53391a !important;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans);
+    line-height: 1.65;
+  }
+  .page {
+    max-width: 780px; margin: 0 auto; padding: 4.5em 2em 6em;
+  }
+  .doc-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    border-bottom: 1px solid var(--rule); padding-bottom: .8em; margin-bottom: .4em;
+    font-family: var(--mono); font-size: 11.5px; letter-spacing: .06em; color: var(--ink-faint);
+    text-transform: uppercase;
+  }
+  .doc-head .accent { color: var(--accent); }
+
+  h1 {
+    font-size: clamp(26px, 3.6vw, 38px); font-weight: 800; letter-spacing: -0.01em;
+    margin: .5em 0 .1em; text-wrap: balance;
+  }
+  .subtitle { color: var(--ink-soft); font-size: 15px; margin: 0 0 2em; }
+
+  h2 {
+    font-size: 24px; font-weight: 800; letter-spacing: -0.005em;
+    margin: 2.4em 0 .2em; padding-top: 1.4em; border-top: 1px solid var(--rule);
+  }
+  h2:first-of-type { border-top: none; padding-top: 0; }
+  .kicker {
+    font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: .3em; display: block;
+  }
+  p { margin: .6em 0; }
+  strong { font-weight: 700; }
+
+  pre.prompt {
+    font-family: var(--mono); font-size: 14px; background: var(--ink); color: var(--paper);
+    padding: 1em 1.2em; line-height: 1.65; white-space: pre-wrap; word-break: break-word;
+    margin: .8em 0; border-left: 3px solid var(--accent);
+  }
+  code.inline {
+    font-family: var(--mono); background: var(--accent-soft); color: var(--accent);
+    padding: .1em .35em; font-size: .9em;
+  }
+
+  table {
+    border-collapse: collapse; width: 100%; font-size: 13.5px; margin: 1em 0;
+  }
+  th, td {
+    text-align: left; padding: .55em .7em .55em 0; border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  th {
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: .05em; text-transform: uppercase;
+    color: var(--ink-faint); font-weight: 500;
+  }
+
+  ol.steps { list-style: none; margin: .8em 0; padding: 0; }
+  ol.steps li {
+    display: grid; grid-template-columns: 1.8em 1fr; gap: .6em;
+    padding: .5em 0; border-bottom: 1px solid var(--rule); align-items: baseline;
+  }
+  ol.steps li:last-child { border-bottom: none; }
+  ol.steps li .n { font-family: var(--mono); color: var(--accent); font-size: 13px; }
+
+  ul.checklist { list-style: none; margin: .8em 0; padding: 0; }
+  ul.checklist li {
+    padding: .5em 0; border-bottom: 1px solid var(--rule);
+    display: flex; gap: .7em; font-size: 15px;
+  }
+  ul.checklist li::before { content: "☐"; color: var(--accent); flex-shrink: 0; }
+
+  .goal-tag {
+    display: inline-block; font-family: var(--mono); font-size: 11px; letter-spacing: .06em;
+    text-transform: uppercase; color: var(--accent-2); background: var(--accent-2-soft);
+    border: 1px solid var(--accent-2); padding: .2em .6em; margin-bottom: .6em;
+  }
+
+  .note-box {
+    background: var(--paper-raised); border: 1px solid var(--rule); padding: 1em 1.2em;
+    margin: 1em 0; font-size: 14.5px;
+  }
+  .note-box ul { margin: .3em 0 0; padding-left: 1.2em; }
+  .note-box li { margin: .3em 0; }
+
+  .warn-box {
+    background: var(--warn-soft); border: 1px solid var(--warn); color: var(--ink);
+    padding: 1em 1.2em; margin: 1em 0; font-size: 14.5px;
+  }
+
+  .footer-note {
+    margin-top: 3em; padding-top: 1em; border-top: 1px solid var(--rule);
+    font-family: var(--mono); font-size: 11.5px; color: var(--ink-faint); text-align: center;
+  }
+  @media print { .page { padding: 1.5em 0 3em; } }
+</style>
+
+<div class="page">
+  <div class="doc-head"><span class="accent">PROOF · GUIDE</span><span>MIDJOURNEY WORKSHOP · V8.1</span></div>
+  <h1>미드저니 스타일·캐릭터·옴니 레퍼런스 실습 가이드</h1>
+  <p class="subtitle">서울시기술교육원 컴퓨터그래픽디자인과 · 심화 실습 (레퍼런스 이미지 활용)<br>무드보드·퍼스널라이즈·스타일 크리에이터는 "저장된 스타일"을, 이번 가이드는 <strong>이미지 1장을 그때그때 참조</strong>하는 방식입니다.<br>단, 아래 세 파라미터는 버전별 지원 상태가 서로 다르니 표를 꼭 확인하세요.</p>
+
+  <h2><span class="kicker">Concept</span>세 가지 레퍼런스 파라미터 비교</h2>
+  <table>
+    <tr><th>기능</th><th>무엇을 유지</th><th>파라미터</th><th>가중치</th><th>지원 버전</th><th>언제 쓰나</th></tr>
+    <tr><td>스타일 레퍼런스</td><td>그림체·색감·질감</td><td><code class="inline">--sref</code></td><td><code class="inline">--sw</code> (0~1000, 기본 100)</td><td>v6, v7, <strong>v8.1</strong></td><td>여러 장을 같은 화풍으로</td></tr>
+    <tr><td>캐릭터 레퍼런스</td><td>얼굴·헤어·의상</td><td><code class="inline">--cref</code></td><td><code class="inline">--cw</code> (0~100, 기본 100)</td><td>v6, niji 6 (v8.1 미지원)</td><td>구버전에서 캐릭터 반복 등장</td></tr>
+    <tr><td>옴니 레퍼런스</td><td>인물·사물·환경 전반</td><td><code class="inline">--oref</code></td><td><code class="inline">--ow</code> (0~1000, 기본 100, 추천 50~250)</td><td><strong>v7 전용</strong> (v8.1 미지원)</td><td>v7에서 인물/사물/장면 유지</td></tr>
+  </table>
+
+  <div class="warn-box">
+    ⚠️ <strong>중요</strong>: 현재 기본 버전인 v8.1에서는 <code class="inline">--cref</code>와 <code class="inline">--oref</code> 둘 다 아직 작동하지 않습니다. 캐릭터/사물을 그대로 유지해야 하는 작업은 프롬프트 끝에 <code class="inline">--v 7</code>을 붙여 v7으로 전환해서 진행하세요. v8.1에서 필요하다면 아래 "v8.1 대안" 섹션을 참고하세요.
+  </div>
+
+  <h2><span class="kicker">Guide 01</span>스타일 레퍼런스(--sref) 사용 방법 — v8.1에서도 안정적</h2>
+  <ol class="steps">
+    <li><span class="n">01</span><div>참고 이미지를 준비합니다. 미드저니 결과물을 Upscale 후 우클릭 → <strong>이미지 링크 복사</strong>, 또는 외부 이미지를 웹 입력창에 드래그.</div></li>
+    <li><span class="n">02</span><div>프롬프트 맨 끝에 <code class="inline">--sref [URL]</code>을 추가합니다.</div></li>
+    <li><span class="n">03</span><div>강도는 <code class="inline">--sw</code>로 조절합니다. (0~1000, 기본 100)</div></li>
+    <li><span class="n">04</span><div>스타일 2개를 섞고 싶다면: <code class="inline">--sref [URL1] [URL2]</code></div></li>
+    <li><span class="n">05</span><div>무작위 스타일 실험: <code class="inline">--sref random</code></div></li>
+  </ol>
+
+  <h2><span class="kicker">Guide 02</span>캐릭터 레퍼런스(--cref) 사용 방법 — v6·niji 6 전용, v8.1 미지원</h2>
+  <ol class="steps">
+    <li><span class="n">01</span><div>기준 캐릭터 이미지를 준비합니다. (미드저니 생성 후 Upscale, 또는 실사 인물 사진)</div></li>
+    <li><span class="n">02</span><div>프롬프트에 <code class="inline">--cref [URL]</code>을 추가합니다. <strong>동시에 --v 6도 함께 넣어야 합니다</strong> (v8.1이 기본이라 버전을 명시하지 않으면 무시됩니다).</div></li>
+    <li><span class="n">03</span><div><code class="inline">--cw</code>로 강도 조절: <strong>100</strong>=얼굴+헤어+의상 유지, <strong>0</strong>=얼굴만 유지 (의상 교체용)</div></li>
+    <li><span class="n">04</span><div>v7에서는 옴니 레퍼런스를, v8.1에서는 아래 대안을 사용하세요.</div></li>
+  </ol>
+
+  <h2><span class="kicker">Guide 03</span>옴니 레퍼런스(--oref) 사용 방법 — v7 전용 (2026.7 기준 v8.1 미지원)</h2>
+  <ol class="steps">
+    <li><span class="n">01</span><div>프롬프트 끝에 반드시 <code class="inline">--v 7</code>을 붙여 v7으로 전환합니다.</div></li>
+    <li><span class="n">02</span><div>웹에서는 v7 모드에서 Imagine 입력창에 참고 이미지를 <strong>드래그 앤 드롭</strong>하면 자동으로 Omni Reference로 인식됩니다.</div></li>
+    <li><span class="n">03</span><div>Discord에서는 <code class="inline">--oref [URL]</code>을 직접 입력합니다.</div></li>
+    <li><span class="n">04</span><div>강도는 <code class="inline">--ow</code>로 조절합니다. (0~1000, 기본 100, <strong>추천 50~250</strong>, 400 이상은 과할 수 있음)</div></li>
+    <li><span class="n">05</span><div>인물뿐 아니라 의상·사물·배경까지 폭넓게 유지하며, cref보다 인식이 정교합니다.</div></li>
+  </ol>
+
+  <h2><span class="kicker">Guide 04</span>v8.1에서 캐릭터·사물 일관성 유지하기 (대안)</h2>
+  <p>v8.1은 --cref/--oref를 아직 지원하지 않는 대신, 아래 조합으로 비슷한 효과를 낼 수 있습니다.</p>
+  <ol class="steps">
+    <li><span class="n">01</span><div><strong>이미지 프롬프트</strong>: 참고 이미지 URL을 프롬프트 맨 앞에 텍스트와 함께 붙입니다. v8.1에서 이미지 프롬프트 기능이 다시 정상 작동합니다.</div></li>
+    <li><span class="n">02</span><div><strong>--seed 고정</strong>: 마음에 드는 결과의 시드값을 확인해 이후 생성에 동일하게 적용하면 구도·특징이 비슷하게 유지됩니다.</div></li>
+    <li><span class="n">03</span><div><strong>퍼스널라이즈(--p) 프로필</strong>: 내 프로필이 학습되어 있다면 인물·사물의 전반적 톤을 더 일관되게 잡아줍니다.</div></li>
+    <li><span class="n">04</span><div>완벽한 동일 인물 재현이 꼭 필요하다면 --v 7로 전환해 --oref를 쓰는 것이 아직은 가장 정확합니다.</div></li>
+  </ol>
+  <pre class="prompt">[참고 이미지 URL] [텍스트 프롬프트] --iw 1.5 --ar 1:1 --v 8.1</pre>
+
+  <h2><span class="kicker">Warm-up</span>어떤 파라미터를 써야 할까?</h2>
+  <ul class="checklist">
+    <li>실사 사진 속 제품을 다른 배경에 그대로 옮기고 싶다 (v7 사용) → ______________</li>
+    <li>그림체(수채화 톤)만 유지한 채 완전히 다른 장면 3장을 v8.1에서 만들고 싶다 → ______________</li>
+    <li>v6로 만든 캐릭터를 옷만 바꿔서 여러 장 그리고 싶다 → ______________</li>
+  </ul>
+
+  <h2><span class="kicker">실습 01</span>--sref로 스타일 통일하기 (v8.1)</h2>
+  <span class="goal-tag">목표 · 완성 이미지 1장의 스타일을 다른 주제 2장에 적용</span>
+  <pre class="prompt">참고 이미지 URL: ______________________</pre>
+  <p><strong>참고 프롬프트</strong></p>
+  <pre class="prompt">a quiet mountain village at sunrise --sref [URL] --sw 150 --ar 1:1 --v 8.1</pre>
+  <table>
+    <tr><th>순서</th><th>주제</th><th>완성 프롬프트</th></tr>
+    <tr><td>1</td><td></td><td><code class="inline">[주제] --sref [URL] --sw 150 --ar 1:1 --v 8.1</code></td></tr>
+    <tr><td>2</td><td></td><td><code class="inline">[주제] --sref [URL] --sw 150 --ar 1:1 --v 8.1</code></td></tr>
+  </table>
+  <ul class="checklist"><li>주제가 달라도 화풍(색감·질감·붓터치)이 유지되는지 확인했는가</li></ul>
+
+  <h2><span class="kicker">실습 02</span>--cref로 캐릭터 일관성 유지하기 (v6 전환 필요)</h2>
+  <span class="goal-tag">목표 · 캐릭터 기준 1장 → 다른 포즈·배경 2장 적용</span>
+  <pre class="prompt">내 캐릭터 이미지 URL: ______________________</pre>
+  <pre class="prompt">[캐릭터] sitting in a cafe, reading a book --cref [URL] --cw 100 --ar 1:1 --v 6
+[캐릭터] wearing a winter coat, walking in snow --cref [URL] --cw 0  --ar 1:1 --v 6</pre>
+  <ul class="checklist"><li>--cw 100과 --cw 0의 결과 차이(의상 유지 여부)를 확인했는가</li></ul>
+
+  <h2><span class="kicker">실습 03</span>--oref로 최신 버전 레퍼런스 활용하기 (v7 전환 필요)</h2>
+  <span class="goal-tag">목표 · 인물/사물 사진 1장 → 다른 장면 적용, ow 강도 비교</span>
+  <pre class="prompt">참고 이미지 URL: ______________________</pre>
+  <pre class="prompt">[새로운 장면 프롬프트] --oref [URL] --ow 50  --ar 1:1 --v 7
+[새로운 장면 프롬프트] --oref [URL] --ow 150 --ar 1:1 --v 7
+[새로운 장면 프롬프트] --oref [URL] --ow 400 --ar 1:1 --v 7</pre>
+  <ul class="checklist"><li>--ow 값에 따라 원본과의 유사도가 어떻게 달라지는지 확인했는가</li></ul>
+
+  <h2><span class="kicker">심화 · 선택</span>--sref + --oref 조합 (v7)</h2>
+  <p>스타일은 유지하면서 등장 인물/사물만 바꾸고 싶을 때 두 파라미터를 함께 씁니다. (v7 전환 필요)</p>
+  <pre class="prompt">[주제 프롬프트] --sref [스타일 참고 URL] --sw 150 --oref [인물/사물 참고 URL] --ow 150 --ar 1:1 --v 7</pre>
+  <ul class="checklist"><li>스타일과 대상이 각각 의도한 대로 반영되는지 확인했는가</li></ul>
+
+  <h2><span class="kicker">Tip</span>팁 &amp; 주의사항</h2>
+  <div class="note-box">
+    <ul>
+      <li>v8.1이 기본 버전이지만 --cref/--oref는 아직 지원되지 않습니다. 이 파라미터들을 쓸 때는 반드시 --v 6 또는 --v 7을 명시하세요.</li>
+      <li>참고 이미지 URL은 미드저니 갤러리/Discord에서 생성된 링크가 가장 안정적입니다. 외부 링크는 만료·접근 제한 시 실패할 수 있습니다.</li>
+      <li>강도 파라미터(--sw/--cw/--ow)를 너무 높이면 프롬프트 텍스트가 무시되고 참고 이미지를 복제하듯 나올 수 있습니다. 중간값부터 시작하세요.</li>
+      <li>저작권이 있는 타인의 사진, 특히 실제 인물 얼굴을 무단으로 --cref/--oref에 사용하지 않도록 주의하세요.</li>
+      <li>미드저니가 v8 계열에 --oref를 이식하는 작업을 진행 중이므로, 이 표는 업데이트될 수 있습니다. 학기 중 변경 사항이 있으면 공지하겠습니다.</li>
+    </ul>
+  </div>
+
+  <h2><span class="kicker">제출</span>제출 체크리스트</h2>
+  <ul class="checklist">
+    <li>--sref 적용 이미지 2장, v8.1 (실습 1)</li>
+    <li>--cref --cw 100 / --cw 0 비교 이미지 각 1장, v6 (실습 2)</li>
+    <li>--oref --ow 3단계 비교 이미지 3장, v7 (실습 3)</li>
+    <li>파일명: 이름_레퍼런스실습.png 형식으로 저장</li>
+    <li>다음 수업 전까지 제출</li>
+  </ul>
+
+  <div class="footer-note">서울시기술교육원 컴퓨터그래픽디자인과 · 미드저니 워크숍 스타일·캐릭터·옴니 레퍼런스 실습가이드</div>
+</div>

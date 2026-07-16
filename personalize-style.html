@@ -127,7 +127,7 @@
 </style>
 
 <div class="page">
-  <div class="doc-head"><span class="accent">PROOF · GUIDE</span><span>MIDJOURNEY WORKSHOP</span></div>
+  <div class="doc-head"><span class="accent">PROOF · GUIDE</span><span>MIDJOURNEY WORKSHOP · V8.1</span></div>
   <h1>미드저니 퍼스널라이즈 · 스타일 크리에이터 실습 가이드</h1>
   <p class="subtitle">서울시기술교육원 컴퓨터그래픽디자인과 · 심화 실습 (스타일 일관성 2)<br><code class="inline">실습워크북</code>과 <code class="inline">무드보드-실습가이드</code>를 먼저 끝낸 뒤 진행하세요.</p>
 
@@ -173,11 +173,11 @@
   <span class="goal-tag">목표 · 100장 이상 평가 후 --p 비교</span>
   <pre class="prompt">내 퍼스널라이즈 코드: ______________________</pre>
   <p><strong>참고 프롬프트</strong></p>
-  <pre class="prompt">a cozy reading corner by the window --p [내 코드] --stylize 200 --ar 1:1 --v 6</pre>
+  <pre class="prompt">a cozy reading corner by the window --p [내 코드] --stylize 200 --ar 1:1 --v 8.1</pre>
   <table>
     <tr><th>비교</th><th>프롬프트</th></tr>
-    <tr><td>--p 미적용</td><td><code class="inline">a cozy reading corner by the window --ar 1:1 --v 6</code></td></tr>
-    <tr><td>--p 적용</td><td><code class="inline">a cozy reading corner by the window --p [내 코드] --ar 1:1 --v 6</code></td></tr>
+    <tr><td>--p 미적용</td><td><code class="inline">a cozy reading corner by the window --ar 1:1 --v 8.1</code></td></tr>
+    <tr><td>--p 적용</td><td><code class="inline">a cozy reading corner by the window --p [내 코드] --ar 1:1 --v 8.1</code></td></tr>
   </table>
   <ul class="checklist">
     <li>진행률 100% 캡처 완료</li>
@@ -191,8 +191,8 @@
   <pre class="prompt">내 스타일 코드: ______________________</pre>
   <table>
     <tr><th>순서</th><th>주제 키워드</th><th>완성 프롬프트</th></tr>
-    <tr><td>1</td><td></td><td><code class="inline">[주제] --style [내 코드] --ar 1:1 --v 6</code></td></tr>
-    <tr><td>2</td><td></td><td><code class="inline">[주제] --style [내 코드] --ar 1:1 --v 6</code></td></tr>
+    <tr><td>1</td><td></td><td><code class="inline">[주제] --style [내 코드] --ar 1:1 --v 8.1</code></td></tr>
+    <tr><td>2</td><td></td><td><code class="inline">[주제] --style [내 코드] --ar 1:1 --v 8.1</code></td></tr>
   </table>
   <ul class="checklist">
     <li>서로 다른 주제인데도 스타일 코드가 톤을 통일시켜주는지 확인했는가</li>
@@ -201,16 +201,16 @@
   <h2><span class="kicker">실습 03</span>강도 조절하기 (--stylize)</h2>
   <span class="goal-tag">목표 · stylize 값에 따른 차이 관찰</span>
   <p><code class="inline">--stylize</code>(별칭 <code class="inline">--s</code>)로 강도를 조절합니다. 값 범위는 0~1000, 기본값은 100입니다. 낮을수록 프롬프트 텍스트가 우세해지고, 높을수록 학습된 스타일이 강하게 반영됩니다.</p>
-  <pre class="prompt">[동일 프롬프트] --p [내 코드] --stylize 50  --ar 1:1 --v 6
-[동일 프롬프트] --p [내 코드] --stylize 200 --ar 1:1 --v 6
-[동일 프롬프트] --p [내 코드] --stylize 600 --ar 1:1 --v 6</pre>
+  <pre class="prompt">[동일 프롬프트] --p [내 코드] --stylize 50  --ar 1:1 --v 8.1
+[동일 프롬프트] --p [내 코드] --stylize 200 --ar 1:1 --v 8.1
+[동일 프롬프트] --p [내 코드] --stylize 600 --ar 1:1 --v 8.1</pre>
   <ul class="checklist">
     <li>--stylize 값에 따른 차이를 3장 비교로 확인했는가</li>
   </ul>
 
   <h2><span class="kicker">심화 · 선택</span>무드보드 + 퍼스널라이즈 + 스타일 크리에이터 조합</h2>
   <p>세 코드를 한 프롬프트에 동시에 쓸 수 있습니다.</p>
-  <pre class="prompt">[주제 프롬프트] --profile [무드보드 코드] --p [퍼스널라이즈 코드] --style [스타일 코드] --stylize 300 --ar 1:1 --v 6</pre>
+  <pre class="prompt">[주제 프롬프트] --profile [무드보드 코드] --p [퍼스널라이즈 코드] --style [스타일 코드] --stylize 300 --ar 1:1 --v 8.1</pre>
   <ul class="checklist">
     <li>세 코드를 함께 써서 생성해봤는가</li>
     <li>결과가 예측 가능한 방향으로 섞이는지, 서로 충돌하는지 관찰했는가</li>
@@ -220,7 +220,8 @@
   <div class="note-box">
     <ul>
       <li>퍼스널라이즈는 평가 이미지가 적으면(100장 미만) 프로필이 불안정합니다. 시간을 두고 꾸준히 평가하세요.</li>
-      <li>스타일 크리에이터 코드는 모델 버전에 종속적입니다. v6에서 만든 코드가 v7/v8에서는 다르게 보일 수 있습니다.</li>
+      <li>스타일 크리에이터 코드는 모델 버전에 종속적입니다. 구버전에서 만든 코드가 v8.1에서는 다르게 보일 수 있습니다. 참고로 Style Creator 자체의 미리보기는 2026년 7월 기준 아직 v7 엔진으로 생성됩니다.</li>
+      <li>퍼스널라이즈(--p)는 v8.1에서 비중이 훨씬 커졌습니다. 프로필을 다 채운 뒤에는 --stylize를 400~1000까지 올려야 학습된 스타일이 온전히 반영됩니다. 프로필이 아직 부족하다면 낮은 값부터 시작하세요.</li>
       <li>스타일 크리에이터에서 선택 개수가 적을수록 스타일이 더 뚜렷해집니다. 과제 목적에 맞게 조절하세요.</li>
       <li>팀 프로젝트라면 스타일 크리에이터·무드보드 코드를 팀원과 공유해 톤을 통일할 수 있습니다. 퍼스널라이즈는 개인 계정에 귀속되어 공유가 어렵습니다.</li>
     </ul>

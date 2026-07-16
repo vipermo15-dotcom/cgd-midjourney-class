@@ -1,0 +1,220 @@
+<title>미드저니 스타일·캐릭터·옴니 레퍼런스 실습용 프롬프트</title>
+<style>
+  :root {
+    --paper: #f7f5ef;
+    --paper-raised: #fffdf8;
+    --ink: #1c1b1e;
+    --ink-soft: #55524c;
+    --ink-faint: #918c7e;
+    --rule: #d8d3c7;
+    --accent: #c34a2c;
+    --accent-soft: #c34a2c1a;
+    --accent-2: #2e5339;
+    --accent-2-soft: #2e53391a;
+    --warn: #b8860b;
+    --warn-soft: #b8860b1f;
+    --mono: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
+    --sans: -apple-system, "Apple SD Gothic Neo", "Pretendard", "Malgun Gothic", "Segoe UI", sans-serif;
+  }
+  :root[data-theme="dark"] {
+    --paper: #17191b; --paper-raised: #1f2123; --ink: #ece8df; --ink-soft: #a39c8c;
+    --ink-faint: #6b665a; --rule: #34302a; --accent: #e2734f; --accent-soft: #e2734f26;
+    --accent-2: #6fae7c; --accent-2-soft: #6fae7c22; --warn: #e0b23f; --warn-soft: #e0b23f22;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #17191b; --paper-raised: #1f2123; --ink: #ece8df; --ink-soft: #a39c8c;
+      --ink-faint: #6b665a; --rule: #34302a; --accent: #e2734f; --accent-soft: #e2734f26;
+      --accent-2: #6fae7c; --accent-2-soft: #6fae7c22; --warn: #e0b23f; --warn-soft: #e0b23f22;
+    }
+  }
+  @media print {
+    :root {
+      --paper: #f7f5ef !important; --paper-raised: #fffdf8 !important; --ink: #1c1b1e !important;
+      --ink-soft: #55524c !important; --ink-faint: #918c7e !important; --rule: #d8d3c7 !important;
+      --accent: #c34a2c !important; --accent-soft: #c34a2c1a !important;
+      --accent-2: #2e5339 !important; --accent-2-soft: #2e53391a !important;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); line-height: 1.6; }
+  .page { max-width: 780px; margin: 0 auto; padding: 4.5em 2em 6em; }
+  .doc-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    border-bottom: 1px solid var(--rule); padding-bottom: .8em; margin-bottom: .4em;
+    font-family: var(--mono); font-size: 11.5px; letter-spacing: .06em; color: var(--ink-faint);
+    text-transform: uppercase;
+  }
+  .doc-head .accent { color: var(--accent); }
+  h1 { font-size: clamp(22px, 3vw, 34px); font-weight: 800; letter-spacing: -0.01em; margin: .5em 0 .1em; text-wrap: balance; }
+  .subtitle { color: var(--ink-soft); font-size: 15px; margin: 0 0 2em; }
+  h2 {
+    font-size: 22px; font-weight: 800; margin: 2.2em 0 .8em; padding-top: 1.3em;
+    border-top: 1px solid var(--rule);
+  }
+  h2:first-of-type { border-top: none; padding-top: 0; }
+  .kicker { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: .2em; }
+  .card { margin: 1em 0 1.6em; }
+  .card .id { font-family: var(--mono); font-size: 12px; color: var(--accent-2); background: var(--accent-2-soft); border: 1px solid var(--accent-2); display: inline-block; padding: .15em .55em; margin-bottom: .5em; }
+  .card h3 { font-size: 16px; margin: 0 0 .4em; font-weight: 700; }
+  pre.prompt {
+    font-family: var(--mono); font-size: 13.5px; background: var(--ink); color: var(--paper);
+    padding: 1em 1.2em; line-height: 1.6; white-space: pre-wrap; word-break: break-word;
+    margin: 0; border-left: 3px solid var(--accent);
+  }
+  code.inline {
+    font-family: var(--mono); background: var(--accent-soft); color: var(--accent);
+    padding: .1em .35em; font-size: .9em;
+  }
+  table { border-collapse: collapse; width: 100%; font-size: 13.5px; margin: 1em 0; }
+  th, td { text-align: left; padding: .5em .7em .5em 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  th { font-family: var(--mono); font-size: 10.5px; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-faint); font-weight: 500; }
+  td.param { font-family: var(--mono); color: var(--accent); white-space: nowrap; }
+  ol.steps { list-style: none; margin: .8em 0; padding: 0; }
+  ol.steps li { display: grid; grid-template-columns: 1.8em 1fr; gap: .6em; padding: .5em 0; border-bottom: 1px solid var(--rule); align-items: baseline; }
+  ol.steps li:last-child { border-bottom: none; }
+  ol.steps li .n { font-family: var(--mono); color: var(--accent); font-size: 13px; }
+  .warn-box {
+    background: var(--warn-soft); border: 1px solid var(--warn); color: var(--ink);
+    padding: 1em 1.2em; margin: 1em 0; font-size: 14.5px;
+  }
+  .footer-note { margin-top: 3em; padding-top: 1em; border-top: 1px solid var(--rule); font-family: var(--mono); font-size: 11.5px; color: var(--ink-faint); text-align: center; }
+  @media print { .page { padding: 1.5em 0 3em; } .card { break-inside: avoid; } }
+</style>
+
+<div class="page">
+  <div class="doc-head"><span class="accent">PROOF · PROMPT SET</span><span>MIDJOURNEY WORKSHOP · V8.1</span></div>
+  <h1>미드저니 스타일·캐릭터·옴니 레퍼런스 실습용 프롬프트</h1>
+  <p class="subtitle">서울시기술교육원 컴퓨터그래픽디자인과 · 미드저니 워크숍<br>레퍼런스-실습가이드와 함께 사용하세요. <code class="inline">[URL]</code> 자리에는 각자 준비한 참고 이미지 링크를 넣습니다.</p>
+  <div class="warn-box"><strong>기준 버전: v8.1</strong> — --sref는 v8.1 그대로 사용, --cref(v6)와 --oref(v7)는 각 프롬프트에 적힌 버전으로 반드시 전환하세요.</div>
+
+  <h2><span class="kicker">01</span>스타일 레퍼런스(--sref) 적용 프롬프트 (5종, v8.1)</h2>
+
+  <div class="card">
+    <span class="id">SR-01</span><h3>브랜드 배너 통일</h3>
+    <pre class="prompt">minimal brand banner design, product centered, negative space
+--sref [URL] --sw 150 --ar 16:9 --v 8.1</pre>
+  </div>
+  <div class="card">
+    <span class="id">SR-02</span><h3>포트폴리오 연작</h3>
+    <pre class="prompt">architectural interior scene, natural light
+--sref [URL] --sw 150 --ar 3:4 --v 8.1</pre>
+  </div>
+  <div class="card">
+    <span class="id">SR-03</span><h3>SNS 카드뉴스 세트</h3>
+    <pre class="prompt">educational card news background, simple layout, icon space
+--sref [URL] --sw 100 --ar 1:1 --v 8.1</pre>
+  </div>
+  <div class="card">
+    <span class="id">SR-04</span><h3>일러스트 연작</h3>
+    <pre class="prompt">a small cafe corner illustration, cozy atmosphere
+--sref [URL] --sw 200 --ar 1:1 --v 8.1</pre>
+  </div>
+  <div class="card">
+    <span class="id">SR-05</span><h3>제품 상세페이지 배경</h3>
+    <pre class="prompt">product detail page background, clean composition, soft shadow
+--sref [URL] --sw 100 --ar 4:5 --v 8.1</pre>
+  </div>
+
+  <h2><span class="kicker">02</span>캐릭터 레퍼런스(--cref) 적용 프롬프트 (5종, v6 — v8.1 미지원)</h2>
+  <p style="color:var(--ink-soft); font-size:14.5px; margin-top:-.6em;">같은 캐릭터를 다른 상황에 등장시킬 때 사용합니다. v8.1이 기본이므로 반드시 --v 6을 명시해야 작동합니다.</p>
+
+  <div class="card">
+    <span class="id">CR-01</span><h3>다른 장소</h3>
+    <pre class="prompt">[캐릭터] standing in a busy city street at night
+--cref [URL] --cw 100 --ar 1:1 --v 6</pre>
+  </div>
+  <div class="card">
+    <span class="id">CR-02</span><h3>다른 포즈</h3>
+    <pre class="prompt">[캐릭터] jumping in the air, joyful expression
+--cref [URL] --cw 100 --ar 1:1 --v 6</pre>
+  </div>
+  <div class="card">
+    <span class="id">CR-03</span><h3>의상만 교체 (cw 0)</h3>
+    <pre class="prompt">[캐릭터] wearing a formal business suit
+--cref [URL] --cw 0 --ar 1:1 --v 6</pre>
+  </div>
+  <div class="card">
+    <span class="id">CR-04</span><h3>다른 계절</h3>
+    <pre class="prompt">[캐릭터] walking through falling autumn leaves
+--cref [URL] --cw 80 --ar 1:1 --v 6</pre>
+  </div>
+  <div class="card">
+    <span class="id">CR-05</span><h3>클로즈업 표정</h3>
+    <pre class="prompt">[캐릭터] close-up portrait, surprised expression
+--cref [URL] --cw 100 --ar 4:5 --v 6</pre>
+  </div>
+
+  <h2><span class="kicker">03</span>옴니 레퍼런스(--oref) 적용 프롬프트 (5종, v7 — v8.1 미지원)</h2>
+  <p style="color:var(--ink-soft); font-size:14.5px; margin-top:-.6em;">인물뿐 아니라 제품·사물 사진에도 활용할 수 있습니다. 반드시 --v 7을 명시해야 작동합니다.</p>
+
+  <div class="card">
+    <span class="id">OR-01</span><h3>제품을 새 배경으로</h3>
+    <pre class="prompt">the product placed on a marble kitchen counter, morning light
+--oref [URL] --ow 150 --ar 4:5 --v 7</pre>
+  </div>
+  <div class="card">
+    <span class="id">OR-02</span><h3>인물을 새 장면으로</h3>
+    <pre class="prompt">the person sitting at an outdoor cafe table, relaxed mood
+--oref [URL] --ow 150 --ar 1:1 --v 7</pre>
+  </div>
+  <div class="card">
+    <span class="id">OR-03</span><h3>낮은 강도로 은은하게 참고</h3>
+    <pre class="prompt">a stylized illustration inspired by the reference, painterly texture
+--oref [URL] --ow 50 --ar 1:1 --v 7</pre>
+  </div>
+  <div class="card">
+    <span class="id">OR-04</span><h3>높은 강도로 원본에 가깝게</h3>
+    <pre class="prompt">the same subject in a studio product shot setup
+--oref [URL] --ow 350 --ar 1:1 --v 7</pre>
+  </div>
+  <div class="card">
+    <span class="id">OR-05</span><h3>스타일 레퍼런스와 조합</h3>
+    <pre class="prompt">the subject reimagined in a new environment
+--oref [URL] --ow 150 --sref [스타일 URL] --sw 150 --ar 1:1 --v 7</pre>
+  </div>
+
+  <h2><span class="kicker">04</span>v8.1 대안 프롬프트 (2종) — 이미지 프롬프트 + seed</h2>
+  <p style="color:var(--ink-soft); font-size:14.5px; margin-top:-.6em;">--cref/--oref 없이 v8.1에서 캐릭터·사물 일관성을 흉내 내는 방법입니다.</p>
+
+  <div class="card">
+    <span class="id">AL-01</span><h3>이미지 프롬프트로 캐릭터 참고</h3>
+    <pre class="prompt">[참고 이미지 URL] the same character sitting at a desk, working on a laptop
+--iw 1.5 --ar 1:1 --v 8.1</pre>
+  </div>
+  <div class="card">
+    <span class="id">AL-02</span><h3>seed 고정 + 퍼스널라이즈 조합</h3>
+    <pre class="prompt">[동일 주제, 다른 배경 묘사] --p [내 퍼스널라이즈 코드] --seed [이전 결과의 시드값] --ar 1:1 --v 8.1</pre>
+  </div>
+
+  <h2><span class="kicker">Reference</span>파라미터 빠른 참고</h2>
+  <table>
+    <tr><th>파라미터</th><th>의미</th><th>값 범위</th><th>지원 버전</th></tr>
+    <tr><td class="param">--sref [URL/코드]</td><td>스타일(화풍) 참조</td><td>—</td><td>v6, v7, v8.1</td></tr>
+    <tr><td class="param">--sw</td><td>스타일 레퍼런스 강도</td><td>0~1000 (기본 100)</td><td>v6, v7, v8.1</td></tr>
+    <tr><td class="param">--cref [URL]</td><td>캐릭터(얼굴·헤어·의상) 참조</td><td>—</td><td>v6, niji 6 전용 (v8.1 미지원)</td></tr>
+    <tr><td class="param">--cw</td><td>캐릭터 레퍼런스 강도</td><td>0~100 (기본 100)</td><td>v6, niji 6 전용</td></tr>
+    <tr><td class="param">--oref [URL]</td><td>인물·사물·환경 참조</td><td>—</td><td>v7 전용 (v8.1 미지원)</td></tr>
+    <tr><td class="param">--ow</td><td>옴니 레퍼런스 강도</td><td>0~1000 (기본 100, 추천 50~250)</td><td>v7 전용</td></tr>
+    <tr><td class="param">--iw</td><td>이미지 프롬프트 반영 강도</td><td>0~3 (기본 1)</td><td>v6, v7, v8.1</td></tr>
+    <tr><td class="param">--seed</td><td>결과 재현용 시드값 고정</td><td>정수</td><td>v6, v7, v8.1</td></tr>
+  </table>
+
+  <h2><span class="kicker">Guide</span>참고 이미지 URL 구하는 법</h2>
+  <ol class="steps">
+    <li><span class="n">01</span><div>미드저니로 만든 이미지를 Upscale 합니다.</div></li>
+    <li><span class="n">02</span><div>웹에서는 이미지 우클릭 → 이미지 링크 복사, Discord에서는 이미지 클릭 → 브라우저에서 열기 후 주소창 URL을 복사합니다.</div></li>
+    <li><span class="n">03</span><div>외부 사진(직접 촬영·라이선스 보유 이미지)은 웹 입력창에 드래그하면 자동으로 참조용 URL이 생성됩니다.</div></li>
+  </ol>
+
+  <h2><span class="kicker">Guide</span>실습 순서</h2>
+  <ol class="steps">
+    <li><span class="n">01</span><div>실습가이드의 실습 1~3에 따라 참고 이미지 URL을 먼저 준비합니다.</div></li>
+    <li><span class="n">02</span><div>위 01~03번 프롬프트 중 자신의 과제와 가까운 것을 골라 [URL]을 실제 링크로 바꿔 실행합니다. 버전 파라미터(--v)는 프롬프트에 적힌 그대로 유지하세요.</div></li>
+    <li><span class="n">03</span><div>강도 파라미터(--sw/--cw/--ow) 값을 바꿔가며 비교 생성합니다.</div></li>
+    <li><span class="n">04</span><div>결과 중 1장을 Upscale 하고, 가이드의 제출 체크리스트에 따라 저장·제출합니다.</div></li>
+  </ol>
+
+  <div class="footer-note">서울시기술교육원 컴퓨터그래픽디자인과 · 미드저니 스타일·캐릭터·옴니 레퍼런스 실습용 프롬프트</div>
+</div>

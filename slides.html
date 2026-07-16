@@ -471,7 +471,7 @@
       <h2 class="title">주제 + 스타일 + 디테일 + 파라미터</h2>
       <pre class="prompt">minimalist portfolio cover design,
 clean white background, subtle grid lines,
-soft shadows, print ready<span class="param"> --ar 3:4 --style raw --v 6</span></pre>
+soft shadows, print ready<span class="param"> --ar 3:4 --style raw --v 8.1</span></pre>
       <div class="col-3" style="margin-top:1.5em;">
         <div class="card"><h3>주제</h3><p>무엇을 그릴지 — 대상과 용도를 명확히</p></div>
         <div class="card"><h3>스타일 · 디테일</h3><p>재질, 색감, 구도, 분위기를 형용사로 추가</p></div>
@@ -498,7 +498,7 @@ soft shadows, print ready<span class="param"> --ar 3:4 --style raw --v 6</span><
           <span class="stamp good">APPROVE</span>
           <pre class="prompt">modern startup logo concept, abstract
 geometric mark, minimalist, scalable
-vector style, clean lines<span class="param"> --v 6 --style raw</span></pre>
+vector style, clean lines<span class="param"> --v 8.1 --style raw</span></pre>
           <p style="color:var(--ink-soft); font-size:14px; margin-top:.6em;">업종 성격 + 스타일 + 형식이 명시되어 재현 가능한 결과를 만듭니다.</p>
         </div>
       </div>
@@ -516,10 +516,10 @@ vector style, clean lines<span class="param"> --v 6 --style raw</span></pre>
       <table class="spec">
         <tr><th>파라미터</th><th>역할</th><th>비고</th></tr>
         <tr><td class="param">--ar</td><td>가로세로 비율 지정</td><td class="num">예: 3:4, 16:9</td></tr>
-        <tr><td class="param">--v</td><td>모델 버전 선택</td><td class="num">기본 최신(v6) 권장</td></tr>
+        <tr><td class="param">--v</td><td>모델 버전 선택</td><td class="num">기본 최신(v8.1) 권장</td></tr>
         <tr><td class="param">--style raw</td><td>덜 가공된, 사실적인 톤</td><td>과한 보정감 줄이기</td></tr>
         <tr><td class="param">--stylize</td><td>미적 보정 강도</td><td class="num">0~1000, 기본 100</td></tr>
-        <tr><td class="param">--q</td><td>렌더 품질</td><td class="num">2 = 고품질(크레딧 2배)</td></tr>
+        <tr><td class="param">HD 모드</td><td>고해상도 렌더링</td><td class="num">v8.1 기본 적용, 별도 파라미터 불필요</td></tr>
         <tr><td class="param">--no</td><td>제외할 요소 지정</td><td>예: <code class="inline">--no text</code></td></tr>
         <tr><td class="param">--seed</td><td>랜덤 시드 고정</td><td>같은 결과 재현용</td></tr>
         <tr><td class="param">--tile</td><td>이음새 없는 패턴</td><td>텍스타일 · 배경 패턴용</td></tr>
@@ -567,7 +567,7 @@ vector style, clean lines<span class="param"> --v 6 --style raw</span></pre>
       <pre class="prompt">minimalist portfolio cover design, clean
 white background, subtle grid lines,
 professional typography space, soft
-shadows, print ready<span class="param"> --ar 3:4 --style raw --v 6</span></pre>
+shadows, print ready<span class="param"> --ar 3:4 --style raw --v 8.1</span></pre>
       <p class="lede" style="margin-top:1em;">타이포그래피를 넣을 <b>여백</b>을 프롬프트에 명시하는 것이 핵심입니다. 텍스트는 미드저니가 아니라 이후 편집 프로그램에서 직접 얹습니다.</p>
     </div>
     <div class="footer-bar"><span>03 · 실전 활용</span><span class="pg"></span></div>
@@ -582,7 +582,7 @@ shadows, print ready<span class="param"> --ar 3:4 --style raw --v 6</span></pre>
       <h2 class="title">SNS 콘텐츠 배경 만들기</h2>
       <pre class="prompt">warm earthy tone social media background
 for food brand, natural texture,
-appetizing and fresh feel<span class="param"> --ar 1:1 --v 6</span></pre>
+appetizing and fresh feel<span class="param"> --ar 1:1 --v 8.1</span></pre>
       <div class="col-2" style="margin-top:1.2em;">
         <div class="card"><h3>업종 키워드 먼저</h3><p>food brand, fashion brand처럼 업종을 앞에 배치하면 톤이 잡힙니다.</p></div>
         <div class="card"><h3>정보는 나중에 얹기</h3><p>배경만 생성 → 로고/문구는 편집 툴에서 합성하는 순서를 권장합니다.</p></div>
@@ -601,7 +601,7 @@ appetizing and fresh feel<span class="param"> --ar 1:1 --v 6</span></pre>
       <pre class="prompt">eco-friendly product packaging design
 mockup, kraft paper texture, minimalist
 label design, natural colors, store shelf
-presentation<span class="param"> --ar 4:3 --v 6</span></pre>
+presentation<span class="param"> --ar 4:3 --v 8.1</span></pre>
       <ul class="checklist" style="margin-top:1.2em;">
         <li>재질(kraft paper, glass, matte)을 명시하면 실물감이 크게 달라짐</li>
         <li>"store shelf presentation"처럼 연출 맥락을 넣으면 목업 완성도가 상승</li>
@@ -646,14 +646,14 @@ soft studio lighting<span class="param"> --ar 1:1 --iw 1.5</span></pre>
     <div class="slide-head"><span class="section-tag">04 · 고급 · 02</span><span class="deck-name">MIDJOURNEY WORKSHOP</span></div>
     <div class="slide-body">
       <p class="kicker">기법 02</p>
-      <h2 class="title">일관성 유지 — --sref / --cref</h2>
+      <h2 class="title">일관성 유지 — --sref / --cref / --oref</h2>
       <table class="spec">
-        <tr><th>파라미터</th><th>용도</th><th>실무 활용</th></tr>
-        <tr><td class="param">--sref [URL]</td><td>스타일 레퍼런스 고정</td><td>연작 시리즈의 톤앤매너 통일</td></tr>
-        <tr><td class="param">--cref [URL]</td><td>캐릭터 레퍼런스 고정</td><td>마스코트 · 캐릭터 동일성 유지</td></tr>
-        <tr><td class="param">--sw / --cw</td><td>각 레퍼런스 반영 강도</td><td>0~100, 낮을수록 자유도 ↑</td></tr>
+        <tr><th>파라미터</th><th>용도</th><th>지원 버전</th></tr>
+        <tr><td class="param">--sref [URL]</td><td>스타일 레퍼런스 고정 (톤앤매너 통일)</td><td class="num">v8.1 포함 전 버전</td></tr>
+        <tr><td class="param">--cref [URL]</td><td>캐릭터 레퍼런스 고정 (마스코트 동일성)</td><td class="num">v6 전용</td></tr>
+        <tr><td class="param">--oref [URL]</td><td>인물·사물 레퍼런스 (cref 상위호환)</td><td class="num">v7 전용</td></tr>
       </table>
-      <p class="lede" style="margin-top:1.2em;">브랜드 캠페인처럼 여러 장을 <b>같은 톤</b>으로 뽑아야 할 때 필수적인 기능입니다.</p>
+      <p class="lede" style="margin-top:1.2em;">브랜드 캠페인처럼 여러 장을 <b>같은 톤</b>으로 뽑을 때 필수적인 기능입니다. <b>단, 현재 기본 버전 v8.1에서는 --cref/--oref가 아직 지원되지 않으니</b> 캐릭터·사물 고정이 필요하면 프롬프트 끝에 --v 6 또는 --v 7을 붙여 전환하세요. 자세한 실습은 <code class="inline">레퍼런스-실습가이드</code> 참고.</p>
     </div>
     <div class="footer-bar"><span>04 · 고급 기법</span><span class="pg"></span></div>
   </section>
@@ -683,7 +683,7 @@ soft studio lighting<span class="param"> --ar 1:1 --iw 1.5</span></pre>
       <p class="kicker">기법 04</p>
       <h2 class="title">멀티 프롬프트 — :: 가중치</h2>
       <pre class="prompt">warm cafe interior::2 minimalist
-scandinavian furniture::1<span class="param"> --ar 3:2 --v 6</span></pre>
+scandinavian furniture::1<span class="param"> --ar 3:2 --v 8.1</span></pre>
       <p class="lede" style="margin:1em 0;"><code class="inline">::</code>로 문장을 분리하고 숫자로 비중을 지정하면, <b>어떤 요소를 더 강조할지</b> 직접 제어할 수 있습니다. 숫자가 없으면 동일 비중입니다.</p>
       <ul class="checklist">
         <li>비중이 높을수록 화면에서 차지하는 존재감이 커짐</li>
