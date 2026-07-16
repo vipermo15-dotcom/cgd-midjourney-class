@@ -1,0 +1,184 @@
+<title>미드저니 퍼스널라이즈 · 스타일 크리에이터 실습용 프롬프트</title>
+<style>
+  :root {
+    --paper: #f7f5ef;
+    --paper-raised: #fffdf8;
+    --ink: #1c1b1e;
+    --ink-soft: #55524c;
+    --ink-faint: #918c7e;
+    --rule: #d8d3c7;
+    --accent: #c34a2c;
+    --accent-soft: #c34a2c1a;
+    --accent-2: #2e5339;
+    --accent-2-soft: #2e53391a;
+    --mono: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
+    --sans: -apple-system, "Apple SD Gothic Neo", "Pretendard", "Malgun Gothic", "Segoe UI", sans-serif;
+  }
+  :root[data-theme="dark"] {
+    --paper: #17191b; --paper-raised: #1f2123; --ink: #ece8df; --ink-soft: #a39c8c;
+    --ink-faint: #6b665a; --rule: #34302a; --accent: #e2734f; --accent-soft: #e2734f26;
+    --accent-2: #6fae7c; --accent-2-soft: #6fae7c22;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #17191b; --paper-raised: #1f2123; --ink: #ece8df; --ink-soft: #a39c8c;
+      --ink-faint: #6b665a; --rule: #34302a; --accent: #e2734f; --accent-soft: #e2734f26;
+      --accent-2: #6fae7c; --accent-2-soft: #6fae7c22;
+    }
+  }
+  @media print {
+    :root {
+      --paper: #f7f5ef !important; --paper-raised: #fffdf8 !important; --ink: #1c1b1e !important;
+      --ink-soft: #55524c !important; --ink-faint: #918c7e !important; --rule: #d8d3c7 !important;
+      --accent: #c34a2c !important; --accent-soft: #c34a2c1a !important;
+      --accent-2: #2e5339 !important; --accent-2-soft: #2e53391a !important;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); line-height: 1.6; }
+  .page { max-width: 780px; margin: 0 auto; padding: 4.5em 2em 6em; }
+  .doc-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    border-bottom: 1px solid var(--rule); padding-bottom: .8em; margin-bottom: .4em;
+    font-family: var(--mono); font-size: 11.5px; letter-spacing: .06em; color: var(--ink-faint);
+    text-transform: uppercase;
+  }
+  .doc-head .accent { color: var(--accent); }
+  h1 { font-size: clamp(26px, 3.4vw, 38px); font-weight: 800; letter-spacing: -0.01em; margin: .5em 0 .1em; text-wrap: balance; }
+  .subtitle { color: var(--ink-soft); font-size: 15px; margin: 0 0 2em; }
+  h2 {
+    font-size: 22px; font-weight: 800; margin: 2.2em 0 .8em; padding-top: 1.3em;
+    border-top: 1px solid var(--rule);
+  }
+  h2:first-of-type { border-top: none; padding-top: 0; }
+  .kicker { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: .2em; }
+  .card { margin: 1em 0 1.6em; }
+  .card .id { font-family: var(--mono); font-size: 12px; color: var(--accent-2); background: var(--accent-2-soft); border: 1px solid var(--accent-2); display: inline-block; padding: .15em .55em; margin-bottom: .5em; }
+  .card h3 { font-size: 16px; margin: 0 0 .4em; font-weight: 700; }
+  pre.prompt {
+    font-family: var(--mono); font-size: 13.5px; background: var(--ink); color: var(--paper);
+    padding: 1em 1.2em; line-height: 1.6; white-space: pre-wrap; word-break: break-word;
+    margin: 0; border-left: 3px solid var(--accent);
+  }
+  code.inline {
+    font-family: var(--mono); background: var(--accent-soft); color: var(--accent);
+    padding: .1em .35em; font-size: .9em;
+  }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; margin: 1em 0; }
+  th, td { text-align: left; padding: .5em .8em .5em 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  th { font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-faint); font-weight: 500; }
+  td.param { font-family: var(--mono); color: var(--accent); white-space: nowrap; }
+  ol.steps { list-style: none; margin: .8em 0; padding: 0; }
+  ol.steps li { display: grid; grid-template-columns: 1.8em 1fr; gap: .6em; padding: .5em 0; border-bottom: 1px solid var(--rule); align-items: baseline; }
+  ol.steps li:last-child { border-bottom: none; }
+  ol.steps li .n { font-family: var(--mono); color: var(--accent); font-size: 13px; }
+  .footer-note { margin-top: 3em; padding-top: 1em; border-top: 1px solid var(--rule); font-family: var(--mono); font-size: 11.5px; color: var(--ink-faint); text-align: center; }
+  @media print { .page { padding: 1.5em 0 3em; } .card { break-inside: avoid; } }
+</style>
+
+<div class="page">
+  <div class="doc-head"><span class="accent">PROOF · PROMPT SET</span><span>MIDJOURNEY WORKSHOP</span></div>
+  <h1>미드저니 퍼스널라이즈 · 스타일 크리에이터 실습용 프롬프트</h1>
+  <p class="subtitle">서울시기술교육원 컴퓨터그래픽디자인과 · 미드저니 워크숍<br>퍼스널라이즈-스타일크리에이터-실습가이드와 함께 사용하세요. <code class="inline">[코드]</code> 부분은 각자 발급받은 코드로 바꿔서 사용합니다.</p>
+
+  <h2><span class="kicker">01</span>스타일 크리에이터 시드 프롬프트 (5종)</h2>
+  <p style="color:var(--ink-soft); font-size:14.5px; margin-top:-.6em;">Style Creator 시작할 때 아래 문장을 입력해 스타일 방향을 탐색하세요.</p>
+
+  <div class="card">
+    <span class="id">T-01</span><h3>에디토리얼 무드</h3>
+    <pre class="prompt">editorial fashion photography, moody lighting, film grain</pre>
+  </div>
+  <div class="card">
+    <span class="id">T-02</span><h3>미니멀 프로덕트</h3>
+    <pre class="prompt">minimalist product photography, soft studio light, neutral background</pre>
+  </div>
+  <div class="card">
+    <span class="id">T-03</span><h3>사이버펑크 일러스트</h3>
+    <pre class="prompt">cyberpunk digital illustration, neon color palette, futuristic city</pre>
+  </div>
+  <div class="card">
+    <span class="id">T-04</span><h3>수채화 일러스트</h3>
+    <pre class="prompt">watercolor illustration, soft pastel palette, hand-painted texture</pre>
+  </div>
+  <div class="card">
+    <span class="id">T-05</span><h3>빈티지 필름 사진</h3>
+    <pre class="prompt">vintage film photography, warm faded tones, grainy analog texture</pre>
+  </div>
+
+  <h2><span class="kicker">02</span>퍼스널라이즈(--p) 적용 프롬프트 (5종)</h2>
+
+  <div class="card">
+    <span class="id">P-01</span><h3>포트폴리오 표지</h3>
+    <pre class="prompt">minimalist portfolio cover design, clean layout, typography space
+--p [코드] --stylize 200 --ar 3:4 --v 6</pre>
+  </div>
+  <div class="card">
+    <span class="id">P-02</span><h3>SNS 피드 배경</h3>
+    <pre class="prompt">lifestyle brand social media background, soft natural tones
+--p [코드] --stylize 200 --ar 1:1 --v 6</pre>
+  </div>
+  <div class="card">
+    <span class="id">P-03</span><h3>브랜드 무드 사진</h3>
+    <pre class="prompt">brand mood photography, everyday lifestyle scene
+--p [코드] --stylize 300 --ar 4:5 --v 6</pre>
+  </div>
+  <div class="card">
+    <span class="id">P-04</span><h3>인터랙션 목업</h3>
+    <pre class="prompt">mobile app UI mockup on desk, top view, clean composition
+--p [코드] --stylize 150 --ar 1:1 --v 6</pre>
+  </div>
+  <div class="card">
+    <span class="id">P-05</span><h3>개인 아트워크</h3>
+    <pre class="prompt">personal art piece, abstract composition, expressive brushwork
+--p [코드] --stylize 500 --ar 1:1 --v 6</pre>
+  </div>
+
+  <h2><span class="kicker">03</span>스타일 크리에이터(--style) 적용 프롬프트 (5종)</h2>
+  <p style="color:var(--ink-soft); font-size:14.5px; margin-top:-.6em;">같은 코드로 서로 다른 주제 3개를 만들어보면 스타일이 유지되는지 확인하기 좋습니다.</p>
+
+  <div class="card">
+    <span class="id">S-01</span><h3>인물 포트레이트</h3>
+    <pre class="prompt">portrait of a person looking away from camera
+--style [코드] --stylize 250 --ar 4:5 --v 6</pre>
+  </div>
+  <div class="card">
+    <span class="id">S-02</span><h3>도시 풍경</h3>
+    <pre class="prompt">city street scene at dusk, pedestrians walking
+--style [코드] --stylize 250 --ar 16:9 --v 6</pre>
+  </div>
+  <div class="card">
+    <span class="id">S-03</span><h3>정물 사진</h3>
+    <pre class="prompt">still life composition on a wooden table
+--style [코드] --stylize 250 --ar 1:1 --v 6</pre>
+  </div>
+  <div class="card">
+    <span class="id">S-04</span><h3>브랜드 포스터</h3>
+    <pre class="prompt">event poster design, bold typography space
+--style [코드] --stylize 300 --ar 2:3 --v 6</pre>
+  </div>
+  <div class="card">
+    <span class="id">S-05</span><h3>캐릭터 컨셉</h3>
+    <pre class="prompt">character concept design, full body, simple background
+--style [코드] --stylize 300 --ar 3:4 --v 6</pre>
+  </div>
+
+  <h2><span class="kicker">Reference</span>파라미터 빠른 참고</h2>
+  <table>
+    <tr><th>파라미터</th><th>의미</th><th>값 범위</th><th>비고</th></tr>
+    <tr><td class="param">--p [코드]</td><td>퍼스널라이즈 프로필 적용</td><td>코드 문자열</td><td>여러 개 조합 가능 (--p 코드1 코드2)</td></tr>
+    <tr><td class="param">--style [코드]</td><td>스타일 크리에이터 코드 적용</td><td>코드 문자열</td><td>대시로 조합 가능 (--style 코드1-코드2)</td></tr>
+    <tr><td class="param">--profile [코드]</td><td>무드보드 코드 적용</td><td>코드 문자열</td><td>무드보드-실습가이드 참고</td></tr>
+    <tr><td class="param">--stylize (--s)</td><td>스타일/개성 반영 강도</td><td>0~1000 (기본 100)</td><td>낮을수록 프롬프트 우세, 높을수록 학습된 스타일 우세</td></tr>
+  </table>
+
+  <h2><span class="kicker">Guide</span>실습 순서</h2>
+  <ol class="steps">
+    <li><span class="n">01</span><div>먼저 실습가이드의 실습 1~2를 따라 내 퍼스널라이즈 코드와 스타일 코드를 발급받습니다.</div></li>
+    <li><span class="n">02</span><div>위 02(퍼스널라이즈) 또는 03(스타일 크리에이터) 프롬프트 중 3개를 골라 [코드]를 내 코드로 바꿔 실행합니다.</div></li>
+    <li><span class="n">03</span><div>--stylize 값을 50 / 200 / 600으로 바꿔가며 같은 프롬프트로 비교 생성합니다.</div></li>
+    <li><span class="n">04</span><div>결과 중 1장을 Upscale 하고, 가이드의 제출 체크리스트에 따라 저장·제출합니다.</div></li>
+  </ol>
+
+  <div class="footer-note">서울시기술교육원 컴퓨터그래픽디자인과 · 미드저니 퍼스널라이즈·스타일크리에이터 실습용 프롬프트</div>
+</div>

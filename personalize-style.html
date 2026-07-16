@@ -1,0 +1,241 @@
+<title>미드저니 퍼스널라이즈 · 스타일 크리에이터 실습 가이드</title>
+<style>
+  :root {
+    --paper: #f7f5ef;
+    --paper-raised: #fffdf8;
+    --ink: #1c1b1e;
+    --ink-soft: #55524c;
+    --ink-faint: #918c7e;
+    --rule: #d8d3c7;
+    --accent: #c34a2c;
+    --accent-soft: #c34a2c1a;
+    --accent-2: #2e5339;
+    --accent-2-soft: #2e53391a;
+    --mono: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
+    --sans: -apple-system, "Apple SD Gothic Neo", "Pretendard", "Malgun Gothic", "Segoe UI", sans-serif;
+  }
+  :root[data-theme="dark"] {
+    --paper: #17191b; --paper-raised: #1f2123; --ink: #ece8df; --ink-soft: #a39c8c;
+    --ink-faint: #6b665a; --rule: #34302a; --accent: #e2734f; --accent-soft: #e2734f26;
+    --accent-2: #6fae7c; --accent-2-soft: #6fae7c22;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #17191b; --paper-raised: #1f2123; --ink: #ece8df; --ink-soft: #a39c8c;
+      --ink-faint: #6b665a; --rule: #34302a; --accent: #e2734f; --accent-soft: #e2734f26;
+      --accent-2: #6fae7c; --accent-2-soft: #6fae7c22;
+    }
+  }
+  @media print {
+    :root {
+      --paper: #f7f5ef !important; --paper-raised: #fffdf8 !important; --ink: #1c1b1e !important;
+      --ink-soft: #55524c !important; --ink-faint: #918c7e !important; --rule: #d8d3c7 !important;
+      --accent: #c34a2c !important; --accent-soft: #c34a2c1a !important;
+      --accent-2: #2e5339 !important; --accent-2-soft: #2e53391a !important;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans);
+    line-height: 1.65;
+  }
+  .page {
+    max-width: 780px; margin: 0 auto; padding: 4.5em 2em 6em;
+  }
+  .doc-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    border-bottom: 1px solid var(--rule); padding-bottom: .8em; margin-bottom: .4em;
+    font-family: var(--mono); font-size: 11.5px; letter-spacing: .06em; color: var(--ink-faint);
+    text-transform: uppercase;
+  }
+  .doc-head .accent { color: var(--accent); }
+
+  h1 {
+    font-size: clamp(28px, 4vw, 40px); font-weight: 800; letter-spacing: -0.01em;
+    margin: .5em 0 .1em; text-wrap: balance;
+  }
+  .subtitle { color: var(--ink-soft); font-size: 15px; margin: 0 0 2em; }
+
+  h2 {
+    font-size: 24px; font-weight: 800; letter-spacing: -0.005em;
+    margin: 2.4em 0 .2em; padding-top: 1.4em; border-top: 1px solid var(--rule);
+  }
+  h2:first-of-type { border-top: none; padding-top: 0; }
+  .kicker {
+    font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: .3em; display: block;
+  }
+  p { margin: .6em 0; }
+  strong { font-weight: 700; }
+
+  pre.prompt {
+    font-family: var(--mono); font-size: 14px; background: var(--ink); color: var(--paper);
+    padding: 1em 1.2em; line-height: 1.65; white-space: pre-wrap; word-break: break-word;
+    margin: .8em 0; border-left: 3px solid var(--accent);
+  }
+  code.inline {
+    font-family: var(--mono); background: var(--accent-soft); color: var(--accent);
+    padding: .1em .35em; font-size: .9em;
+  }
+
+  table {
+    border-collapse: collapse; width: 100%; font-size: 14px; margin: 1em 0;
+  }
+  th, td {
+    text-align: left; padding: .55em .8em .55em 0; border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  th {
+    font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase;
+    color: var(--ink-faint); font-weight: 500;
+  }
+
+  ol.steps { list-style: none; margin: .8em 0; padding: 0; }
+  ol.steps li {
+    display: grid; grid-template-columns: 1.8em 1fr; gap: .6em;
+    padding: .5em 0; border-bottom: 1px solid var(--rule); align-items: baseline;
+  }
+  ol.steps li:last-child { border-bottom: none; }
+  ol.steps li .n { font-family: var(--mono); color: var(--accent); font-size: 13px; }
+
+  ul.checklist { list-style: none; margin: .8em 0; padding: 0; }
+  ul.checklist li {
+    padding: .5em 0; border-bottom: 1px solid var(--rule);
+    display: flex; gap: .7em; font-size: 15px;
+  }
+  ul.checklist li::before { content: "☐"; color: var(--accent); flex-shrink: 0; }
+
+  .goal-tag {
+    display: inline-block; font-family: var(--mono); font-size: 11px; letter-spacing: .06em;
+    text-transform: uppercase; color: var(--accent-2); background: var(--accent-2-soft);
+    border: 1px solid var(--accent-2); padding: .2em .6em; margin-bottom: .6em;
+  }
+
+  .note-box {
+    background: var(--paper-raised); border: 1px solid var(--rule); padding: 1em 1.2em;
+    margin: 1em 0; font-size: 14.5px;
+  }
+  .note-box ul { margin: .3em 0 0; padding-left: 1.2em; }
+  .note-box li { margin: .3em 0; }
+
+  .footer-note {
+    margin-top: 3em; padding-top: 1em; border-top: 1px solid var(--rule);
+    font-family: var(--mono); font-size: 11.5px; color: var(--ink-faint); text-align: center;
+  }
+  @media print { .page { padding: 1.5em 0 3em; } }
+</style>
+
+<div class="page">
+  <div class="doc-head"><span class="accent">PROOF · GUIDE</span><span>MIDJOURNEY WORKSHOP</span></div>
+  <h1>미드저니 퍼스널라이즈 · 스타일 크리에이터 실습 가이드</h1>
+  <p class="subtitle">서울시기술교육원 컴퓨터그래픽디자인과 · 심화 실습 (스타일 일관성 2)<br><code class="inline">실습워크북</code>과 <code class="inline">무드보드-실습가이드</code>를 먼저 끝낸 뒤 진행하세요.</p>
+
+  <h2><span class="kicker">Concept</span>세 가지 스타일 커스터마이징 기능 비교</h2>
+  <p>미드저니에는 "내 스타일"을 만드는 방법이 세 가지 있습니다. 헷갈리기 쉬우니 먼저 정리하고 시작합니다.</p>
+  <table>
+    <tr><th>기능</th><th>만드는 방법</th><th>파라미터</th><th>적용 범위</th><th>언제 쓰나</th></tr>
+    <tr><td>무드보드</td><td>내가 고른 이미지 업로드</td><td><code class="inline">--profile</code></td><td>프로젝트/브랜드 단위</td><td>특정 프로젝트 톤 고정</td></tr>
+    <tr><td>퍼스널라이즈</td><td>취향 이미지 다수 평가</td><td><code class="inline">--p</code></td><td>내 계정 전체 (항상 은은히 반영)</td><td>평소 취향이 자동 반영되길 원할 때</td></tr>
+    <tr><td>스타일 크리에이터</td><td>쌍대 비교로 선택</td><td><code class="inline">--style</code></td><td>특정 스타일 실험/캠페인 단위</td><td>새 룩을 빠르게 실험할 때</td></tr>
+  </table>
+  <p style="color:var(--ink-soft); font-size:14.5px;"><strong>한 줄 요약</strong>: 무드보드는 "내가 모은 이미지", 퍼스널라이즈는 "내 평소 취향", 스타일 크리에이터는 "이번 프로젝트만의 새 스타일"입니다.</p>
+
+  <h2><span class="kicker">Guide 01</span>퍼스널라이즈(Personalize) 사용 방법</h2>
+  <ol class="steps">
+    <li><span class="n">01</span><div><code class="inline">midjourney.com</code>에 로그인한 뒤 상단 메뉴에서 <strong>Personalize</strong>로 이동합니다.</div></li>
+    <li><span class="n">02</span><div><strong>Global Profile</strong> 썸네일을 클릭하면 이미지 쌍(또는 그리드)이 나타납니다.</div></li>
+    <li><span class="n">03</span><div>마음에 드는 이미지를 계속 클릭합니다. <strong>최소 100~200장</strong>은 평가해야 결과가 안정적입니다.</div></li>
+    <li><span class="n">04</span><div>진행률이 다 차면 프로필이 잠금 해제됩니다.</div></li>
+    <li><span class="n">05</span><div><strong>코드 복사(Copy Code)</strong> 버튼을 눌러 내 코드를 받습니다.</div></li>
+    <li><span class="n">06</span><div>프롬프트 맨 끝에 <code class="inline">--p [내 코드]</code>를 추가해서 생성합니다.</div></li>
+  </ol>
+
+  <h2><span class="kicker">Guide 02</span>스타일 크리에이터(Style Creator) 사용 방법</h2>
+  <ol class="steps">
+    <li><span class="n">01</span><div>좌측 메뉴에서 <strong>Style Creator</strong>를 클릭합니다. (또는 Discord <code class="inline">/tune</code>)</div></li>
+    <li><span class="n">02</span><div>원하는 스타일 방향을 설명하는 <strong>시드 프롬프트</strong>를 입력합니다. 기존 스타일 코드로 시작할 수도 있습니다.</div></li>
+    <li><span class="n">03</span><div>제시되는 이미지 중 마음에 드는 쪽을 클릭합니다. 내용이 아니라 <strong>스타일(분위기·색감·질감)</strong>만 보고 고르세요.</div></li>
+    <li><span class="n">04</span><div>선택이 적을수록(1~5장) 스타일이 뚜렷해지고, 많을수록(10장+) 다양하고 부드러워집니다.</div></li>
+    <li><span class="n">05</span><div>완료되면 하단에 생성된 <strong>스타일 코드</strong>가 표시됩니다. 복사합니다.</div></li>
+    <li><span class="n">06</span><div>프롬프트에 <code class="inline">--style [내 코드]</code>를 추가해서 생성합니다.</div></li>
+  </ol>
+
+  <h2><span class="kicker">Warm-up</span>어떤 기능을 써야 할까?</h2>
+  <p>상황에 맞는 기능을 골라보세요.</p>
+  <ul class="checklist">
+    <li>클라이언트 브랜드 룩북 20장을 전부 같은 톤으로 만들어야 한다 → ______________</li>
+    <li>평소 내가 좋아하는 미니멀·저채도 감성이 모든 작업에 자연스럽게 묻어났으면 좋겠다 → ______________</li>
+    <li>이번 학기 과제 하나만을 위한 독특한 "사이버펑크 일러스트" 룩을 새로 만들고 싶다 → ______________</li>
+  </ul>
+
+  <h2><span class="kicker">실습 01</span>퍼스널라이즈 프로필 언락하고 적용하기</h2>
+  <span class="goal-tag">목표 · 100장 이상 평가 후 --p 비교</span>
+  <pre class="prompt">내 퍼스널라이즈 코드: ______________________</pre>
+  <p><strong>참고 프롬프트</strong></p>
+  <pre class="prompt">a cozy reading corner by the window --p [내 코드] --stylize 200 --ar 1:1 --v 6</pre>
+  <table>
+    <tr><th>비교</th><th>프롬프트</th></tr>
+    <tr><td>--p 미적용</td><td><code class="inline">a cozy reading corner by the window --ar 1:1 --v 6</code></td></tr>
+    <tr><td>--p 적용</td><td><code class="inline">a cozy reading corner by the window --p [내 코드] --ar 1:1 --v 6</code></td></tr>
+  </table>
+  <ul class="checklist">
+    <li>진행률 100% 캡처 완료</li>
+    <li>--p 적용 전/후 이미지 톤 차이를 관찰했는가</li>
+  </ul>
+
+  <h2><span class="kicker">실습 02</span>스타일 크리에이터로 나만의 스타일 코드 만들기</h2>
+  <span class="goal-tag">목표 · 스타일 코드 1개 + 다른 주제 2장 적용</span>
+  <p><strong>시드 프롬프트 예시</strong></p>
+  <pre class="prompt">editorial fashion photography, moody lighting, film grain</pre>
+  <pre class="prompt">내 스타일 코드: ______________________</pre>
+  <table>
+    <tr><th>순서</th><th>주제 키워드</th><th>완성 프롬프트</th></tr>
+    <tr><td>1</td><td></td><td><code class="inline">[주제] --style [내 코드] --ar 1:1 --v 6</code></td></tr>
+    <tr><td>2</td><td></td><td><code class="inline">[주제] --style [내 코드] --ar 1:1 --v 6</code></td></tr>
+  </table>
+  <ul class="checklist">
+    <li>서로 다른 주제인데도 스타일 코드가 톤을 통일시켜주는지 확인했는가</li>
+  </ul>
+
+  <h2><span class="kicker">실습 03</span>강도 조절하기 (--stylize)</h2>
+  <span class="goal-tag">목표 · stylize 값에 따른 차이 관찰</span>
+  <p><code class="inline">--stylize</code>(별칭 <code class="inline">--s</code>)로 강도를 조절합니다. 값 범위는 0~1000, 기본값은 100입니다. 낮을수록 프롬프트 텍스트가 우세해지고, 높을수록 학습된 스타일이 강하게 반영됩니다.</p>
+  <pre class="prompt">[동일 프롬프트] --p [내 코드] --stylize 50  --ar 1:1 --v 6
+[동일 프롬프트] --p [내 코드] --stylize 200 --ar 1:1 --v 6
+[동일 프롬프트] --p [내 코드] --stylize 600 --ar 1:1 --v 6</pre>
+  <ul class="checklist">
+    <li>--stylize 값에 따른 차이를 3장 비교로 확인했는가</li>
+  </ul>
+
+  <h2><span class="kicker">심화 · 선택</span>무드보드 + 퍼스널라이즈 + 스타일 크리에이터 조합</h2>
+  <p>세 코드를 한 프롬프트에 동시에 쓸 수 있습니다.</p>
+  <pre class="prompt">[주제 프롬프트] --profile [무드보드 코드] --p [퍼스널라이즈 코드] --style [스타일 코드] --stylize 300 --ar 1:1 --v 6</pre>
+  <ul class="checklist">
+    <li>세 코드를 함께 써서 생성해봤는가</li>
+    <li>결과가 예측 가능한 방향으로 섞이는지, 서로 충돌하는지 관찰했는가</li>
+  </ul>
+
+  <h2><span class="kicker">Tip</span>팁 &amp; 주의사항</h2>
+  <div class="note-box">
+    <ul>
+      <li>퍼스널라이즈는 평가 이미지가 적으면(100장 미만) 프로필이 불안정합니다. 시간을 두고 꾸준히 평가하세요.</li>
+      <li>스타일 크리에이터 코드는 모델 버전에 종속적입니다. v6에서 만든 코드가 v7/v8에서는 다르게 보일 수 있습니다.</li>
+      <li>스타일 크리에이터에서 선택 개수가 적을수록 스타일이 더 뚜렷해집니다. 과제 목적에 맞게 조절하세요.</li>
+      <li>팀 프로젝트라면 스타일 크리에이터·무드보드 코드를 팀원과 공유해 톤을 통일할 수 있습니다. 퍼스널라이즈는 개인 계정에 귀속되어 공유가 어렵습니다.</li>
+    </ul>
+  </div>
+
+  <h2><span class="kicker">제출</span>제출 체크리스트</h2>
+  <ul class="checklist">
+    <li>퍼스널라이즈 프로필 언락(진행률 100%) 캡처</li>
+    <li>--p 적용/미적용 비교 이미지 각 1장 (실습 1)</li>
+    <li>스타일 크리에이터 코드 1개 생성 완료</li>
+    <li>--style 코드 적용 이미지 2장 (실습 2)</li>
+    <li>--stylize 비교 이미지 3장 (실습 3)</li>
+    <li>파일명: 이름_퍼스널라이즈스타일실습.png 형식으로 저장</li>
+    <li>다음 수업 전까지 제출</li>
+  </ul>
+
+  <div class="footer-note">서울시기술교육원 컴퓨터그래픽디자인과 · 미드저니 워크숍 퍼스널라이즈·스타일크리에이터 실습가이드</div>
+</div>
