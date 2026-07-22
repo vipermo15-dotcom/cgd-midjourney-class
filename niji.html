@@ -1,0 +1,176 @@
+<title>미드저니 니지(Niji) 실습 가이드</title>
+<style>
+  :root {
+    --paper: #f7f5ef; --paper-raised: #fffdf8; --ink: #1c1b1e; --ink-soft: #55524c;
+    --ink-faint: #918c7e; --rule: #d8d3c7; --accent: #c34a2c; --accent-soft: #c34a2c1a;
+    --accent-2: #2e5339; --accent-2-soft: #2e53391a; --warn: #b8860b; --warn-soft: #b8860b1f;
+    --mono: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
+    --sans: -apple-system, "Apple SD Gothic Neo", "Pretendard", "Malgun Gothic", "Segoe UI", sans-serif;
+  }
+  :root[data-theme="dark"] {
+    --paper: #17191b; --paper-raised: #1f2123; --ink: #ece8df; --ink-soft: #a39c8c;
+    --ink-faint: #6b665a; --rule: #34302a; --accent: #e2734f; --accent-soft: #e2734f26;
+    --accent-2: #6fae7c; --accent-2-soft: #6fae7c22; --warn: #e0b23f; --warn-soft: #e0b23f22;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #17191b; --paper-raised: #1f2123; --ink: #ece8df; --ink-soft: #a39c8c;
+      --ink-faint: #6b665a; --rule: #34302a; --accent: #e2734f; --accent-soft: #e2734f26;
+      --accent-2: #6fae7c; --accent-2-soft: #6fae7c22; --warn: #e0b23f; --warn-soft: #e0b23f22;
+    }
+  }
+  @media print {
+    :root {
+      --paper: #f7f5ef !important; --paper-raised: #fffdf8 !important; --ink: #1c1b1e !important;
+      --ink-soft: #55524c !important; --ink-faint: #918c7e !important; --rule: #d8d3c7 !important;
+      --accent: #c34a2c !important; --accent-soft: #c34a2c1a !important;
+      --accent-2: #2e5339 !important; --accent-2-soft: #2e53391a !important;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); line-height: 1.65; }
+  .page { max-width: 780px; margin: 0 auto; padding: 4.5em 2em 6em; }
+  .doc-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    border-bottom: 1px solid var(--rule); padding-bottom: .8em; margin-bottom: .4em;
+    font-family: var(--mono); font-size: 11.5px; letter-spacing: .06em; color: var(--ink-faint);
+    text-transform: uppercase;
+  }
+  .doc-head .accent { color: var(--accent); }
+  h1 { font-size: clamp(28px, 4vw, 40px); font-weight: 800; letter-spacing: -0.01em; margin: .5em 0 .1em; text-wrap: balance; }
+  .subtitle { color: var(--ink-soft); font-size: 15px; margin: 0 0 2em; }
+  h2 {
+    font-size: 24px; font-weight: 800; letter-spacing: -0.005em;
+    margin: 2.4em 0 .2em; padding-top: 1.4em; border-top: 1px solid var(--rule);
+  }
+  h2:first-of-type { border-top: none; padding-top: 0; }
+  .kicker {
+    font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: .3em; display: block;
+  }
+  p { margin: .6em 0; }
+  strong { font-weight: 700; }
+  pre.prompt {
+    font-family: var(--mono); font-size: 14px; background: var(--ink); color: var(--paper);
+    padding: 1em 1.2em; line-height: 1.65; white-space: pre-wrap; word-break: break-word;
+    margin: .8em 0; border-left: 3px solid var(--accent);
+  }
+  code.inline {
+    font-family: var(--mono); background: var(--accent-soft); color: var(--accent);
+    padding: .1em .35em; font-size: .9em;
+  }
+  table { border-collapse: collapse; width: 100%; font-size: 13.5px; margin: 1em 0; }
+  th, td { text-align: left; padding: .55em .7em .55em 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  th { font-family: var(--mono); font-size: 10.5px; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-faint); font-weight: 500; }
+  ol.steps { list-style: none; margin: .8em 0; padding: 0; }
+  ol.steps li { display: grid; grid-template-columns: 1.8em 1fr; gap: .6em; padding: .5em 0; border-bottom: 1px solid var(--rule); align-items: baseline; }
+  ol.steps li:last-child { border-bottom: none; }
+  ol.steps li .n { font-family: var(--mono); color: var(--accent); font-size: 13px; }
+  ul.checklist { list-style: none; margin: .8em 0; padding: 0; }
+  ul.checklist li { padding: .5em 0; border-bottom: 1px solid var(--rule); display: flex; gap: .7em; font-size: 15px; }
+  ul.checklist li::before { content: "☐"; color: var(--accent); flex-shrink: 0; }
+  .goal-tag {
+    display: inline-block; font-family: var(--mono); font-size: 11px; letter-spacing: .06em;
+    text-transform: uppercase; color: var(--accent-2); background: var(--accent-2-soft);
+    border: 1px solid var(--accent-2); padding: .2em .6em; margin-bottom: .6em;
+  }
+  .note-box { background: var(--paper-raised); border: 1px solid var(--rule); padding: 1em 1.2em; margin: 1em 0; font-size: 14.5px; }
+  .note-box ul { margin: .3em 0 0; padding-left: 1.2em; }
+  .note-box li { margin: .3em 0; }
+  .warn-box { background: var(--warn-soft); border: 1px solid var(--warn); color: var(--ink); padding: 1em 1.2em; margin: 1em 0; font-size: 14.5px; }
+  .footer-note { margin-top: 3em; padding-top: 1em; border-top: 1px solid var(--rule); font-family: var(--mono); font-size: 11.5px; color: var(--ink-faint); text-align: center; }
+  @media print { .page { padding: 1.5em 0 3em; } }
+</style>
+
+<div class="page">
+  <div class="doc-head"><span class="accent">PROOF · GUIDE</span><span>MIDJOURNEY WORKSHOP · NIJI 7</span></div>
+  <h1>미드저니 니지(Niji) 실습 가이드</h1>
+  <p class="subtitle">서울시기술교육원 컴퓨터그래픽디자인과 · 심화 실습 (동양풍·애니메이션 스타일)<br><code class="inline">실습워크북</code>을 먼저 끝낸 뒤 진행하세요.<br><strong>기준 버전: niji 7</strong> (2026년 1월 출시, 현재 니지 라인업 최신 버전)</p>
+
+  <h2><span class="kicker">Concept</span>니지(Niji)란?</h2>
+  <p>니지는 미드저니가 Spellbrush와 협업해 만든 <strong>별도 모델</strong>로, 일반 모델(v8.1)과 달리 애니메이션·동양풍 일러스트 스타일에 특화되어 있습니다.</p>
+  <p><strong>포트폴리오에서 언제 쓰나요?</strong> 캐릭터 컨셉아트 · 웹툰/만화 컷 연습 · 북커버·굿즈용 일러스트 · 감성적인 브랜드 무드보드</p>
+
+  <h2><span class="kicker">Guide</span>사용 방법</h2>
+  <ol class="steps">
+    <li><span class="n">01</span><div><code class="inline">midjourney.com</code>에서 프롬프트 맨 끝에 <code class="inline">--niji 7</code>을 추가합니다. (직접 타이핑 필요, 드롭다운 없음)</div></li>
+    <li><span class="n">02</span><div>매번 입력이 번거롭다면 <code class="inline">/settings</code>에서 니지 7을 기본 모델로 지정할 수 있습니다.</div></li>
+    <li><span class="n">03</span><div>전용 사이트 <code class="inline">nijijourney.com</code>에서는 드롭다운으로 버전을 선택할 수 있습니다.</div></li>
+  </ol>
+
+  <h2><span class="kicker">Concept</span>니지 7의 특징 — v8.1과 다른 점</h2>
+  <table>
+    <tr><th>항목</th><th>일반 모델 (v8.1)</th><th>니지 7</th></tr>
+    <tr><td>프롬프트 해석</td><td>빈 부분은 모델이 창의적으로 채워줌</td><td><strong>적은 요소만 명시하면 그 요소만 정확히 그려짐</strong></td></tr>
+    <tr><td>톤</td><td>범용적·사실적</td><td>애니메이션·동양풍 일러스트</td></tr>
+    <tr><td>강점</td><td>다양한 창의적 변주</td><td>눈동자·반사광·라인워크 디테일 일관성</td></tr>
+    <tr><td>raw 표기</td><td><code class="inline">--raw</code></td><td><strong><code class="inline">--style raw</code></strong> (구식 표기 유지)</td></tr>
+  </table>
+  <div class="note-box">💡 니지 7은 "쓴 대로만" 나옵니다. 배경, 소품, 표정까지 원하는 요소는 빠짐없이 프롬프트에 적어주세요.</div>
+
+  <h2><span class="kicker">Concept</span>지원 파라미터 — 되는 것 / 안 되는 것</h2>
+  <table>
+    <tr><th>파라미터</th><th>지원 여부</th><th>비고</th></tr>
+    <tr><td><code class="inline">--style raw</code></td><td>✅ 지원</td><td>니지 특유의 미화를 줄이고 프롬프트를 더 literal하게 반영</td></tr>
+    <tr><td><code class="inline">--sref [URL/코드]</code></td><td>✅ 지원 (제약)</td><td>이미지 가중치 범위가 좁음 (--iw 0~2, 일반 모델은 0~3)</td></tr>
+    <tr><td><code class="inline">--stylize</code></td><td>✅ 지원</td><td>0~1000, 기본 100</td></tr>
+    <tr><td><code class="inline">--cref [URL]</code></td><td>❌ 미지원</td><td>아직 캐릭터 레퍼런스 없음</td></tr>
+    <tr><td><code class="inline">--oref [URL]</code></td><td>❌ 미지원</td><td>아직 옴니 레퍼런스 없음</td></tr>
+    <tr><td><code class="inline">--p</code> (퍼스널라이즈)</td><td>❌ 미지원</td><td>아직 프로필 기능 없음</td></tr>
+  </table>
+  <div class="warn-box">⚠️ 캐릭터 일관성이 필요한 작업은 니지 7 단독으로는 어렵습니다. <code class="inline">--sref</code>로 화풍만 통일하고, 세부 특징(헤어컬러·의상)은 매번 텍스트로 정확히 반복 명시해 우회하세요.</div>
+
+  <h2><span class="kicker">Warm-up</span>니지 vs 일반 모델, 언제 쓸까?</h2>
+  <ul class="checklist">
+    <li>실사에 가까운 브랜드 무드 사진이 필요하다 → ______________</li>
+    <li>웹툰풍 캐릭터 컷을 포트폴리오에 넣고 싶다 → ______________</li>
+    <li>굿즈(스티커·엽서)용 귀여운 캐릭터 일러스트가 필요하다 → ______________</li>
+  </ul>
+
+  <h2><span class="kicker">실습 01</span>니지 7로 기본 캐릭터 일러스트 만들기</h2>
+  <span class="goal-tag">목표 · 배경·소품까지 명시한 캐릭터 일러스트 1장</span>
+  <pre class="prompt">a young woman with short silver hair, wearing a green oversized
+hoodie, sitting by a window with rain outside, holding a warm cup
+of tea, soft afternoon light, anime illustration --niji 7 --ar 3:4</pre>
+  <table>
+    <tr><th>항목</th><th>참고 값</th></tr>
+    <tr><td>인물 특징</td><td>short silver hair, green hoodie</td></tr>
+    <tr><td>행동/포즈</td><td>sitting by a window, holding tea</td></tr>
+    <tr><td>배경 요소</td><td>rain outside</td></tr>
+    <tr><td>조명</td><td>soft afternoon light</td></tr>
+  </table>
+  <ul class="checklist"><li>배경과 소품까지 빠짐없이 명시했는가 (니지 7은 안 적으면 안 나타남)</li></ul>
+
+  <h2><span class="kicker">실습 02</span>--style raw로 비교하기</h2>
+  <span class="goal-tag">목표 · raw 유무로 니지 특유의 미화 정도 비교</span>
+  <pre class="prompt">[실습 1 프롬프트] --niji 7 --ar 3:4
+[실습 1 프롬프트] --niji 7 --style raw --ar 3:4</pre>
+  <ul class="checklist"><li>두 결과의 색감·라인 표현 차이를 확인했는가</li></ul>
+
+  <h2><span class="kicker">실습 03</span>--sref로 니지 스타일 통일하기</h2>
+  <span class="goal-tag">목표 · 마음에 든 화풍을 다른 캐릭터/장면에 적용</span>
+  <pre class="prompt">참고 이미지 URL: ______________________</pre>
+  <pre class="prompt">[새로운 캐릭터/장면] --niji 7 --sref [URL] --sw 150 --ar 3:4</pre>
+  <ul class="checklist"><li>--iw/--sw 값을 조절하며 니지 7의 좁은 가중치 범위(0~2)를 체감했는가</li></ul>
+
+  <h2><span class="kicker">Tip</span>팁 &amp; 주의사항</h2>
+  <div class="note-box">
+    <ul>
+      <li>니지 7은 프롬프트에 없는 요소를 임의로 채워주지 않습니다. 배경, 소품, 표정, 카메라 앵글까지 구체적으로 적으세요.</li>
+      <li>--cref/--oref/--p가 아직 없으므로, 같은 캐릭터를 반복 등장시켜야 한다면 인물 묘사 문장을 매번 동일하게 복사해 쓰는 것이 현재로선 가장 안정적입니다.</li>
+      <li>4장 그리드 결과가 서로 꽤 비슷하게 나올 수 있습니다(니지 7의 낮은 다양성 특성). 다양한 변주가 필요하면 표현을 바꿔가며 여러 번 생성하세요.</li>
+      <li>텍스트(글자)가 들어간 로고·타이포 작업은 니지보다 일반 모델(v8.1)이 더 안정적입니다.</li>
+    </ul>
+  </div>
+
+  <h2><span class="kicker">제출</span>제출 체크리스트</h2>
+  <ul class="checklist">
+    <li>니지 7 기본 일러스트 1장 (실습 1)</li>
+    <li>--style raw 유무 비교 이미지 2장 (실습 2)</li>
+    <li>--sref 적용 이미지 1장 이상 (실습 3)</li>
+    <li>파일명: 이름_니지실습.png 형식으로 저장</li>
+    <li>다음 수업 전까지 제출</li>
+  </ul>
+
+  <div class="footer-note">서울시기술교육원 컴퓨터그래픽디자인과 · 미드저니 워크숍 니지(Niji) 실습가이드</div>
+</div>

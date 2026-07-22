@@ -1,0 +1,178 @@
+<title>미드저니 영상 제작 실습 가이드</title>
+<style>
+  :root {
+    --paper: #f7f5ef; --paper-raised: #fffdf8; --ink: #1c1b1e; --ink-soft: #55524c;
+    --ink-faint: #918c7e; --rule: #d8d3c7; --accent: #c34a2c; --accent-soft: #c34a2c1a;
+    --accent-2: #2e5339; --accent-2-soft: #2e53391a;
+    --mono: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
+    --sans: -apple-system, "Apple SD Gothic Neo", "Pretendard", "Malgun Gothic", "Segoe UI", sans-serif;
+  }
+  :root[data-theme="dark"] {
+    --paper: #17191b; --paper-raised: #1f2123; --ink: #ece8df; --ink-soft: #a39c8c;
+    --ink-faint: #6b665a; --rule: #34302a; --accent: #e2734f; --accent-soft: #e2734f26;
+    --accent-2: #6fae7c; --accent-2-soft: #6fae7c22;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #17191b; --paper-raised: #1f2123; --ink: #ece8df; --ink-soft: #a39c8c;
+      --ink-faint: #6b665a; --rule: #34302a; --accent: #e2734f; --accent-soft: #e2734f26;
+      --accent-2: #6fae7c; --accent-2-soft: #6fae7c22;
+    }
+  }
+  @media print {
+    :root {
+      --paper: #f7f5ef !important; --paper-raised: #fffdf8 !important; --ink: #1c1b1e !important;
+      --ink-soft: #55524c !important; --ink-faint: #918c7e !important; --rule: #d8d3c7 !important;
+      --accent: #c34a2c !important; --accent-soft: #c34a2c1a !important;
+      --accent-2: #2e5339 !important; --accent-2-soft: #2e53391a !important;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); line-height: 1.65; }
+  .page { max-width: 780px; margin: 0 auto; padding: 4.5em 2em 6em; }
+  .doc-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    border-bottom: 1px solid var(--rule); padding-bottom: .8em; margin-bottom: .4em;
+    font-family: var(--mono); font-size: 11.5px; letter-spacing: .06em; color: var(--ink-faint);
+    text-transform: uppercase;
+  }
+  .doc-head .accent { color: var(--accent); }
+  h1 { font-size: clamp(28px, 4vw, 40px); font-weight: 800; letter-spacing: -0.01em; margin: .5em 0 .1em; text-wrap: balance; }
+  .subtitle { color: var(--ink-soft); font-size: 15px; margin: 0 0 2em; }
+  h2 {
+    font-size: 24px; font-weight: 800; letter-spacing: -0.005em;
+    margin: 2.4em 0 .2em; padding-top: 1.4em; border-top: 1px solid var(--rule);
+  }
+  h2:first-of-type { border-top: none; padding-top: 0; }
+  .kicker {
+    font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: .3em; display: block;
+  }
+  p { margin: .6em 0; }
+  strong { font-weight: 700; }
+  pre.prompt {
+    font-family: var(--mono); font-size: 14px; background: var(--ink); color: var(--paper);
+    padding: 1em 1.2em; line-height: 1.65; white-space: pre-wrap; word-break: break-word;
+    margin: .8em 0; border-left: 3px solid var(--accent);
+  }
+  code.inline {
+    font-family: var(--mono); background: var(--accent-soft); color: var(--accent);
+    padding: .1em .35em; font-size: .9em;
+  }
+  table { border-collapse: collapse; width: 100%; font-size: 13.5px; margin: 1em 0; }
+  th, td { text-align: left; padding: .55em .7em .55em 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  th { font-family: var(--mono); font-size: 10.5px; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-faint); font-weight: 500; }
+  ol.steps { list-style: none; margin: .8em 0; padding: 0; }
+  ol.steps li { display: grid; grid-template-columns: 1.8em 1fr; gap: .6em; padding: .5em 0; border-bottom: 1px solid var(--rule); align-items: baseline; }
+  ol.steps li:last-child { border-bottom: none; }
+  ol.steps li .n { font-family: var(--mono); color: var(--accent); font-size: 13px; }
+  ul.checklist { list-style: none; margin: .8em 0; padding: 0; }
+  ul.checklist li { padding: .5em 0; border-bottom: 1px solid var(--rule); display: flex; gap: .7em; font-size: 15px; }
+  ul.checklist li::before { content: "☐"; color: var(--accent); flex-shrink: 0; }
+  .goal-tag {
+    display: inline-block; font-family: var(--mono); font-size: 11px; letter-spacing: .06em;
+    text-transform: uppercase; color: var(--accent-2); background: var(--accent-2-soft);
+    border: 1px solid var(--accent-2); padding: .2em .6em; margin-bottom: .6em;
+  }
+  .note-box { background: var(--paper-raised); border: 1px solid var(--rule); padding: 1em 1.2em; margin: 1em 0; font-size: 14.5px; }
+  .note-box ul { margin: .3em 0 0; padding-left: 1.2em; }
+  .note-box li { margin: .3em 0; }
+  .footer-note { margin-top: 3em; padding-top: 1em; border-top: 1px solid var(--rule); font-family: var(--mono); font-size: 11.5px; color: var(--ink-faint); text-align: center; }
+  @media print { .page { padding: 1.5em 0 3em; } }
+</style>
+
+<div class="page">
+  <div class="doc-head"><span class="accent">PROOF · GUIDE</span><span>MIDJOURNEY WORKSHOP · VIDEO</span></div>
+  <h1>미드저니 영상 제작 실습 가이드</h1>
+  <p class="subtitle">서울시기술교육원 컴퓨터그래픽디자인과 · 심화 실습 (이미지 → 영상 변환)<br><code class="inline">실습워크북</code>을 먼저 끝낸 뒤 진행하세요.<br><strong>기준: Midjourney Video</strong> (v8.1/v7 이미지 소스 모두 호환)</p>
+
+  <h2><span class="kicker">Concept</span>미드저니 영상 기능이란?</h2>
+  <p>정지 이미지 1장을 짧은 영상으로 애니메이션화하는 기능입니다. 완전히 새로운 영상을 처음부터 만드는 것이 아니라, <strong>이미 만든(또는 업로드한) 이미지를 시작 프레임</strong>으로 삼아 움직임을 더하는 방식입니다.</p>
+  <p><strong>포트폴리오에서 언제 쓰나요?</strong> 포트폴리오 사이트 인트로 무빙 비주얼 · 브랜드 로고/제품에 미세한 모션 추가 · SNS 릴스·쇼츠용 루프 영상 · 상세페이지 제품 연출 영상</p>
+
+  <h2><span class="kicker">Guide</span>사용 방법</h2>
+  <ol class="steps">
+    <li><span class="n">01</span><div>미드저니로 이미지를 생성하거나 업로드합니다. (영상의 첫 프레임이 됩니다)</div></li>
+    <li><span class="n">02</span><div>이미지에 마우스를 올리면 우측 하단에 나타나는 <strong>Animate</strong> 버튼을 클릭합니다.</div></li>
+    <li><span class="n">03</span><div>모션 모드 선택: <strong>Auto</strong>(시스템이 알아서) 또는 <strong>Manual</strong>(직접 텍스트로 설명)</div></li>
+    <li><span class="n">04</span><div>모션 세기 선택: <code class="inline">--motion low</code>(기본, 잔잔함) 또는 <code class="inline">--motion high</code>(역동적)</div></li>
+    <li><span class="n">05</span><div>생성하면 <strong>5초 영상</strong>이 만들어집니다.</div></li>
+  </ol>
+
+  <h2><span class="kicker">Concept</span>영상 전용 파라미터</h2>
+  <p>일반 이미지 생성 파라미터는 영상 단계에서 대부분 사라집니다. 아래 영상 전용 파라미터만 사용 가능합니다.</p>
+  <table>
+    <tr><th>파라미터</th><th>의미</th><th>비고</th></tr>
+    <tr><td><code class="inline">--motion low</code></td><td>잔잔한 움직임 (기본값)</td><td>인물/제품이 크게 움직이지 않음</td></tr>
+    <tr><td><code class="inline">--motion high</code></td><td>역동적인 움직임</td><td>카메라 워크·큰 동작 포함</td></tr>
+    <tr><td><code class="inline">--raw</code></td><td>모션을 더 정밀하게 반영</td><td>Manual 모드와 함께 쓰면 효과적</td></tr>
+    <tr><td><code class="inline">--loop</code></td><td>시작·끝 프레임을 같게 (반복 영상)</td><td>SNS 루프 콘텐츠에 유용</td></tr>
+    <tr><td><code class="inline">--end [URL]</code></td><td>지정 이미지로 영상이 끝나도록 유도</td><td>시작→끝 이미지 전환</td></tr>
+    <tr><td><code class="inline">--bs #</code></td><td>한 번에 생성할 영상 개수 (기본 4)</td><td>줄이면 GPU 절약</td></tr>
+  </table>
+
+  <h2><span class="kicker">Warm-up</span>Auto vs Manual, Low vs High</h2>
+  <ul class="checklist">
+    <li>인물 사진에 살짝 바람에 머리카락 날리는 정도의 움직임만 원한다 → ______________</li>
+    <li>카메라가 인물 주위를 도는 듯한 역동적인 영상을 원한다 → ______________</li>
+    <li>정확히 "왼손을 들어 인사하는" 동작만 원한다 (임의 동작 방지) → ______________</li>
+  </ul>
+
+  <h2><span class="kicker">실습 01</span>Auto 모드로 기본 애니메이션 만들기</h2>
+  <span class="goal-tag">목표 · 완성 이미지 1장을 Auto·Low 모션으로 5초 영상화</span>
+  <ol class="steps">
+    <li><span class="n">01</span><div>미드저니로 만든 이미지 1장 준비 (인물 또는 제품 사진 추천)</div></li>
+    <li><span class="n">02</span><div>Animate 버튼 → Auto 모드 → --motion low 선택 후 생성</div></li>
+  </ol>
+  <pre class="prompt">사용한 원본 이미지: ______________________</pre>
+  <ul class="checklist">
+    <li>5초 영상이 생성되었는가</li>
+    <li>움직임이 과하지 않고 자연스러운가</li>
+  </ul>
+
+  <h2><span class="kicker">실습 02</span>Manual 모드로 원하는 동작 지정하기</h2>
+  <span class="goal-tag">목표 · 텍스트로 구체적인 움직임 지정, High 모션</span>
+  <pre class="prompt">the character slowly turns her head towards the camera and smiles,
+soft wind moves her hair, camera slowly zooms in
+--motion high --raw</pre>
+  <table>
+    <tr><th>항목</th><th>참고 값</th></tr>
+    <tr><td>인물/사물 동작</td><td>turns head, smiles</td></tr>
+    <tr><td>배경 요소 움직임</td><td>wind moves hair</td></tr>
+    <tr><td>카메라 움직임</td><td>zooms in</td></tr>
+  </table>
+  <ul class="checklist"><li>Auto 모드 결과와 Manual 모드 결과의 차이를 비교했는가</li></ul>
+
+  <h2><span class="kicker">실습 03</span>루프 영상 만들기 (--loop)</h2>
+  <span class="goal-tag">목표 · SNS에 바로 올릴 수 있는 매끄러운 반복 영상</span>
+  <pre class="prompt">[모션 프롬프트] --loop --motion low</pre>
+  <ul class="checklist"><li>영상의 끝과 시작이 자연스럽게 이어지는지 확인했는가</li></ul>
+
+  <h2><span class="kicker">심화 · 선택</span>시작-끝 프레임 지정하기 (--end)</h2>
+  <p>서로 다른 이미지 2장을 시작/끝 프레임으로 지정해 하나의 영상으로 자연스럽게 전환합니다.</p>
+  <pre class="prompt">[모션 프롬프트] --end [끝 이미지 URL] --motion high</pre>
+  <ul class="checklist"><li>시작 이미지에서 끝 이미지로 전환되는 흐름이 부자연스럽지 않은지 확인했는가</li></ul>
+
+  <h2><span class="kicker">Tip</span>팁 &amp; 주의사항</h2>
+  <div class="note-box">
+    <ul>
+      <li>원본 이미지는 너무 고해상도로 Upscale하지 마세요. 영상 출력은 480p이므로 과도한 원본 해상도는 의미가 없습니다.</li>
+      <li>영상 1개는 이미지 대비 약 8배의 GPU 시간을 소모합니다. --bs를 낮춰 한 번에 생성하는 개수를 줄이면 절약됩니다.</li>
+      <li>영상은 5초 단위로 시작해 최대 4회까지 연장할 수 있습니다(총 약 20~21초). Extend Auto와 Extend Manual 중 선택 가능합니다.</li>
+      <li>카메라 움직임(zoom, pan, shake 등)까지 프롬프트에 명시하면 훨씬 영화적인 결과가 나옵니다.</li>
+      <li>원본 이미지 생성에 쓴 파라미터(--ar, --sref 등)는 영상 단계에서 자동 제거되니, 비율은 원본 이미지 단계에서 미리 맞춰두세요.</li>
+      <li>다운로드 시 우클릭 → "Save for Social Media"를 선택하면 압축 손실이 적습니다.</li>
+    </ul>
+  </div>
+
+  <h2><span class="kicker">제출</span>제출 체크리스트</h2>
+  <ul class="checklist">
+    <li>Auto 모드 기본 영상 1개 (실습 1)</li>
+    <li>Manual + High 모션 영상 1개 (실습 2)</li>
+    <li>루프 영상 1개 (실습 3)</li>
+    <li>파일명: 이름_영상실습.mp4 형식으로 저장</li>
+    <li>다음 수업 전까지 제출</li>
+  </ul>
+
+  <div class="footer-note">서울시기술교육원 컴퓨터그래픽디자인과 · 미드저니 워크숍 영상 제작 실습가이드</div>
+</div>

@@ -1,0 +1,323 @@
+<title>미드저니 포트폴리오 활용 프롬프트</title>
+<style>
+  :root {
+    --paper: #f7f5ef; --paper-raised: #fffdf8; --ink: #1c1b1e; --ink-soft: #55524c;
+    --ink-faint: #918c7e; --rule: #d8d3c7; --accent: #c34a2c; --accent-soft: #c34a2c1a;
+    --accent-2: #2e5339; --accent-2-soft: #2e53391a;
+    --mono: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
+    --sans: -apple-system, "Apple SD Gothic Neo", "Pretendard", "Malgun Gothic", "Segoe UI", sans-serif;
+  }
+  :root[data-theme="dark"] {
+    --paper: #17191b; --paper-raised: #1f2123; --ink: #ece8df; --ink-soft: #a39c8c;
+    --ink-faint: #6b665a; --rule: #34302a; --accent: #e2734f; --accent-soft: #e2734f26;
+    --accent-2: #6fae7c; --accent-2-soft: #6fae7c22;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #17191b; --paper-raised: #1f2123; --ink: #ece8df; --ink-soft: #a39c8c;
+      --ink-faint: #6b665a; --rule: #34302a; --accent: #e2734f; --accent-soft: #e2734f26;
+      --accent-2: #6fae7c; --accent-2-soft: #6fae7c22;
+    }
+  }
+  @media print {
+    :root {
+      --paper: #f7f5ef !important; --paper-raised: #fffdf8 !important; --ink: #1c1b1e !important;
+      --ink-soft: #55524c !important; --ink-faint: #918c7e !important; --rule: #d8d3c7 !important;
+      --accent: #c34a2c !important; --accent-soft: #c34a2c1a !important;
+      --accent-2: #2e5339 !important; --accent-2-soft: #2e53391a !important;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); line-height: 1.65; }
+  .page { max-width: 820px; margin: 0 auto; padding: 4.5em 2em 6em; }
+  .doc-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    border-bottom: 1px solid var(--rule); padding-bottom: .8em; margin-bottom: .4em;
+    font-family: var(--mono); font-size: 11.5px; letter-spacing: .06em; color: var(--ink-faint);
+    text-transform: uppercase;
+  }
+  .doc-head .accent { color: var(--accent); }
+  h1 { font-size: clamp(26px, 3.6vw, 38px); font-weight: 800; letter-spacing: -0.01em; margin: .5em 0 .1em; text-wrap: balance; }
+  .subtitle { color: var(--ink-soft); font-size: 15px; margin: 0 0 1.5em; }
+  h2 {
+    font-size: 26px; font-weight: 800; letter-spacing: -0.005em;
+    margin: 2.6em 0 .3em; padding-top: 1.6em; border-top: 2px solid var(--ink);
+  }
+  h2:first-of-type { margin-top: 1.5em; }
+  h3.item-title { font-size: 18px; font-weight: 700; margin: 0 0 .3em; }
+  .kicker {
+    font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: .2em; display: block;
+  }
+  .section-intro { color: var(--ink-soft); font-size: 14.5px; margin: 0 0 1.4em; }
+  p { margin: .6em 0; }
+  strong { font-weight: 700; }
+  code.inline { font-family: var(--mono); background: var(--accent-soft); color: var(--accent); padding: .1em .35em; font-size: .9em; }
+
+  .item { border: 1px solid var(--rule); background: var(--paper-raised); padding: 1.3em 1.4em 1.4em; margin: 1.2em 0; }
+  .item .id { font-family: var(--mono); font-size: 12px; color: var(--accent-2); background: var(--accent-2-soft); border: 1px solid var(--accent-2); display: inline-block; padding: .15em .55em; margin-bottom: .6em; }
+  .goal { font-size: 13.5px; color: var(--ink-soft); margin: 0 0 .7em; }
+  .goal b { color: var(--ink); font-weight: 700; }
+  pre.prompt {
+    font-family: var(--mono); font-size: 13px; background: var(--ink); color: var(--paper);
+    padding: 1em 1.1em; line-height: 1.6; white-space: pre-wrap; word-break: break-word;
+    margin: .3em 0 .9em; border-left: 3px solid var(--accent);
+  }
+  .subblock { margin: .8em 0; padding-left: .9em; border-left: 2px solid var(--rule); }
+  .subblock .label { font-family: var(--mono); font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: .3em; }
+  .subblock p { margin: 0; font-size: 14px; color: var(--ink); }
+  .variant { border-left-color: var(--accent-2); }
+  .variant .label { color: var(--accent-2); }
+
+  table { border-collapse: collapse; width: 100%; font-size: 14px; margin: 1em 0; }
+  th, td { text-align: left; padding: .5em .7em .5em 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  th { font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-faint); font-weight: 500; }
+
+  ul.checklist { list-style: none; margin: .8em 0; padding: 0; }
+  ul.checklist li { padding: .5em 0; border-bottom: 1px solid var(--rule); display: flex; gap: .7em; font-size: 15px; }
+  ul.checklist li::before { content: "☐"; color: var(--accent); flex-shrink: 0; }
+
+  .note-box { background: var(--paper-raised); border: 1px solid var(--rule); padding: 1em 1.2em; margin: 1em 0; font-size: 14.5px; }
+  .note-box ul { margin: .3em 0 0; padding-left: 1.2em; }
+  .note-box li { margin: .4em 0; }
+
+  .footer-note { margin-top: 3em; padding-top: 1em; border-top: 1px solid var(--rule); font-family: var(--mono); font-size: 11.5px; color: var(--ink-faint); text-align: center; }
+  @media print { .page { padding: 1.5em 0 3em; } .item { break-inside: avoid; } }
+</style>
+
+<div class="page">
+  <div class="doc-head"><span class="accent">PROOF · PORTFOLIO SET</span><span>MIDJOURNEY WORKSHOP · V8.1</span></div>
+  <h1>미드저니 포트폴리오 활용 프롬프트<br><span style="font-size:.55em; color:var(--ink-soft); font-weight:600;">편집·브랜드·상세페이지·포스터·책표지</span></h1>
+  <p class="subtitle">서울시기술교육원 컴퓨터그래픽디자인과 · 미드저니 워크숍 · 포트폴리오 특화 · <strong>기준 버전: v8.1</strong><br>분야별 실무 산출물처럼 보이도록 설계한 프롬프트 15종입니다. 각 항목의 목표·프롬프트·활용 팁·변형 아이디어를 참고해 자신의 컨셉에 맞게 응용하세요.</p>
+
+  <div class="note-box">
+    <strong>사용 전 공통 안내</strong>
+    <ul>
+      <li>모든 프롬프트는 <strong>배경/비주얼만 생성</strong>합니다. 로고·타이틀·카피는 미드저니가 아니라 포토샵·피그마 등에서 직접 얹는 것을 전제로 설계했습니다.</li>
+      <li>포트폴리오에 낼 때는 완성 이미지를 목업(웹사이트·인쇄물·디바이스 목업)에 합성하면 완성도가 크게 올라갑니다.</li>
+      <li>시리즈로 여러 장을 같은 톤으로 뽑아야 하면 <code class="inline">--sref [URL] --sw 150</code>을 추가하세요.</li>
+      <li><code class="inline">[ ]</code> 표시 부분은 자신의 프로젝트 주제·업종·색감으로 바꿔서 사용하세요.</li>
+    </ul>
+  </div>
+
+  <h2><span class="kicker">01</span>편집디자인 (Editorial Design)</h2>
+  <p class="section-intro">잡지·브로슈어·카탈로그처럼 "지면"을 다루는 작업입니다. 실제 포트폴리오에 넣을 때는 인디자인/피그마로 그리드와 타이포그래피를 얹어 스프레드 형태로 완성하는 것을 권장합니다.</p>
+
+  <div class="item">
+    <span class="id">ED-01</span><h3 class="item-title">매거진 커버 (패션/라이프스타일 화보)</h3>
+    <p class="goal"><b>목표</b> · 표지 타이틀·로고 자리를 남긴 매거진 커버용 인물 화보 배경</p>
+    <pre class="prompt">fashion editorial magazine cover photograph, a model standing
+against a plain studio backdrop, bold confident pose, natural
+window lighting, high-fashion minimalist styling, negative space
+at the top for a magazine masthead and at the bottom for cover
+lines, shot on medium format film, muted color grading
+--ar 3:4 --raw</pre>
+    <div class="subblock"><span class="label">포트폴리오 활용 팁</span><p>상단 여백에 매거진 제호(가상 매거진명)를, 하단에는 가상 기사 제목 3~4개를 얹어 실제 커버처럼 완성하세요. 바코드·발행월 표기까지 넣으면 실무 산출물처럼 보입니다.</p></div>
+    <div class="subblock variant"><span class="label">변형 아이디어</span><p>high-fashion → streetwear, editorial beauty, interior design magazine로 바꿔 다른 장르의 매거진 커버를 시리즈로 제작해보세요.</p></div>
+  </div>
+
+  <div class="item">
+    <span class="id">ED-02</span><h3 class="item-title">매거진 내지 스프레드 배경 (인터뷰/화보 지면)</h3>
+    <p class="goal"><b>목표</b> · 텍스트 컬럼이 들어갈 여백을 고려한 내지 배경 이미지</p>
+    <pre class="prompt">editorial magazine spread photography, a person sitting in a
+sunlit minimalist living room, candid relaxed pose, soft natural
+light through sheer curtains, warm neutral tones, large empty
+wall space on the left third of the frame for a text column,
+documentary photography style
+--ar 3:2 --raw</pre>
+    <div class="subblock"><span class="label">포트폴리오 활용 팁</span><p>좌측 1/3 여백에 가상 인터뷰 텍스트(발췌 인용구 포함)를 배치해 화보+인터뷰 스프레드로 완성하세요. 2페이지 스프레드처럼 보이려면 가로로 길게 자르거나 두 장을 나란히 배치하세요.</p></div>
+    <div class="subblock variant"><span class="label">변형 아이디어</span><p>인물 대신 a cup of coffee on a wooden table, a plant corner in a studio 등 정물로 바꾸면 라이프스타일 매거진 지면으로도 활용 가능합니다.</p></div>
+  </div>
+
+  <div class="item">
+    <span class="id">ED-03</span><h3 class="item-title">브로슈어 · 카탈로그 표지 (기업/기관용)</h3>
+    <p class="goal"><b>목표</b> · 기업 소개서·전시 카탈로그 표지에 쓸 수 있는 절제된 비주얼</p>
+    <pre class="prompt">corporate brochure cover design, abstract architectural photograph
+of a modern building facade, geometric shadows, clean minimal
+composition, soft grey and beige tones, large negative space in
+the lower half for a title block, professional and trustworthy mood
+--ar 3:4 --raw</pre>
+    <div class="subblock"><span class="label">포트폴리오 활용 팁</span><p>하단 여백에 (가상) 기관명, 부제, 발행연도를 배치하면 실제 기업 브로슈어처럼 보입니다. 구체적 가상 클라이언트를 설정하면 설명 문구를 쓰기 쉬워집니다.</p></div>
+    <div class="subblock variant"><span class="label">변형 아이디어</span><p>modern building facade → nature landscape(환경 보고서), laboratory equipment(연구기관용)로 바꿔 다양한 업종 카탈로그를 만들어보세요.</p></div>
+  </div>
+
+  <h2><span class="kicker">02</span>브랜드 (Brand Identity)</h2>
+  <p class="section-intro">브랜드 무드, 로고 프레젠테이션, 스테이셔너리 목업 등 브랜딩 프로젝트에 쓰는 비주얼입니다.</p>
+
+  <div class="item">
+    <span class="id">BR-01</span><h3 class="item-title">브랜드 무드 비주얼 (라이프스타일 컷)</h3>
+    <p class="goal"><b>목표</b> · 브랜드의 감성/톤앤매너를 보여주는 대표 이미지 1장</p>
+    <pre class="prompt">brand lifestyle photography for a minimalist skincare brand, a
+glass bottle and neutral-toned ceramic dish on a beige textured
+surface, soft diffused natural light, calm and clean atmosphere,
+shallow depth of field, editorial product photography
+--ar 4:5 --raw</pre>
+    <div class="subblock"><span class="label">포트폴리오 활용 팁</span><p>브랜딩 프로젝트의 "무드보드 대표컷"으로 배치하고, 옆에 컬러 팔레트·타이포그래피 시스템을 함께 정리하면 브랜드 가이드라인처럼 보입니다. 같은 --sref 코드로 3~4장을 더 뽑아 "브랜드 무드 그리드"를 만들면 설득력이 높아집니다.</p></div>
+    <div class="subblock variant"><span class="label">변형 아이디어</span><p>skincare brand 자리에 coffee brand, stationery brand, tech startup 등을 넣어 다양한 업종의 브랜딩 포트폴리오로 확장하세요.</p></div>
+  </div>
+
+  <div class="item">
+    <span class="id">BR-02</span><h3 class="item-title">로고 · 스테이셔너리 목업 (명함/봉투 세트)</h3>
+    <p class="goal"><b>목표</b> · 로고를 실제 인쇄물에 적용한 것처럼 보여주는 프레젠테이션 목업 배경</p>
+    <pre class="prompt">branding mockup presentation, blank business cards and an envelope
+arranged on a textured concrete surface, soft top-down natural
+light, minimal shadows, neutral color palette, professional
+stationery mockup photography, top view flat lay
+--ar 1:1 --raw</pre>
+    <div class="subblock"><span class="label">포트폴리오 활용 팁</span><p>생성된 빈 명함·봉투 위에 자신이 디자인한 로고를 포토샵으로 합성하면 실제 촬영한 것 같은 브랜딩 프레젠테이션이 완성됩니다. tote bag, packaging box, signage 등도 만들어 "브랜드 적용 사례집" 페이지를 구성하세요.</p></div>
+    <div class="subblock variant"><span class="label">변형 아이디어</span><p>concrete surface → wooden desk, marble table로 바꾸면 브랜드 톤(모던/내추럴/럭셔리)에 맞게 배경 질감을 조절할 수 있습니다.</p></div>
+  </div>
+
+  <div class="item">
+    <span class="id">BR-03</span><h3 class="item-title">브랜드 컬러 · 제품 라인업 비주얼</h3>
+    <p class="goal"><b>목표</b> · 브랜드의 컬러 시스템을 보여주는 제품 라인업 컷</p>
+    <pre class="prompt">product lineup photography for a beauty brand, five minimalist
+bottles of varying pastel colors arranged in a row on a plain
+white background, even soft studio lighting, consistent bottle
+shapes, clean commercial product photography
+--ar 16:9 --raw</pre>
+    <div class="subblock"><span class="label">포트폴리오 활용 팁</span><p>이미지 아래 각 병의 색상 코드(HEX)를 라벨링하면 "컬러 시스템 정리" 페이지로 활용할 수 있습니다. 브랜드 가이드라인 문서의 "제품 적용" 섹션에 배치하기 좋습니다.</p></div>
+    <div class="subblock variant"><span class="label">변형 아이디어</span><p>beauty brand → stationery brand(펜·노트), beverage brand(음료 캔)로 바꿔 다양한 카테고리의 라인업 비주얼을 만들어보세요.</p></div>
+  </div>
+
+  <h2><span class="kicker">03</span>상세페이지 (Product Detail Page)</h2>
+  <p class="section-intro">이커머스 상세페이지에 들어갈 히어로 이미지·연출샷입니다. 실무에서는 이 위에 제품 스펙, 카피, 아이콘 등을 얹어 완성합니다.</p>
+
+  <div class="item">
+    <span class="id">PD-01</span><h3 class="item-title">화장품 상세페이지 히어로 이미지</h3>
+    <p class="goal"><b>목표</b> · 상세페이지 최상단에 들어갈 임팩트 있는 제품 연출샷</p>
+    <pre class="prompt">cosmetic product hero shot, a glass skincare bottle placed on a
+wet stone surface with water droplets, soft blue-toned lighting,
+dramatic reflection below the product, minimalist high-end beauty
+advertising photography, large empty space above for a headline
+--ar 4:5 --raw</pre>
+    <div class="subblock"><span class="label">포트폴리오 활용 팁</span><p>상단 여백에 제품명과 핵심 카피(예: "촉촉함의 새로운 기준")를 얹으면 실제 랜딩페이지 상단처럼 완성됩니다. PD-02, PD-03과 톤을 맞춰 세로로 길게 이어 붙이면 상세페이지 전체 흐름을 보여줄 수 있습니다.</p></div>
+    <div class="subblock variant"><span class="label">변형 아이디어</span><p>wet stone surface → dry sand, ice block으로 바꾸면 제품 특성(보습/쿨링 등)에 맞는 연출을 만들 수 있습니다.</p></div>
+  </div>
+
+  <div class="item">
+    <span class="id">PD-02</span><h3 class="item-title">패션 제품 착용샷 배경</h3>
+    <p class="goal"><b>목표</b> · 의류/액세서리 상세페이지용 착용컷 배경</p>
+    <pre class="prompt">fashion product photography, a person wearing a beige oversized
+knit sweater, standing against a plain warm-toned studio backdrop,
+natural relaxed pose, soft directional lighting, commercial
+e-commerce photography style, clean and minimal
+--ar 4:5 --raw</pre>
+    <div class="subblock"><span class="label">포트폴리오 활용 팁</span><p>상세페이지 관례에 맞춰 "전체컷 → 클로즈업 → 디테일컷" 3단 구성으로 같은 --sref 톤을 유지하며 추가 생성하면 완성도가 높아집니다. 사이즈 표, 소재 정보 아이콘까지 배치하면 실제 쇼핑몰 페이지처럼 보입니다.</p></div>
+    <div class="subblock variant"><span class="label">변형 아이디어</span><p>beige oversized knit sweater를 자신이 다루는 제품 카테고리(신발, 가방, 액세서리 등)로 교체하세요.</p></div>
+  </div>
+
+  <div class="item">
+    <span class="id">PD-03</span><h3 class="item-title">식품·음료 상세페이지 비주얼</h3>
+    <p class="goal"><b>목표</b> · 신선함/맛을 강조하는 식음료 상세페이지 비주얼</p>
+    <pre class="prompt">food and beverage product photography, a bottle of cold brew coffee
+surrounded by scattered coffee beans and ice cubes on a dark wooden
+surface, dramatic side lighting, condensation droplets on the
+bottle, appetizing commercial advertising photography
+--ar 1:1 --raw</pre>
+    <div class="subblock"><span class="label">포트폴리오 활용 팁</span><p>정사각형 비율은 인스타그램 광고 소재로도 그대로 재활용 가능하다는 점을 설명에 언급하면 실무 활용성을 어필할 수 있습니다. 원재료(커피콩, 과일 등)를 함께 배치하는 구도는 식품 상세페이지의 정석입니다.</p></div>
+    <div class="subblock variant"><span class="label">변형 아이디어</span><p>cold brew coffee → fruit juice, craft beer, protein bar로 바꿔 다양한 식음료 카테고리 세트를 완성하세요.</p></div>
+  </div>
+
+  <h2><span class="kicker">04</span>포스터 (Poster)</h2>
+  <p class="section-intro">전시·공연·행사·캠페인 포스터입니다. 타이포그래피가 핵심인 작업이므로, 미드저니는 배경/비주얼만 담당하고 타이틀은 편집 툴에서 얹는 구조를 권장합니다.</p>
+
+  <div class="item">
+    <span class="id">PO-01</span><h3 class="item-title">전시회 포스터 비주얼</h3>
+    <p class="goal"><b>목표</b> · 미술 전시회 포스터에 쓸 상징적인 비주얼 + 타이틀 여백</p>
+    <pre class="prompt">minimalist art exhibition poster background, a single abstract
+sculpture-like form floating in an empty gallery space, soft
+even lighting, monochrome grey tones, large empty negative space
+in the lower two-thirds for title typography, gallery photography
+--ar 2:3 --raw</pre>
+    <div class="subblock"><span class="label">포트폴리오 활용 팁</span><p>하단 여백에 전시명·기간·장소를 큰 타이포그래피로 배치하는 스위스 스타일 레이아웃을 적용하면 완성도가 높습니다. SNS 정사각 배너, 웹 배너 사이즈로 리사이즈해 "매체별 활용" 페이지로 확장하세요.</p></div>
+    <div class="subblock variant"><span class="label">변형 아이디어</span><p>abstract sculpture → a single flower, a stack of books로 바꿔 전시 주제에 맞는 상징물을 다르게 설정할 수 있습니다.</p></div>
+  </div>
+
+  <div class="item">
+    <span class="id">PO-02</span><h3 class="item-title">페스티벌 · 이벤트 포스터 비주얼</h3>
+    <p class="goal"><b>목표</b> · 음악 페스티벌·행사 포스터용 컬러풀한 배경</p>
+    <pre class="prompt">music festival poster background, vibrant gradient sky with bold
+saturated colors, silhouettes of a crowd at the bottom edge,
+dynamic sunburst light rays, energetic and youthful mood, large
+empty space in the center for festival lineup typography
+--ar 2:3</pre>
+    <div class="subblock"><span class="label">포트폴리오 활용 팁</span><p>중앙 여백에 가상 아티스트 라인업, 날짜, 장소 정보를 타이포그래피 계층 구조로 정리하면 실제 페스티벌 포스터처럼 완성됩니다. 같은 톤으로 티켓 디자인, SNS 배너까지 확장하면 "이벤트 브랜딩 패키지"로 스케일을 키울 수 있습니다.</p></div>
+    <div class="subblock variant"><span class="label">변형 아이디어</span><p>music festival → food festival, film festival로 바꿔 다른 성격의 이벤트 포스터를 만들어보세요.</p></div>
+  </div>
+
+  <div class="item">
+    <span class="id">PO-03</span><h3 class="item-title">캠페인 · 공익 포스터 비주얼</h3>
+    <p class="goal"><b>목표</b> · 메시지 전달이 명확한 공익/캠페인 포스터 비주얼</p>
+    <pre class="prompt">environmental awareness campaign poster background, a single green
+plant growing through a crack in dry cracked earth, dramatic
+contrast lighting, muted earthy color palette, powerful and
+emotional visual metaphor, large empty space at the top for a
+bold campaign headline
+--ar 3:4 --raw</pre>
+    <div class="subblock"><span class="label">포트폴리오 활용 팁</span><p>강한 비주얼 메타포(균열된 땅 + 새싹 등)를 쓰면 카피 없이도 메시지가 전달되는 것을 어필할 수 있어, 개념 설계 능력을 보여주는 페이지로 좋습니다. 상단 슬로건, 하단 주최 기관 로고 자리까지 구성하면 완결성이 올라갑니다.</p></div>
+    <div class="subblock variant"><span class="label">변형 아이디어</span><p>환경 외에도 road safety, mental health awareness, recycling campaign 등 다른 공익 주제로 시각적 메타포를 바꿔 시리즈로 제작해보세요.</p></div>
+  </div>
+
+  <h2><span class="kicker">05</span>책표지 (Book Cover)</h2>
+  <p class="section-intro">장르에 따라 톤이 크게 달라지는 작업입니다. 표지는 제목·저자명이 들어갈 여백 설계가 핵심이므로, 프롬프트에 여백 지시어를 꼭 포함하세요.</p>
+
+  <div class="item">
+    <span class="id">BC-01</span><h3 class="item-title">문학·에세이 소설 표지</h3>
+    <p class="goal"><b>목표</b> · 감성적이고 여백이 있는 문학 소설 표지</p>
+    <pre class="prompt">literary fiction book cover illustration, a small solitary figure
+walking along an empty beach at dusk, soft muted pastel color
+palette, minimalist composition, large empty sky area in the upper
+half for a book title, contemplative and quiet mood
+--ar 2:3 --raw</pre>
+    <div class="subblock"><span class="label">포트폴리오 활용 팁</span><p>상단 하늘 여백에 세리프 서체로 제목을, 하단에 저자명을 배치하면 실제 문학 서적 표지처럼 완성됩니다. 뒤표지(줄거리 텍스트 공간 포함)까지 만들면 "표지 풀세트(앞/뒤/책등)"로 완성도를 높일 수 있습니다.</p></div>
+    <div class="subblock variant"><span class="label">변형 아이디어</span><p>beach at dusk → a forest path, a train window view로 바꿔 이야기의 정서에 맞는 배경을 설정하세요.</p></div>
+  </div>
+
+  <div class="item">
+    <span class="id">BC-02</span><h3 class="item-title">자기계발·에세이 논픽션 표지</h3>
+    <p class="goal"><b>목표</b> · 신뢰감 있고 깔끔한 논픽션 도서 표지</p>
+    <pre class="prompt">non-fiction self-help book cover design, a simple upward staircase
+made of light and shadow on a plain gradient background, bold
+minimalist geometric composition, confident and motivational mood,
+clean empty space in the center for title typography
+--ar 2:3</pre>
+    <div class="subblock"><span class="label">포트폴리오 활용 팁</span><p>중앙 여백에 굵은 산세리프 서체로 제목을 강조하고, 하단에 "베스트셀러 저자" 같은 가상 추천사 배지를 넣으면 서점 매대에 놓인 것처럼 보입니다. 제목만 다르게 3버전을 만들어 타이포그래피 실험 페이지로 구성해보세요.</p></div>
+    <div class="subblock variant"><span class="label">변형 아이디어</span><p>upward staircase 같은 은유적 오브젝트를 a compass, a growing tree, interlocking gears 등으로 바꿔 주제(성장/방향/시스템)에 맞게 설정하세요.</p></div>
+  </div>
+
+  <div class="item">
+    <span class="id">BC-03</span><h3 class="item-title">SF·판타지 장르 표지</h3>
+    <p class="goal"><b>목표</b> · 세계관이 느껴지는 몰입감 있는 장르 소설 표지</p>
+    <pre class="prompt">science fiction fantasy book cover illustration, a lone figure
+standing before a massive glowing portal in a vast desert
+landscape, epic dramatic lighting, rich deep color palette of
+purple and orange, highly detailed atmospheric environment,
+cinematic composition, empty space at the top for a title
+--ar 2:3 --v 8.1</pre>
+    <div class="subblock"><span class="label">포트폴리오 활용 팁</span><p>같은 세계관으로 3부작 표지 시리즈를 --sref로 톤을 통일해 제작하면 시리즈 기획력까지 보여줄 수 있습니다. 제목은 메탈릭/글로우 효과가 들어간 타이포그래피로 편집 툴에서 얹으면 장르 특유의 분위기가 살아납니다.</p></div>
+    <div class="subblock variant"><span class="label">변형 아이디어</span><p>판타지 대신 cyberpunk, space opera, dystopian으로 세계관을 바꿔보세요. 캐릭터 중심 표지가 필요하다면 니지-실습가이드의 니지 7을 활용해보세요.</p></div>
+  </div>
+
+  <h2><span class="kicker">Guide</span>포트폴리오 구성 팁 (전체 공통)</h2>
+  <div class="note-box">
+    <ul>
+      <li><strong>카테고리당 3장을 한 세트로 묶어</strong> 포트폴리오 목차를 "편집디자인 / 브랜드 / 상세페이지 / 포스터 / 책표지"로 구성하면 다양한 실무 대응력을 보여줄 수 있습니다.</li>
+      <li>각 작업물 옆에 <strong>가상 클라이언트 브리프</strong>(예: "20대 여성 타겟 비건 화장품 브랜드 런칭")를 1~2줄로 적어두면, 단순 이미지 생성이 아니라 기획 의도가 있는 작업으로 보입니다.</li>
+      <li>AI 생성 이미지를 그대로 제출하지 말고, 실제 타이포그래피·레이아웃 작업을 더해 "완성된 디자인"으로 마무리하는 것이 핵심입니다. 미드저니는 소재를 만드는 도구이고, 디자인을 완성하는 것은 여러분의 편집 작업입니다.</li>
+    </ul>
+  </div>
+
+  <h2><span class="kicker">제출</span>제출 체크리스트</h2>
+  <ul class="checklist">
+    <li>편집디자인 3종 중 최소 1종 완성 (타이포 합성 포함)</li>
+    <li>브랜드 3종 중 최소 1종 완성 (타이포/로고 합성 포함)</li>
+    <li>상세페이지 3종 중 최소 1종 완성</li>
+    <li>포스터 3종 중 최소 1종 완성 (타이포 합성 포함)</li>
+    <li>책표지 3종 중 최소 1종 완성 (제목/저자명 합성 포함)</li>
+    <li>각 작업물에 가상 클라이언트 브리프 1~2줄 작성</li>
+    <li>파일명: 이름_분야_번호.png 형식으로 저장 (예: 홍길동_포스터_01.png)</li>
+  </ul>
+
+  <div class="footer-note">서울시기술교육원 컴퓨터그래픽디자인과 · 미드저니 포트폴리오 활용 프롬프트 (편집·브랜드·상세페이지·포스터·책표지)</div>
+</div>

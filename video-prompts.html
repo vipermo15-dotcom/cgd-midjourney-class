@@ -1,0 +1,126 @@
+<title>미드저니 영상 제작 실습 프롬프트 5종</title>
+<style>
+  :root {
+    --paper: #f7f5ef; --paper-raised: #fffdf8; --ink: #1c1b1e; --ink-soft: #55524c;
+    --ink-faint: #918c7e; --rule: #d8d3c7; --accent: #c34a2c; --accent-soft: #c34a2c1a;
+    --accent-2: #2e5339; --accent-2-soft: #2e53391a;
+    --mono: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
+    --sans: -apple-system, "Apple SD Gothic Neo", "Pretendard", "Malgun Gothic", "Segoe UI", sans-serif;
+  }
+  :root[data-theme="dark"] {
+    --paper: #17191b; --paper-raised: #1f2123; --ink: #ece8df; --ink-soft: #a39c8c;
+    --ink-faint: #6b665a; --rule: #34302a; --accent: #e2734f; --accent-soft: #e2734f26;
+    --accent-2: #6fae7c; --accent-2-soft: #6fae7c22;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #17191b; --paper-raised: #1f2123; --ink: #ece8df; --ink-soft: #a39c8c;
+      --ink-faint: #6b665a; --rule: #34302a; --accent: #e2734f; --accent-soft: #e2734f26;
+      --accent-2: #6fae7c; --accent-2-soft: #6fae7c22;
+    }
+  }
+  @media print {
+    :root {
+      --paper: #f7f5ef !important; --paper-raised: #fffdf8 !important; --ink: #1c1b1e !important;
+      --ink-soft: #55524c !important; --ink-faint: #918c7e !important; --rule: #d8d3c7 !important;
+      --accent: #c34a2c !important; --accent-soft: #c34a2c1a !important;
+      --accent-2: #2e5339 !important; --accent-2-soft: #2e53391a !important;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); line-height: 1.6; }
+  .page { max-width: 780px; margin: 0 auto; padding: 4.5em 2em 6em; }
+  .doc-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    border-bottom: 1px solid var(--rule); padding-bottom: .8em; margin-bottom: .4em;
+    font-family: var(--mono); font-size: 11.5px; letter-spacing: .06em; color: var(--ink-faint);
+    text-transform: uppercase;
+  }
+  .doc-head .accent { color: var(--accent); }
+  h1 { font-size: clamp(24px, 3.2vw, 36px); font-weight: 800; letter-spacing: -0.01em; margin: .5em 0 .1em; text-wrap: balance; }
+  .subtitle { color: var(--ink-soft); font-size: 15px; margin: 0 0 2em; }
+  h2 { font-size: 22px; font-weight: 800; margin: 2.2em 0 .8em; padding-top: 1.3em; border-top: 1px solid var(--rule); }
+  h2:first-of-type { border-top: none; padding-top: 0; }
+  .kicker { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: .2em; }
+  .card { margin: 1em 0 1.6em; }
+  .card .id { font-family: var(--mono); font-size: 12px; color: var(--accent-2); background: var(--accent-2-soft); border: 1px solid var(--accent-2); display: inline-block; padding: .15em .55em; margin-bottom: .5em; }
+  .card h3 { font-size: 16px; margin: 0 0 .3em; font-weight: 700; }
+  .card .src { font-size: 13px; color: var(--ink-soft); margin: 0 0 .5em; }
+  pre.prompt {
+    font-family: var(--mono); font-size: 13.5px; background: var(--ink); color: var(--paper);
+    padding: 1em 1.2em; line-height: 1.6; white-space: pre-wrap; word-break: break-word;
+    margin: 0; border-left: 3px solid var(--accent);
+  }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; margin: 1em 0; }
+  th, td { text-align: left; padding: .5em .8em .5em 0; border-bottom: 1px solid var(--rule); }
+  th { font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-faint); font-weight: 500; }
+  td.param { font-family: var(--mono); color: var(--accent); white-space: nowrap; }
+  ol.steps { list-style: none; margin: .8em 0; padding: 0; }
+  ol.steps li { display: grid; grid-template-columns: 1.8em 1fr; gap: .6em; padding: .5em 0; border-bottom: 1px solid var(--rule); align-items: baseline; }
+  ol.steps li:last-child { border-bottom: none; }
+  ol.steps li .n { font-family: var(--mono); color: var(--accent); font-size: 13px; }
+  .footer-note { margin-top: 3em; padding-top: 1em; border-top: 1px solid var(--rule); font-family: var(--mono); font-size: 11.5px; color: var(--ink-faint); text-align: center; }
+  @media print { .page { padding: 1.5em 0 3em; } .card { break-inside: avoid; } }
+</style>
+
+<div class="page">
+  <div class="doc-head"><span class="accent">PROOF · PROMPT SET</span><span>MIDJOURNEY WORKSHOP · VIDEO</span></div>
+  <h1>미드저니 영상 제작 실습 프롬프트 5종</h1>
+  <p class="subtitle">서울시기술교육원 컴퓨터그래픽디자인과 · 미드저니 워크숍<br>영상제작-실습가이드와 함께 사용하세요. 아래 프롬프트는 <strong>이미지를 먼저 생성한 뒤 Animate 단계(Manual 모드)</strong>에서 입력합니다.</p>
+
+  <div class="card">
+    <span class="id">V-01</span><h3>제품 홍보 영상 (상세페이지·SNS 활용)</h3>
+    <p class="src">원본 이미지 참고: 화장품 병이 대리석 테이블 위에 놓인 정물 사진</p>
+    <pre class="prompt">the light slowly shifts across the bottle surface, subtle steam
+rises from behind, camera slowly pushes in
+--motion low --raw</pre>
+  </div>
+  <div class="card">
+    <span class="id">V-02</span><h3>포트폴리오 인트로 모션 (웹사이트 히어로 영상)</h3>
+    <p class="src">원본 이미지 참고: 미니멀한 스튜디오 배경의 인물 또는 오브젝트 사진</p>
+    <pre class="prompt">camera slowly pans from left to right revealing the full scene,
+soft dust particles float in the light beam
+--motion low</pre>
+  </div>
+  <div class="card">
+    <span class="id">V-03</span><h3>브랜드 로고 애니메이션 (브랜딩 포트폴리오)</h3>
+    <p class="src">원본 이미지 참고: 로고가 중앙에 배치된 심플한 배경 이미지</p>
+    <pre class="prompt">the logo gently pulses with a soft glow, light rays subtly rotate
+around it, background stays completely still
+--motion low --raw</pre>
+  </div>
+  <div class="card">
+    <span class="id">V-04</span><h3>SNS 릴스용 루프 영상 (콘텐츠 마케팅 포트폴리오)</h3>
+    <p class="src">원본 이미지 참고: 카페·라이프스타일 브랜드 무드 사진</p>
+    <pre class="prompt">steam rises steadily from the coffee cup, leaves gently sway outside
+the window, seamless continuous motion
+--loop --motion low</pre>
+  </div>
+  <div class="card">
+    <span class="id">V-05</span><h3>캐릭터 모션 (니지 연계 — 애니메이션 포트폴리오)</h3>
+    <p class="src">원본 이미지 참고: 니지 7로 만든 캐릭터 일러스트 (니지-실습프롬프트 NJ-01 등 활용)</p>
+    <pre class="prompt">the character's hair and clothes sway in the wind, she slowly
+raises her sword and looks directly at the camera
+--motion high --raw</pre>
+  </div>
+
+  <h2><span class="kicker">Reference</span>파라미터 빠른 참고</h2>
+  <table>
+    <tr><th>상황</th><th>추천 값</th></tr>
+    <tr><td>제품/로고처럼 정적인 느낌 유지</td><td class="param">--motion low --raw</td></tr>
+    <tr><td>캐릭터의 역동적인 동작</td><td class="param">--motion high --raw</td></tr>
+    <tr><td>SNS 반복 재생용</td><td class="param">--loop</td></tr>
+    <tr><td>두 이미지를 자연스럽게 연결</td><td class="param">--end [끝 이미지 URL]</td></tr>
+    <tr><td>크레딧 절약</td><td class="param">--bs 1 또는 --bs 2</td></tr>
+  </table>
+
+  <h2><span class="kicker">Guide</span>실습 순서</h2>
+  <ol class="steps">
+    <li><span class="n">01</span><div>위 5개 중 자신의 포트폴리오 방향과 가까운 것을 골라, 먼저 해당 원본 이미지를 미드저니로 생성합니다.</div></li>
+    <li><span class="n">02</span><div>생성된 이미지에서 Animate 버튼을 눌러 Manual 모드로 진입한 뒤, 위 모션 프롬프트를 입력합니다.</div></li>
+    <li><span class="n">03</span><div>결과 영상을 확인하고, 필요하면 영상제작-실습가이드의 Extend 방법으로 연장합니다.</div></li>
+    <li><span class="n">04</span><div>완성 영상을 저장하고, 가이드의 제출 체크리스트에 따라 제출합니다.</div></li>
+  </ol>
+
+  <div class="footer-note">서울시기술교육원 컴퓨터그래픽디자인과 · 미드저니 영상 제작 실습 프롬프트 5종</div>
+</div>
