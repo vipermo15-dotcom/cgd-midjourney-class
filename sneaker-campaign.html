@@ -1,0 +1,245 @@
+<title>스니커즈 광고 비주얼 프롬프트 & 비디오 PRD</title>
+<style>
+  :root {
+    --paper: #f7f5ef; --paper-raised: #fffdf8; --ink: #1c1b1e; --ink-soft: #55524c;
+    --ink-faint: #918c7e; --rule: #d8d3c7; --accent: #c34a2c; --accent-soft: #c34a2c1a;
+    --accent-2: #2e5339; --accent-2-soft: #2e53391a; --warn: #b8860b; --warn-soft: #b8860b1f;
+    --mono: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
+    --sans: -apple-system, "Apple SD Gothic Neo", "Pretendard", "Malgun Gothic", "Segoe UI", sans-serif;
+  }
+  :root[data-theme="dark"] {
+    --paper: #17191b; --paper-raised: #1f2123; --ink: #ece8df; --ink-soft: #a39c8c;
+    --ink-faint: #6b665a; --rule: #34302a; --accent: #e2734f; --accent-soft: #e2734f26;
+    --accent-2: #6fae7c; --accent-2-soft: #6fae7c22; --warn: #e0b23f; --warn-soft: #e0b23f22;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #17191b; --paper-raised: #1f2123; --ink: #ece8df; --ink-soft: #a39c8c;
+      --ink-faint: #6b665a; --rule: #34302a; --accent: #e2734f; --accent-soft: #e2734f26;
+      --accent-2: #6fae7c; --accent-2-soft: #6fae7c22; --warn: #e0b23f; --warn-soft: #e0b23f22;
+    }
+  }
+  @media print {
+    :root {
+      --paper: #f7f5ef !important; --paper-raised: #fffdf8 !important; --ink: #1c1b1e !important;
+      --ink-soft: #55524c !important; --ink-faint: #918c7e !important; --rule: #d8d3c7 !important;
+      --accent: #c34a2c !important; --accent-soft: #c34a2c1a !important;
+      --accent-2: #2e5339 !important; --accent-2-soft: #2e53391a !important;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); line-height: 1.65; }
+  .page { max-width: 820px; margin: 0 auto; padding: 4.5em 2em 6em; }
+  .doc-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    border-bottom: 1px solid var(--rule); padding-bottom: .8em; margin-bottom: .4em;
+    font-family: var(--mono); font-size: 11.5px; letter-spacing: .06em; color: var(--ink-faint);
+    text-transform: uppercase;
+  }
+  .doc-head .accent { color: var(--accent); }
+  h1 { font-size: clamp(24px, 3.4vw, 36px); font-weight: 800; letter-spacing: -0.01em; margin: .5em 0 .1em; text-wrap: balance; }
+  .subtitle { color: var(--ink-soft); font-size: 15px; margin: 0 0 2em; }
+  h2 {
+    font-size: 24px; font-weight: 800; letter-spacing: -0.005em;
+    margin: 2.4em 0 .2em; padding-top: 1.4em; border-top: 1px solid var(--rule);
+  }
+  h2:first-of-type { border-top: none; padding-top: 0; }
+  h3.sub { font-size: 17px; font-weight: 700; margin: 1.6em 0 .5em; }
+  .kicker {
+    font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: .3em; display: block;
+  }
+  p { margin: .6em 0; }
+  strong { font-weight: 700; }
+  code.inline { font-family: var(--mono); background: var(--accent-soft); color: var(--accent); padding: .1em .35em; font-size: .9em; }
+  pre.prompt {
+    font-family: var(--mono); font-size: 13px; background: var(--ink); color: var(--paper);
+    padding: 1em 1.2em; line-height: 1.6; white-space: pre-wrap; word-break: break-word;
+    margin: .6em 0; border-left: 3px solid var(--accent);
+  }
+  .copy { font-size: 14px; margin: .5em 0 1em; }
+  .copy .tag { font-family: var(--mono); font-size: 10.5px; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-faint); }
+  .copy code { font-family: var(--mono); color: var(--accent-2); background: var(--accent-2-soft); padding: .1em .4em; margin-right: .4em; }
+  table { border-collapse: collapse; width: 100%; font-size: 13.5px; margin: 1em 0; }
+  th, td { text-align: left; padding: .55em .7em .55em 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  th { font-family: var(--mono); font-size: 10.5px; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-faint); font-weight: 500; }
+  .warn-box { background: var(--warn-soft); border: 1px solid var(--warn); color: var(--ink); padding: 1em 1.2em; margin: 1em 0; font-size: 14px; }
+  .note-box { background: var(--paper-raised); border: 1px solid var(--rule); padding: 1em 1.2em; margin: 1em 0; font-size: 14px; }
+  ul.checklist { list-style: none; margin: .8em 0; padding: 0; }
+  ul.checklist li { padding: .5em 0; border-bottom: 1px solid var(--rule); display: flex; gap: .7em; font-size: 15px; }
+  ul.checklist li::before { content: "☐"; color: var(--accent); flex-shrink: 0; }
+  .footer-note { margin-top: 3em; padding-top: 1em; border-top: 1px solid var(--rule); font-family: var(--mono); font-size: 11.5px; color: var(--ink-faint); text-align: center; }
+  @media print { .page { padding: 1.5em 0 3em; } }
+</style>
+
+<div class="page">
+  <div class="doc-head"><span class="accent">PROOF · CAMPAIGN PRD</span><span>MIDJOURNEY WORKSHOP · V7</span></div>
+  <h1>스니커즈 광고 비주얼 프롬프트 &amp; 비디오 PRD</h1>
+  <p class="subtitle">서울시기술교육원 컴퓨터그래픽디자인과 · 미드저니 워크숍 · 캠페인 실전 사례<br><code class="inline">레퍼런스-실습가이드</code>·<code class="inline">에디터-실습가이드</code>·<code class="inline">영상제작-실습가이드</code>를 먼저 끝낸 뒤 참고하세요.<br><strong>기준 버전: v7</strong> (이 캠페인은 --style raw·--iw 조합의 특정 톤을 위해 v7으로 설계됨)</p>
+
+  <h2><span class="kicker">Guide</span>이 자료 활용법</h2>
+  <p>이 문서는 실제 광고 캠페인처럼 <strong>이미지 참조 프롬프트 4종 + 영상 PRD + 후반 편집 가이드</strong>가 한 세트로 묶인 실전 사례입니다. 제품 사진(참조 이미지)을 가진 상태에서 "브랜드 로고를 그대로 베끼지 않으면서" 색감·소재·실루엣만 정확히 묘사해 광고 비주얼을 만드는 방법을 보여줍니다.</p>
+  <ul class="checklist" style="pointer-events:none;">
+    <li>아래 프롬프트의 <code class="inline">[이미지 참조 링크]</code> 자리에는 실제 제품 사진 URL을 넣습니다. 레퍼런스-실습가이드의 "참고 이미지 URL 구하는 법" 참고.</li>
+    <li>이 캠페인은 --v 7로 설계되었습니다. v8.2로 실험하려면 --style raw → --raw, --v 7 → --v 8.2로 바꿔 비교해보세요.</li>
+  </ul>
+
+  <div class="warn-box">
+    <strong>⚠️ 상표권·브랜드 로고 주의사항</strong><br>
+    실제 제품 사진을 참조 이미지로 쓰더라도, 프롬프트 텍스트에는 브랜드명·로고 명칭을 직접 쓰지 않습니다. 아래 예시들도 "vivid red side overlays", "red heel details"처럼 <strong>색상·소재·형태 묘사</strong>로만 제품 특징을 지시합니다. 로고·워드마크는 AI가 부정확하게 생성하는 경우가 많고, 무단 사용 시 상표권 문제가 될 수 있으므로 실제 로고가 필요한 최종 결과물은 후반 작업에서 원본 브랜드 자산으로 합성하세요.
+  </div>
+
+  <h2><span class="kicker">01</span>제품 비주얼 분석</h2>
+  <table>
+    <tr><th>항목</th><th>내용</th></tr>
+    <tr><td>제품 성격</td><td>레트로 러닝 헤리티지 기반의 로우탑 라이프스타일 스니커즈</td></tr>
+    <tr><td>핵심 컬러</td><td>클린 화이트 / 선명한 레드 / 쿨 블루 / 블랙 로고 포인트</td></tr>
+    <tr><td>핵심 소재</td><td>매끈한 화이트 레더, 레드 레더 오버레이, 텍스타일 인솔, 화이트 레이스</td></tr>
+    <tr><td>강조할 디테일</td><td>측면 레드 스우시 형태, 레드 힐탭, 블루 인솔 그래픽, 톱니형 아웃솔, 긴 화이트 레이스</td></tr>
+    <tr><td>광고 키워드</td><td>retro future, clean speed, everyday icon, red-blue energy</td></tr>
+  </table>
+
+  <h2><span class="kicker">02</span>미드저니 광고 포스터 이미지 프롬프트</h2>
+
+  <h3 class="sub">A. 메인 히어로 포스터 — 추천</h3>
+  <pre class="prompt">[이미지 참조 링크] premium sneaker advertising campaign, two white retro
+low-top leather sneakers with vivid red side overlays, red heel details,
+subtle royal blue accents, floating dynamically above a glossy white
+studio floor, one shoe standing vertically and one shoe rotating in
+midair, loose white laces creating elegant flowing lines, crisp softbox
+lighting, refined reflection, clean high-key background, luxury sports
+editorial photography, immaculate leather texture, sharp product focus,
+generous negative space at top for headline, minimal Korean fashion
+campaign aesthetic, photorealistic, 8k
+--ar 4:5 --v 7 --style raw --iw 2 --stylize 125</pre>
+  <p class="copy"><span class="tag">권장 카피</span> <code>CLASSIC IN MOTION</code><code>MOVE IN COLOR</code><code>RETRO, RECHARGED</code></p>
+
+  <h3 class="sub">B. 레드·블루 에너지 포스터</h3>
+  <pre class="prompt">[이미지 참조 링크] bold sneaker campaign poster, white retro leather
+sneaker with vivid red overlays and electric blue accents, suspended in
+a red and cobalt blue light tunnel, ribbons of red and blue motion
+trails wrapping around the shoe without covering it, controlled studio
+shadows, glossy reflective floor, energetic yet premium, high-fashion
+sports campaign, precise stitching and leather grain, product centered,
+large empty space for typography, photorealistic product photography
+--ar 4:5 --v 7 --style raw --iw 2 --stylize 180</pre>
+  <p class="copy"><span class="tag">권장 카피</span> <code>RUN THE CLASSICS</code><code>RED. BLUE. FORWARD.</code></p>
+
+  <h3 class="sub">C. 도심 스트리트 에디토리얼 포스터</h3>
+  <pre class="prompt">[이미지 참조 링크] editorial sneaker poster, white retro sneakers with
+red and blue details on a polished concrete step in a modern
+Seoul-inspired urban setting at blue hour, wet pavement reflecting red
+neon and cool blue ambient light, cinematic low angle, subtle motion
+blur from passing city lights, hero product remains perfectly sharp,
+clean contemporary streetwear campaign, premium magazine art direction,
+realistic materials, space for headline
+--ar 4:5 --v 7 --style raw --iw 2 --stylize 150</pre>
+  <p class="copy"><span class="tag">권장 카피</span> <code>BUILT FOR THE CITY RHYTHM</code><code>CLASSICS, AFTER DARK</code></p>
+
+  <h3 class="sub">D. 디테일 중심의 럭셔리 클로즈업 포스터</h3>
+  <pre class="prompt">[이미지 참조 링크] ultra-detailed macro sneaker advertising poster,
+close-up of white leather sneaker, vivid red side overlay, red mesh
+insole with blue graphic detail, white laces in sculptural composition,
+translucent acrylic pedestal, bright white background with soft red and
+blue color reflections, luxury footwear campaign, precision product
+lighting, tactile leather grain, editorial minimalism, empty upper area
+for headline, photorealistic
+--ar 4:5 --v 7 --style raw --iw 2 --stylize 90</pre>
+  <p class="copy"><span class="tag">권장 카피</span> <code>DETAILS THAT MOVE</code><code>THE ICON, REFINED</code></p>
+
+  <h2><span class="kicker">03</span>비디오 PRD</h2>
+  <p><strong>프로젝트명</strong>: CLASSIC IN MOTION — Retro Sneaker Film</p>
+  <p><strong>목표</strong>: 레트로 스니커즈의 클래식한 실루엣을 현대적 에너지와 연결해, 제품의 화이트·레드·블루 컬러 대비와 디테일을 강하게 각인시키는 세로형 광고 영상 제작.</p>
+  <p><strong>타깃</strong>: 18–34세 스니커즈·스트리트웨어 관심층 · 레트로 스포츠 스타일과 데일리 패션을 즐기는 소비자 · 인스타그램 릴스·틱톡·유튜브 쇼츠 시청자</p>
+  <table>
+    <tr><th>항목</th><th>내용</th></tr>
+    <tr><td>길이</td><td>15초</td></tr>
+    <tr><td>비율</td><td>9:16 세로형</td></tr>
+    <tr><td>해상도</td><td>1080 × 1920 이상</td></tr>
+    <tr><td>무드</td><td>프리미엄, 클린, 역동적, 레트로 퓨처리즘</td></tr>
+    <tr><td>사운드</td><td>미니멀 전자 비트 + 가벼운 바람 소리 + 착지 임팩트</td></tr>
+  </table>
+  <p><strong>핵심 메시지</strong>: "Classic in motion." — 클래식한 디자인은 멈추지 않고, 오늘의 리듬 속에서 계속 움직인다.</p>
+  <table>
+    <tr><th>시간</th><th>장면</th><th>연출</th></tr>
+    <tr><td>0–3초</td><td>암전에서 신발 실루엣 등장</td><td>레드와 블루 라이트가 윤곽을 스치며 제품을 드러낸다</td></tr>
+    <tr><td>3–6초</td><td>제품 회전</td><td>공중에서 신발이 천천히 회전하며 레드 스우시와 힐 디테일을 보여준다</td></tr>
+    <tr><td>6–10초</td><td>디테일 매크로</td><td>레이스, 레더 질감, 레드 인솔과 블루 그래픽을 리듬감 있게 클로즈업한다</td></tr>
+    <tr><td>10–13초</td><td>역동적 착지</td><td>신발 한 켤레가 반사 바닥에 가볍게 착지하고 레이스가 유려하게 흔들린다</td></tr>
+    <tr><td>13–15초</td><td>엔드카드</td><td>정면 제품 컷과 함께 "CLASSIC IN MOTION" 카피가 등장한다</td></tr>
+  </table>
+
+  <h2><span class="kicker">04</span>영상 생성용 프롬프트</h2>
+  <div class="warn-box">
+    ⚠️ <strong>실습 유의사항</strong>: 미드저니의 Animate 기능은 이미지 1장을 시작 프레임 삼아 <strong>단일 연속 동작</strong>(5초~최대 21초)만 생성하며, 한 번의 생성으로 여러 컷이 자동 전환되는 완성 광고를 만들어주지는 않습니다. 아래 "마스터 프롬프트"는 방향을 정리한 <strong>기획 문서용 통합 설명</strong>이고, 실제 제작 시에는 "컷 1~4"를 각각 별도의 이미지 → Animate 클립으로 만든 뒤 프리미어 프로·캡컷 등에서 이어 붙이는 방식으로 진행하세요.
+  </div>
+
+  <h3 class="sub">마스터 프롬프트 (기획 통합본 — 컨셉 정리용)</h3>
+  <pre class="prompt">Create a 15-second premium vertical sneaker commercial using the
+supplied product reference. Preserve the exact white retro low-top
+sneaker silhouette, vivid red leather side overlays, red heel detail,
+subtle royal blue accents, white laces, and red insole. Begin in a dark
+minimalist studio as narrow red and cobalt-blue light beams reveal the
+shoe silhouette. The sneaker slowly rotates in midair with elegant
+flowing laces, followed by macro close-ups of the smooth white leather,
+stitching, red overlays, and blue insole details. Then two sneakers
+make a soft, precise landing on a glossy white reflective floor,
+creating a subtle ripple of red and blue light. Finish with a clean
+front-facing hero composition and generous negative space for the
+end-card text "CLASSIC IN MOTION". High-end sports fashion advertising,
+photorealistic product texture, controlled camera motion, crisp focus,
+sophisticated light, no people, no extra shoes, no distorted product,
+vertical 9:16.</pre>
+
+  <h3 class="sub">컷 1 — 실루엣 리빌</h3>
+  <p style="font-size:13px; color:var(--ink-soft);">원본 이미지: 어두운 스튜디오 배경의 제품 실루엣 컷</p>
+  <pre class="prompt">In a dark premium studio, narrow red and cobalt blue light beams
+gradually reveal the silhouette of a white retro sneaker with red and
+blue details, slow cinematic push-in, floating dust particles, luxury
+sports advertisement, vertical 9:16.</pre>
+
+  <h3 class="sub">컷 2 — 공중 회전</h3>
+  <p style="font-size:13px; color:var(--ink-soft);">원본 이미지: 공중에 떠 있는 제품 컷</p>
+  <pre class="prompt">A white retro leather sneaker with vivid red side details and blue
+accents floats and rotates slowly in the air, white laces flowing
+naturally, clean dark studio background, red and blue rim lighting,
+ultra-realistic footwear campaign, precise product shape, vertical 9:16.</pre>
+
+  <h3 class="sub">컷 3 — 소재 디테일</h3>
+  <p style="font-size:13px; color:var(--ink-soft);">원본 이미지: 소재·스티칭이 잘 보이는 클로즈업 컷</p>
+  <pre class="prompt">Extreme macro shots of a white sneaker: smooth leather grain, neat
+stitching, red leather overlay, white woven laces, red insole with blue
+graphic detail, beautiful controlled studio reflections, premium
+product cinematography, vertical 9:16.</pre>
+
+  <h3 class="sub">컷 4 — 착지와 엔드카드</h3>
+  <p style="font-size:13px; color:var(--ink-soft);">원본 이미지: 반사 바닥 위 제품 정면 컷</p>
+  <pre class="prompt">Two white retro sneakers with red and blue details descend gently and
+land on a glossy white reflective surface, laces settle in graceful
+slow motion, soft red and blue light reflections, clean white
+background, camera pulls back to leave clear space for advertising
+headline, luxury sneaker commercial, vertical 9:16.</pre>
+
+  <h2><span class="kicker">05</span>후반 편집 가이드</h2>
+  <div class="note-box">
+    <ul style="margin:0; padding-left:1.2em;">
+      <li style="margin:.4em 0;">생성 영상 안의 텍스트는 사용하지 않고, 편집 단계에서 카피를 별도로 삽입합니다.</li>
+      <li style="margin:.4em 0;">폰트는 굵은 산세리프 계열을 사용하고, 화이트·블랙을 기본으로 레드 또는 블루를 보조색으로 씁니다.</li>
+      <li style="margin:.4em 0;">로고·정확한 브랜드 표기는 제품 원본을 기반으로 별도 합성합니다. (AI가 생성한 로고는 사용하지 않음)</li>
+      <li style="margin:.4em 0;">컷 전환은 비트에 맞춰 짧고 선명하게 처리하며, 과도한 글리치 효과는 피합니다.</li>
+      <li style="margin:.4em 0;">컷 1~4를 각각 5초 안팎으로 생성한 뒤, 전체 15초 분량에 맞춰 트리밍·비트 매칭하며 조립합니다.</li>
+    </ul>
+  </div>
+
+  <h2><span class="kicker">제출</span>제출 체크리스트</h2>
+  <ul class="checklist">
+    <li>광고 포스터 A~D 중 2개 이상 생성 및 비교</li>
+    <li>참조 이미지 URL을 실제로 확보해 적용해봤는가</li>
+    <li>컷 1~4 중 최소 2개를 Animate로 개별 생성</li>
+    <li>편집 툴에서 컷을 이어 붙이고 카피를 오버레이한 15초 시안 1편 완성</li>
+    <li>상표권 유의사항(로고 미사용)을 준수했는가</li>
+    <li>파일명: 이름_스니커즈광고_컷번호.png/mp4 형식으로 저장</li>
+  </ul>
+
+  <div class="footer-note">서울시기술교육원 컴퓨터그래픽디자인과 · 미드저니 워크숍 스니커즈 광고 비주얼 프롬프트 &amp; 비디오 PRD</div>
+</div>
