@@ -1,0 +1,204 @@
+<title>미드저니 에디터(Editor) 실습 가이드</title>
+<style>
+  :root {
+    --paper: #f7f5ef; --paper-raised: #fffdf8; --ink: #1c1b1e; --ink-soft: #55524c;
+    --ink-faint: #918c7e; --rule: #d8d3c7; --accent: #c34a2c; --accent-soft: #c34a2c1a;
+    --accent-2: #2e5339; --accent-2-soft: #2e53391a;
+    --mono: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
+    --sans: -apple-system, "Apple SD Gothic Neo", "Pretendard", "Malgun Gothic", "Segoe UI", sans-serif;
+  }
+  :root[data-theme="dark"] {
+    --paper: #17191b; --paper-raised: #1f2123; --ink: #ece8df; --ink-soft: #a39c8c;
+    --ink-faint: #6b665a; --rule: #34302a; --accent: #e2734f; --accent-soft: #e2734f26;
+    --accent-2: #6fae7c; --accent-2-soft: #6fae7c22;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #17191b; --paper-raised: #1f2123; --ink: #ece8df; --ink-soft: #a39c8c;
+      --ink-faint: #6b665a; --rule: #34302a; --accent: #e2734f; --accent-soft: #e2734f26;
+      --accent-2: #6fae7c; --accent-2-soft: #6fae7c22;
+    }
+  }
+  @media print {
+    :root {
+      --paper: #f7f5ef !important; --paper-raised: #fffdf8 !important; --ink: #1c1b1e !important;
+      --ink-soft: #55524c !important; --ink-faint: #918c7e !important; --rule: #d8d3c7 !important;
+      --accent: #c34a2c !important; --accent-soft: #c34a2c1a !important;
+      --accent-2: #2e5339 !important; --accent-2-soft: #2e53391a !important;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); line-height: 1.65; }
+  .page { max-width: 780px; margin: 0 auto; padding: 4.5em 2em 6em; }
+  .doc-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    border-bottom: 1px solid var(--rule); padding-bottom: .8em; margin-bottom: .4em;
+    font-family: var(--mono); font-size: 11.5px; letter-spacing: .06em; color: var(--ink-faint);
+    text-transform: uppercase;
+  }
+  .doc-head .accent { color: var(--accent); }
+  h1 { font-size: clamp(28px, 4vw, 40px); font-weight: 800; letter-spacing: -0.01em; margin: .5em 0 .1em; text-wrap: balance; }
+  .subtitle { color: var(--ink-soft); font-size: 15px; margin: 0 0 2em; }
+  h2 {
+    font-size: 24px; font-weight: 800; letter-spacing: -0.005em;
+    margin: 2.4em 0 .2em; padding-top: 1.4em; border-top: 1px solid var(--rule);
+  }
+  h2:first-of-type { border-top: none; padding-top: 0; }
+  .kicker {
+    font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: .3em; display: block;
+  }
+  p { margin: .6em 0; }
+  strong { font-weight: 700; }
+  pre.prompt {
+    font-family: var(--mono); font-size: 14px; background: var(--ink); color: var(--paper);
+    padding: 1em 1.2em; line-height: 1.65; white-space: pre-wrap; word-break: break-word;
+    margin: .8em 0; border-left: 3px solid var(--accent);
+  }
+  code.inline { font-family: var(--mono); background: var(--accent-soft); color: var(--accent); padding: .1em .35em; font-size: .9em; }
+  table { border-collapse: collapse; width: 100%; font-size: 13.5px; margin: 1em 0; }
+  th, td { text-align: left; padding: .55em .7em .55em 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  th { font-family: var(--mono); font-size: 10.5px; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-faint); font-weight: 500; }
+  ol.steps { list-style: none; margin: .8em 0; padding: 0; }
+  ol.steps li { display: grid; grid-template-columns: 1.8em 1fr; gap: .6em; padding: .5em 0; border-bottom: 1px solid var(--rule); align-items: baseline; }
+  ol.steps li:last-child { border-bottom: none; }
+  ol.steps li .n { font-family: var(--mono); color: var(--accent); font-size: 13px; }
+  ul.checklist { list-style: none; margin: .8em 0; padding: 0; }
+  ul.checklist li { padding: .5em 0; border-bottom: 1px solid var(--rule); display: flex; gap: .7em; font-size: 15px; }
+  ul.checklist li::before { content: "☐"; color: var(--accent); flex-shrink: 0; }
+  .goal-tag {
+    display: inline-block; font-family: var(--mono); font-size: 11px; letter-spacing: .06em;
+    text-transform: uppercase; color: var(--accent-2); background: var(--accent-2-soft);
+    border: 1px solid var(--accent-2); padding: .2em .6em; margin-bottom: .6em;
+  }
+  .note-box { background: var(--paper-raised); border: 1px solid var(--rule); padding: 1em 1.2em; margin: 1em 0; font-size: 14.5px; }
+  .note-box ul { margin: .3em 0 0; padding-left: 1.2em; }
+  .note-box li { margin: .3em 0; }
+  .footer-note { margin-top: 3em; padding-top: 1em; border-top: 1px solid var(--rule); font-family: var(--mono); font-size: 11.5px; color: var(--ink-faint); text-align: center; }
+  @media print { .page { padding: 1.5em 0 3em; } }
+</style>
+
+<div class="page">
+  <div class="doc-head"><span class="accent">PROOF · GUIDE</span><span>MIDJOURNEY WORKSHOP · EDITOR</span></div>
+  <h1>미드저니 에디터(Editor) 실습 가이드</h1>
+  <p class="subtitle">서울시기술교육원 컴퓨터그래픽디자인과 · 심화 실습 (부분 수정·합성)<br><code class="inline">실습워크북</code>을 먼저 끝낸 뒤 진행하세요.<br><strong>기준: Midjourney Editor</strong> (버전 무관 — v8.2로 만든 이미지도, v6/v7로 만든 이미지도 편집 가능)</p>
+
+  <h2><span class="kicker">Concept</span>에디터(Editor)란?</h2>
+  <p>지금까지는 프롬프트로 이미지를 "처음부터" 생성했다면, 에디터는 <strong>이미 만든(또는 업로드한) 이미지의 일부만 골라 고치는</strong> 도구입니다. 전체를 다시 생성하지 않고 원하는 부분만 지우고 다시 그리거나, 캔버스를 넓히거나, 표면 질감만 바꿀 수 있습니다.</p>
+  <p><strong>포트폴리오에서 언제 쓰나요?</strong> 목업의 제품 색상 베리에이션 · 배경만 브랜드 컬러로 교체 · 매체 규격에 맞춘 캔버스 확장 · 스케치를 완성 렌더링으로 전환</p>
+
+  <h2><span class="kicker">Guide</span>접근 방법</h2>
+  <ol class="steps">
+    <li><span class="n">01</span><div><code class="inline">midjourney.com</code> 상단 메뉴에서 <strong>Edit</strong> 탭으로 이동합니다.</div></li>
+    <li><span class="n">02</span><div><strong>Edit from URL</strong>(기존 이미지 링크) 또는 <strong>Edit Uploaded Image</strong>(파일 업로드)로 이미지를 불러옵니다.</div></li>
+    <li><span class="n">03</span><div>Create/Organize에서 바로 열면 <strong>라이트 버전</strong>(기본 기능만)입니다. 전체 기능은 반드시 Edit 탭에서 시작하세요.</div></li>
+  </ol>
+
+  <h2><span class="kicker">Concept</span>도구 5가지</h2>
+  <table>
+    <tr><th>도구</th><th>기능</th><th>언제 쓰나</th></tr>
+    <tr><td><strong>Move / Resize</strong></td><td>캔버스 이동·확장, 비율 변경 (아웃페인팅)</td><td>여백을 AI가 어울리게 채워 화면을 넓힐 때</td></tr>
+    <tr><td><strong>Paint — Erase</strong></td><td>브러시로 바꾸고 싶은 영역을 지움(마스킹)</td><td>특정 부분만 다시 그리고 싶을 때</td></tr>
+    <tr><td><strong>Paint — Restore</strong></td><td>지운 영역을 원본으로 복원</td><td>마스킹을 잘못했을 때</td></tr>
+    <tr><td><strong>Smart Select</strong></td><td>클릭 한 번으로 오브젝트 자동 선택</td><td>정교한 형태를 손으로 칠하기 번거로울 때</td></tr>
+    <tr><td><strong>Retexture</strong></td><td>구도·형태 유지, 표면 질감·스타일만 재생성</td><td>소재·화풍만 바꾸고 싶을 때</td></tr>
+  </table>
+
+  <h2><span class="kicker">Guide</span>Paint(Erase)로 부분 수정하기</h2>
+  <ol class="steps">
+    <li><span class="n">01</span><div>편집할 이미지를 불러옵니다.</div></li>
+    <li><span class="n">02</span><div>좌측 패널에서 <strong>Paint → Erase</strong>를 선택합니다.</div></li>
+    <li><span class="n">03</span><div><strong>Brush Size</strong>로 크기를 조절하며 바꾸고 싶은 영역을 칠해 지웁니다.</div></li>
+    <li><span class="n">04</span><div>상단 프롬프트 입력창에 <strong>그 자리에 나타날 내용</strong>을 새 프롬프트로 입력합니다.</div></li>
+    <li><span class="n">05</span><div><strong>Submit Edit</strong>을 누르면 4개의 결과가 생성됩니다.</div></li>
+    <li><span class="n">06</span><div>마음에 드는 결과를 <strong>Upscale to Create Page</strong> 또는 <strong>Download Image</strong>로 저장합니다.</div></li>
+  </ol>
+
+  <h2><span class="kicker">Guide</span>Smart Select로 정교하게 선택하기</h2>
+  <ol class="steps">
+    <li><span class="n">01</span><div><strong>Smart Select</strong>를 클릭한 뒤, 바꾸고 싶은 오브젝트를 클릭합니다.</div></li>
+    <li><span class="n">02</span><div>AI가 형태를 자동 인식해 선택 영역(마스크)을 만듭니다.</div></li>
+    <li><span class="n">03</span><div><strong>Include</strong>로 넓히거나 <strong>Exclude</strong>로 제외할 부분을 뺍니다. (예: 신발 선택 시 밑창 제외)</div></li>
+    <li><span class="n">04</span><div>Erase 후 상단 프롬프트로 새 내용을 입력해 생성합니다.</div></li>
+    <li><span class="n">05</span><div>배경만 바꾸려면 오브젝트를 선택한 뒤 <strong>"erase background"</strong>로 배경만 지우고 재생성합니다.</div></li>
+  </ol>
+
+  <h2><span class="kicker">Guide</span>Retexture로 스타일만 바꾸기</h2>
+  <ol class="steps">
+    <li><span class="n">01</span><div>이미지를 불러온 뒤 상단 탭에서 <strong>Retexture</strong>를 선택합니다.</div></li>
+    <li><span class="n">02</span><div>구조는 그대로 두고 바뀌길 원하는 재질·스타일을 프롬프트로 입력합니다.</div></li>
+    <li><span class="n">03</span><div>특정 화풍을 원하면 텍스트만으로 부족할 수 있습니다. <strong>스타일 레퍼런스 이미지</strong>를 함께 넣으면 훨씬 정확합니다.</div></li>
+    <li><span class="n">04</span><div>결과 4개 중 원하는 톤을 선택합니다.</div></li>
+  </ol>
+
+  <h2><span class="kicker">Guide</span>Move/Resize로 캔버스 확장하기 (아웃페인팅)</h2>
+  <ol class="steps">
+    <li><span class="n">01</span><div><strong>Move/Resize</strong>를 선택합니다.</div></li>
+    <li><span class="n">02</span><div>캔버스 가장자리를 드래그하거나 비율 입력란에 원하는 비율을 직접 입력합니다.</div></li>
+    <li><span class="n">03</span><div>새로 생긴 빈 공간이 원본과 자연스럽게 이어지도록 AI가 채웁니다.</div></li>
+    <li><span class="n">04</span><div>필요하면 프롬프트를 추가로 입력해 확장 방향을 유도할 수 있습니다.</div></li>
+  </ol>
+
+  <h2><span class="kicker">Warm-up</span>어떤 도구를 써야 할까?</h2>
+  <ul class="checklist">
+    <li>세로형(1:1)으로 만든 포스터를 가로형(16:9) 배경으로 확장해야 한다 → ______________</li>
+    <li>제품 사진에서 배경만 브랜드 컬러로 바꾸고 제품은 그대로 두고 싶다 → ______________</li>
+    <li>완성된 일러스트의 구도는 그대로 두고 수채화 느낌으로만 바꾸고 싶다 → ______________</li>
+  </ul>
+
+  <h2><span class="kicker">실습 01</span>Paint(Erase)로 부분 교체하기</h2>
+  <span class="goal-tag">목표 · 특정 요소 하나를 다른 것으로 교체</span>
+  <pre class="prompt">편집할 원본 이미지: ______________________
+지운 영역: ______________________
+새 프롬프트: ______________________</pre>
+  <ul class="checklist">
+    <li>Erase로 정확한 영역만 마스킹했는가</li>
+    <li>새 프롬프트가 주변 톤과 자연스럽게 어울리는 결과를 만들었는가</li>
+  </ul>
+
+  <h2><span class="kicker">실습 02</span>Smart Select로 배경만 교체하기</h2>
+  <span class="goal-tag">목표 · 제품/인물은 유지, 배경만 다른 톤으로</span>
+  <pre class="prompt">선택한 오브젝트: ______________________
+배경 교체 프롬프트: ______________________</pre>
+  <ul class="checklist">
+    <li>Include/Exclude로 선택 범위를 정교하게 조정해봤는가</li>
+    <li>오브젝트 형태가 훼손되지 않고 배경만 바뀌었는가</li>
+  </ul>
+
+  <h2><span class="kicker">실습 03</span>Retexture로 스타일 전환하기</h2>
+  <span class="goal-tag">목표 · 같은 구도, 다른 질감/화풍</span>
+  <pre class="prompt">원본 이미지: ______________________
+전환할 재질/스타일: ______________________</pre>
+  <ul class="checklist">
+    <li>원본과 결과의 구도가 동일하게 유지되었는가</li>
+    <li>스타일 레퍼런스 이미지 유무에 따른 차이를 비교했는가</li>
+  </ul>
+
+  <h2><span class="kicker">심화 · 선택</span>Move/Resize로 매체 규격 확장하기</h2>
+  <p>포트폴리오용 이미지 1장을 다른 매체 규격(정사각 → 16:9)으로 확장해보세요.</p>
+  <pre class="prompt">원본 비율: ______________________ → 확장할 비율: ______________________</pre>
+  <ul class="checklist"><li>확장된 영역이 원본과 자연스럽게 이어지는가</li></ul>
+
+  <h2><span class="kicker">Tip</span>팁 &amp; 주의사항</h2>
+  <div class="note-box">
+    <ul>
+      <li>편집 결과는 매번 4개씩 생성됩니다. 마음에 드는 결과는 반드시 갤러리에 저장하세요. 저장하지 않으면 시간이 지나 사라질 수 있습니다.</li>
+      <li>Smart Select는 배경과 대비가 명확한 이미지에서 더 정확하게 작동합니다.</li>
+      <li>Retexture로 특정 작가·화풍을 재현하려면 텍스트만으로는 한계가 있습니다. 스타일 레퍼런스 이미지를 함께 사용하세요.</li>
+      <li>Move/Resize 아웃페인팅은 한 번에 크게 확장하지 말고 단계적으로 넓히면 결과가 더 자연스럽습니다.</li>
+      <li>라이트 에디터에는 레이어·리텍스처가 없습니다. 전체 기능이 필요하면 반드시 Edit 탭에서 시작하세요.</li>
+    </ul>
+  </div>
+
+  <h2><span class="kicker">제출</span>제출 체크리스트</h2>
+  <ul class="checklist">
+    <li>Paint(Erase)로 부분 교체한 이미지 1장 (실습 1)</li>
+    <li>Smart Select로 배경만 교체한 이미지 1장 (실습 2)</li>
+    <li>Retexture로 스타일 전환한 이미지 1장 (실습 3)</li>
+    <li>원본과 편집본을 나란히 비교한 캡처</li>
+    <li>파일명: 이름_에디터실습.png 형식으로 저장</li>
+    <li>다음 수업 전까지 제출</li>
+  </ul>
+
+  <div class="footer-note">서울시기술교육원 컴퓨터그래픽디자인과 · 미드저니 워크숍 에디터(Editor) 실습가이드</div>
+</div>
