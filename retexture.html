@@ -1,0 +1,227 @@
+<title>미드저니 리텍스처(Retexture) 실습 가이드</title>
+<style>
+  :root {
+    --paper: #f7f5ef; --paper-raised: #fffdf8; --ink: #1c1b1e; --ink-soft: #55524c;
+    --ink-faint: #918c7e; --rule: #d8d3c7; --accent: #c34a2c; --accent-soft: #c34a2c1a;
+    --accent-2: #2e5339; --accent-2-soft: #2e53391a;
+    --mono: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
+    --sans: -apple-system, "Apple SD Gothic Neo", "Pretendard", "Malgun Gothic", "Segoe UI", sans-serif;
+  }
+  :root[data-theme="dark"] {
+    --paper: #17191b; --paper-raised: #1f2123; --ink: #ece8df; --ink-soft: #a39c8c;
+    --ink-faint: #6b665a; --rule: #34302a; --accent: #e2734f; --accent-soft: #e2734f26;
+    --accent-2: #6fae7c; --accent-2-soft: #6fae7c22;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #17191b; --paper-raised: #1f2123; --ink: #ece8df; --ink-soft: #a39c8c;
+      --ink-faint: #6b665a; --rule: #34302a; --accent: #e2734f; --accent-soft: #e2734f26;
+      --accent-2: #6fae7c; --accent-2-soft: #6fae7c22;
+    }
+  }
+  @media print {
+    :root {
+      --paper: #f7f5ef !important; --paper-raised: #fffdf8 !important; --ink: #1c1b1e !important;
+      --ink-soft: #55524c !important; --ink-faint: #918c7e !important; --rule: #d8d3c7 !important;
+      --accent: #c34a2c !important; --accent-soft: #c34a2c1a !important;
+      --accent-2: #2e5339 !important; --accent-2-soft: #2e53391a !important;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); line-height: 1.65; }
+  .page { max-width: 800px; margin: 0 auto; padding: 4.5em 2em 6em; }
+  .doc-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    border-bottom: 1px solid var(--rule); padding-bottom: .8em; margin-bottom: .4em;
+    font-family: var(--mono); font-size: 11.5px; letter-spacing: .06em; color: var(--ink-faint);
+    text-transform: uppercase;
+  }
+  .doc-head .accent { color: var(--accent); }
+  h1 { font-size: clamp(28px, 4vw, 40px); font-weight: 800; letter-spacing: -0.01em; margin: .5em 0 .1em; text-wrap: balance; }
+  .subtitle { color: var(--ink-soft); font-size: 15px; margin: 0 0 2em; }
+  h2 {
+    font-size: 24px; font-weight: 800; letter-spacing: -0.005em;
+    margin: 2.4em 0 .2em; padding-top: 1.4em; border-top: 1px solid var(--rule);
+  }
+  h2:first-of-type { border-top: none; padding-top: 0; }
+  h3.sub { font-size: 17px; font-weight: 700; margin: 1.6em 0 .5em; }
+  .kicker {
+    font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: .3em; display: block;
+  }
+  p { margin: .6em 0; }
+  strong { font-weight: 700; }
+  pre.prompt {
+    font-family: var(--mono); font-size: 13.5px; background: var(--ink); color: var(--paper);
+    padding: 1em 1.2em; line-height: 1.6; white-space: pre-wrap; word-break: break-word;
+    margin: .6em 0; border-left: 3px solid var(--accent);
+  }
+  code.inline { font-family: var(--mono); background: var(--accent-soft); color: var(--accent); padding: .1em .35em; font-size: .9em; }
+  table { border-collapse: collapse; width: 100%; font-size: 13.5px; margin: 1em 0; }
+  th, td { text-align: left; padding: .55em .7em .55em 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  th { font-family: var(--mono); font-size: 10.5px; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-faint); font-weight: 500; }
+  ol.steps { list-style: none; margin: .8em 0; padding: 0; }
+  ol.steps li { display: grid; grid-template-columns: 1.8em 1fr; gap: .6em; padding: .5em 0; border-bottom: 1px solid var(--rule); align-items: baseline; }
+  ol.steps li:last-child { border-bottom: none; }
+  ol.steps li .n { font-family: var(--mono); color: var(--accent); font-size: 13px; }
+  ul.checklist { list-style: none; margin: .8em 0; padding: 0; }
+  ul.checklist li { padding: .5em 0; border-bottom: 1px solid var(--rule); display: flex; gap: .7em; font-size: 15px; }
+  ul.checklist li::before { content: "☐"; color: var(--accent); flex-shrink: 0; }
+  .setcard { border: 1px solid var(--rule); background: var(--paper-raised); border-radius: 4px; padding: 1.1em 1.3em; margin: 1em 0; }
+  .setcard .id { font-family: var(--mono); font-size: 11px; color: var(--accent-2); background: var(--accent-2-soft); border: 1px solid var(--accent-2); display: inline-block; padding: .15em .55em; margin-bottom: .6em; }
+  .setcard h4 { font-size: 15.5px; margin: 0 0 .6em; font-weight: 700; }
+  .goal-tag {
+    display: inline-block; font-family: var(--mono); font-size: 11px; letter-spacing: .06em;
+    text-transform: uppercase; color: var(--accent-2); background: var(--accent-2-soft);
+    border: 1px solid var(--accent-2); padding: .2em .6em; margin-bottom: .6em;
+  }
+  .note-box { background: var(--paper-raised); border: 1px solid var(--rule); padding: 1em 1.2em; margin: 1em 0; font-size: 14.5px; }
+  .note-box ul { margin: .3em 0 0; padding-left: 1.2em; }
+  .note-box li { margin: .3em 0; }
+  .footer-note { margin-top: 3em; padding-top: 1em; border-top: 1px solid var(--rule); font-family: var(--mono); font-size: 11.5px; color: var(--ink-faint); text-align: center; }
+  @media print { .page { padding: 1.5em 0 3em; } .setcard { break-inside: avoid; } }
+</style>
+
+<div class="page">
+  <div class="doc-head"><span class="accent">PROOF · GUIDE</span><span>MIDJOURNEY WORKSHOP · RETEXTURE</span></div>
+  <h1>미드저니 리텍스처(Retexture) 실습 가이드</h1>
+  <p class="subtitle">서울시기술교육원 컴퓨터그래픽디자인과 · 심화 실습 (질감·스타일 전환)<br><code class="inline">에디터-실습가이드</code>를 먼저 끝낸 뒤 진행하세요. 이 가이드는 에디터의 5가지 도구 중 <strong>Retexture</strong>만 깊이 다룹니다.<br><strong>기준: Midjourney Full Editor — Retexture</strong> (버전 무관, v6~v8.2 모두 적용 가능)</p>
+
+  <h2><span class="kicker">Concept</span>Retexture란?</h2>
+  <p>Retexture는 이미지의 <strong>구도·형태·구성은 그대로 유지한 채, 표면 질감이나 스타일만 다시 그리는</strong> 도구입니다. 나무 의자를 금속 의자로, 스케치를 완성 렌더링으로, 사실적인 사진을 일러스트 화풍으로 바꾸는 식입니다. 이 가이드는 <strong>광고 콘텐츠와 포트폴리오 제작</strong>이라는 두 실무 상황에 초점을 맞춥니다.</p>
+
+  <h2><span class="kicker">Guide</span>사용 방법</h2>
+  <ol class="steps">
+    <li><span class="n">01</span><div><code class="inline">midjourney.com</code>의 <strong>Edit</strong> 탭에서 편집할 이미지를 불러옵니다.</div></li>
+    <li><span class="n">02</span><div>상단 탭에서 <strong>Retexture</strong>를 선택합니다.</div></li>
+    <li><span class="n">03</span><div>프롬프트를 입력합니다. 일반 생성과 작성법이 다릅니다 — "무엇을 만들지"가 아니라 <strong>"기존 이미지를 어떻게 바꿀지"</strong>만 짧게 지시합니다.</div></li>
+    <li><span class="n">04</span><div>결과 4개 중 원하는 톤을 선택해 저장합니다.</div></li>
+  </ol>
+
+  <div class="note-box">
+    <strong>프롬프트 작성 팁 — 미니멀하게 쓰기</strong>
+    <ul>
+      <li>재질·스타일만 바꾸고 싶다면 짧은 문구만으로 충분합니다. (예: <code class="inline">matte ceramic texture</code>)</li>
+      <li>특정 화풍을 정확히 재현하려면 <strong>스타일 레퍼런스</strong>를 함께 씁니다: <code class="inline">--sref [코드/URL]</code></li>
+      <li>순수하게 스타일 코드 느낌만 입히려면 프롬프트를 마침표(.) 하나만 남기고 sref만 붙여도 됩니다: <code class="inline">. --sref 1234567</code></li>
+      <li>스타일 코드와 어울리는 키워드를 몇 개 더하면 일관성이 좋아집니다.</li>
+      <li>강도는 <code class="inline">--sw</code>(0~1000, 기본 100)로 조절합니다. 약하면 100~150, 강하면 150~300부터 실험하세요.</li>
+    </ul>
+  </div>
+
+  <h2><span class="kicker">A</span>광고 콘텐츠에서 리텍스처 활용 예시 (2세트)</h2>
+  <p>광고 콘텐츠 제작에서 Retexture는 <strong>같은 구도의 비주얼을 재질·톤만 바꿔 여러 버전으로 빠르게 늘릴 때</strong> 유용합니다. A/B 테스트 소재, 시즌별 캠페인 변형에 적합합니다.</p>
+
+  <div class="setcard">
+    <span class="id">세트 1</span><h4>제품 소재 베리에이션 (패키지 A/B 테스트용)</h4>
+    <p style="font-size:13px; color:var(--ink-soft);">① 원본 이미지 생성 프롬프트</p>
+    <pre class="prompt">premium skincare product hero shot, a glass bottle on a reflective dark
+surface, dramatic rim lighting, minimalist high-end beauty advertising
+photography, empty space above for a headline
+--ar 4:5 --raw --v 8.2</pre>
+    <p style="font-size:13px; color:var(--ink-soft); margin-top:.8em;">② Retexture 적용 프롬프트</p>
+    <pre class="prompt">matte frosted ceramic texture instead of glass, soft diffused highlights,
+same bottle shape and composition</pre>
+    <p style="font-size:13.5px; margin-top:.6em;"><strong>활용 팁</strong>: 같은 방식으로 brushed metal texture, recycled kraft paper texture 등으로 반복하면 소재별 광고 소재 세트를 하루 만에 여러 벌 확보할 수 있습니다.</p>
+  </div>
+
+  <div class="setcard">
+    <span class="id">세트 2</span><h4>시즌 캠페인 톤 전환 (동일 구도, 다른 계절감)</h4>
+    <p style="font-size:13px; color:var(--ink-soft);">① 원본 이미지 생성 프롬프트</p>
+    <pre class="prompt">lifestyle advertising photograph for a beverage brand, a chilled drink can
+on a wooden outdoor table, bright summer daylight, fresh green foliage in
+the background, commercial product photography
+--ar 1:1 --raw --v 8.2</pre>
+    <p style="font-size:13px; color:var(--ink-soft); margin-top:.8em;">② Retexture 적용 프롬프트</p>
+    <pre class="prompt">warm autumn tone, dried leaves and soft golden light instead of summer
+greenery, same table and can composition
+--sw 200</pre>
+    <p style="font-size:13.5px; margin-top:.6em;"><strong>활용 팁</strong>: 여름 캠페인 원본 하나로 가을·겨울 시즌 배너까지 같은 구도로 확장할 수 있어, 시즌마다 새로 촬영·생성하지 않아도 됩니다.</p>
+  </div>
+
+  <h2><span class="kicker">B</span>리텍스처를 활용한 포트폴리오 제작 가이드</h2>
+  <p>포트폴리오에서 Retexture는 "같은 아이디어를 여러 스타일로 제안할 수 있는 디자이너"라는 인상을 주는 데 효과적입니다. 완전히 다른 이미지를 여러 장 만드는 대신, <strong>하나의 강한 구도를 정하고 그 위에서 스타일 옵션을 보여주는 방식</strong>으로 접근하세요.</p>
+
+  <h3 class="sub">포트폴리오 페이지 구성 아이디어</h3>
+  <ol class="steps">
+    <li><span class="n">01</span><div>대표 구도 이미지 1장을 먼저 생성합니다.</div></li>
+    <li><span class="n">02</span><div>같은 이미지를 Retexture로 2~3가지 스타일 버전으로 확장합니다.</div></li>
+    <li><span class="n">03</span><div>"원본 → 스타일 옵션 A/B/C"를 나란히 배치해 디렉션 제안 과정을 보여줍니다.</div></li>
+    <li><span class="n">04</span><div>각 버전 아래 "클라이언트에게 제안할 때의 근거"를 한 줄씩 적습니다.</div></li>
+  </ol>
+
+  <h3 class="sub">예시 — 브랜드 패키지 리텍스처 제안 3종</h3>
+  <p style="font-size:13px; color:var(--ink-soft);">① 원본 이미지 생성 프롬프트</p>
+  <pre class="prompt">minimalist product packaging box mockup, plain matte surface, centered
+composition, soft studio lighting, empty label space, flat-lay product shot
+--ar 1:1 --raw --v 8.2</pre>
+  <table>
+    <tr><th>옵션</th><th>Retexture 프롬프트</th><th>톤</th></tr>
+    <tr><td>A — 내추럴</td><td><code class="inline">kraft paper texture, warm natural tones, hand-crafted feel</code></td><td>친환경·수공예</td></tr>
+    <tr><td>B — 프리미엄</td><td><code class="inline">glossy black texture with gold foil accents, luxury packaging feel</code></td><td>고급·리미티드</td></tr>
+    <tr><td>C — 비건/에코</td><td><code class="inline">recycled cardboard texture, muted green and beige tones, eco-friendly feel</code></td><td>지속가능성</td></tr>
+  </table>
+  <p style="font-size:13.5px;"><strong>포트폴리오 활용 팁</strong>: 이 3개를 나란히 배치하고 "타깃별 패키지 톤 제안"이라는 제목을 달면, 하나의 브랜딩 프로젝트 안에서 여러 방향을 탐색한 것처럼 보여줄 수 있습니다.</p>
+
+  <h3 class="sub">예시 — 일러스트 화풍 전환 (편집/북커버 포트폴리오용)</h3>
+  <p style="font-size:13px; color:var(--ink-soft);">① 원본 이미지 생성 프롬프트 (연필 스케치 톤)</p>
+  <pre class="prompt">rough pencil sketch illustration, a figure walking along a beach at dusk,
+loose linework, minimal shading
+--ar 2:3 --raw --v 8.2</pre>
+  <table>
+    <tr><th>Retexture 적용</th><th>프롬프트</th></tr>
+    <tr><td>수채화 렌더링</td><td><code class="inline">soft watercolor painting texture, muted pastel palette, gentle color bleed</code></td></tr>
+    <tr><td>디지털 플랫 일러스트</td><td><code class="inline">flat digital illustration style, clean vector shapes, bold flat colors</code></td></tr>
+  </table>
+  <p style="font-size:13.5px;"><strong>포트폴리오 활용 팁</strong>: 러프 스케치 하나로 "화풍 탐색 과정"을 보여주면, 최종 스타일을 고르기까지의 판단 근거를 함께 제시할 수 있습니다.</p>
+
+  <h2><span class="kicker">Warm-up</span>Retexture vs 일반 재생성, 언제 다른가?</h2>
+  <ul class="checklist">
+    <li>완전히 새로운 구도의 이미지가 필요하다 → (Retexture 아님, 일반 생성)</li>
+    <li>지금 구도는 마음에 들지만 소재 느낌만 3가지로 제안하고 싶다 → ______________</li>
+    <li>스케치를 그대로 완성 렌더링처럼 보여주고 싶다 → ______________</li>
+  </ul>
+
+  <h2><span class="kicker">실습 01</span>광고 소재 베리에이션 만들기</h2>
+  <span class="goal-tag">목표 · 원본 1장 → 소재/톤이 다른 버전 2개</span>
+  <pre class="prompt">원본 이미지: ______________________
+Retexture 프롬프트 1: ______________________
+Retexture 프롬프트 2: ______________________</pre>
+  <ul class="checklist">
+    <li>구도가 세 버전 모두 동일하게 유지되었는가</li>
+    <li>각 버전이 실제 A/B 테스트 소재로 쓸 만큼 톤이 뚜렷이 구분되는가</li>
+  </ul>
+
+  <h2><span class="kicker">실습 02</span>포트폴리오용 스타일 옵션 3종 제안하기</h2>
+  <span class="goal-tag">목표 · 원본 1장 → 스타일 A/B/C 3종</span>
+  <pre class="prompt">원본 이미지: ______________________
+스타일 A: ______________________
+스타일 B: ______________________
+스타일 C: ______________________</pre>
+  <ul class="checklist">
+    <li>세 스타일이 서로 뚜렷하게 구분되는가</li>
+    <li>각 스타일 선택의 "제안 근거"를 한 줄씩 적었는가</li>
+  </ul>
+
+  <h2><span class="kicker">Tip</span>팁 &amp; 주의사항</h2>
+  <div class="note-box">
+    <ul>
+      <li>Retexture 프롬프트는 짧게 쓰세요. "무엇을 그릴지"가 아니라 "무엇으로 바꿀지"만 지시합니다.</li>
+      <li>특정 화풍을 원하면 --sref를 함께 쓰고, 순수 스타일 전환만 필요하면 <code class="inline">. --sref [코드]</code>처럼 마침표만 남겨도 됩니다.</li>
+      <li>강도는 --sw로 조절합니다. 결과가 원본과 너무 비슷하면 값을 올리고, 형태까지 무너지면 값을 낮추세요.</li>
+      <li>Retexture는 가끔 디테일을 누락하거나 형태를 미세하게 바꿀 수 있습니다. 특히 인물 사진은 결과를 꼼꼼히 확인하세요.</li>
+      <li>무드보드(--profile)와 --sw는 함께 쓸 수 없습니다(무시됨). 무드보드 톤을 쓰고 싶다면 --profile만 사용하세요.</li>
+    </ul>
+  </div>
+
+  <h2><span class="kicker">제출</span>제출 체크리스트</h2>
+  <ul class="checklist">
+    <li>광고 소재 베리에이션 2세트 완성 (실습 1)</li>
+    <li>포트폴리오 스타일 옵션 3종 완성 (실습 2)</li>
+    <li>각 결과에 원본과 나란히 비교한 캡처</li>
+    <li>파일명: 이름_리텍스처실습.png 형식으로 저장</li>
+    <li>다음 수업 전까지 제출</li>
+  </ul>
+
+  <div class="footer-note">서울시기술교육원 컴퓨터그래픽디자인과 · 미드저니 워크숍 리텍스처(Retexture) 실습가이드</div>
+</div>
