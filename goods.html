@@ -1,0 +1,285 @@
+<title>미드저니 굿즈 제작 실습 가이드</title>
+<style>
+  :root {
+    --paper: #f7f5ef; --paper-raised: #fffdf8; --ink: #1c1b1e; --ink-soft: #55524c;
+    --ink-faint: #918c7e; --rule: #d8d3c7; --accent: #c34a2c; --accent-soft: #c34a2c1a;
+    --accent-2: #2e5339; --accent-2-soft: #2e53391a; --warn: #b8860b; --warn-soft: #b8860b1f;
+    --mono: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
+    --sans: -apple-system, "Apple SD Gothic Neo", "Pretendard", "Malgun Gothic", "Segoe UI", sans-serif;
+  }
+  :root[data-theme="dark"] {
+    --paper: #17191b; --paper-raised: #1f2123; --ink: #ece8df; --ink-soft: #a39c8c;
+    --ink-faint: #6b665a; --rule: #34302a; --accent: #e2734f; --accent-soft: #e2734f26;
+    --accent-2: #6fae7c; --accent-2-soft: #6fae7c22; --warn: #e0b23f; --warn-soft: #e0b23f22;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #17191b; --paper-raised: #1f2123; --ink: #ece8df; --ink-soft: #a39c8c;
+      --ink-faint: #6b665a; --rule: #34302a; --accent: #e2734f; --accent-soft: #e2734f26;
+      --accent-2: #6fae7c; --accent-2-soft: #6fae7c22; --warn: #e0b23f; --warn-soft: #e0b23f22;
+    }
+  }
+  @media print {
+    :root {
+      --paper: #f7f5ef !important; --paper-raised: #fffdf8 !important; --ink: #1c1b1e !important;
+      --ink-soft: #55524c !important; --ink-faint: #918c7e !important; --rule: #d8d3c7 !important;
+      --accent: #c34a2c !important; --accent-soft: #c34a2c1a !important;
+      --accent-2: #2e5339 !important; --accent-2-soft: #2e53391a !important;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); line-height: 1.65; }
+  .page { max-width: 820px; margin: 0 auto; padding: 4.5em 2em 6em; }
+  .doc-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    border-bottom: 1px solid var(--rule); padding-bottom: .8em; margin-bottom: .4em;
+    font-family: var(--mono); font-size: 11.5px; letter-spacing: .06em; color: var(--ink-faint);
+    text-transform: uppercase;
+  }
+  .doc-head .accent { color: var(--accent); }
+  h1 { font-size: clamp(26px, 3.6vw, 38px); font-weight: 800; letter-spacing: -0.01em; margin: .5em 0 .1em; text-wrap: balance; }
+  .subtitle { color: var(--ink-soft); font-size: 15px; margin: 0 0 2em; }
+  h2 {
+    font-size: 24px; font-weight: 800; letter-spacing: -0.005em;
+    margin: 2.4em 0 .2em; padding-top: 1.4em; border-top: 1px solid var(--rule);
+  }
+  h2:first-of-type { border-top: none; padding-top: 0; }
+  h3.sub { font-size: 17px; font-weight: 700; margin: 1.6em 0 .5em; }
+  .kicker {
+    font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: .3em; display: block;
+  }
+  p { margin: .6em 0; }
+  strong { font-weight: 700; }
+  pre.prompt {
+    font-family: var(--mono); font-size: 13px; background: var(--ink); color: var(--paper);
+    padding: 1em 1.2em; line-height: 1.6; white-space: pre-wrap; word-break: break-word;
+    margin: .6em 0; border-left: 3px solid var(--accent);
+  }
+  code.inline { font-family: var(--mono); background: var(--accent-soft); color: var(--accent); padding: .1em .35em; font-size: .9em; }
+  table { border-collapse: collapse; width: 100%; font-size: 13.5px; margin: 1em 0; }
+  th, td { text-align: left; padding: .55em .7em .55em 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  th { font-family: var(--mono); font-size: 10.5px; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-faint); font-weight: 500; }
+  .goodscard { border: 1px solid var(--rule); background: var(--paper-raised); border-radius: 4px; padding: 1.1em 1.3em; margin: 1em 0; }
+  .goodscard .id { font-family: var(--mono); font-size: 11px; color: var(--accent-2); background: var(--accent-2-soft); border: 1px solid var(--accent-2); display: inline-block; padding: .15em .55em; margin-bottom: .6em; }
+  .goodscard h4 { font-size: 15.5px; margin: 0 0 .6em; font-weight: 700; }
+  .goodscard .point { font-size: 13.5px; margin-top: .5em; }
+  .note-box { background: var(--paper-raised); border: 1px solid var(--rule); padding: 1em 1.2em; margin: 1em 0; font-size: 14.5px; }
+  .note-box ul { margin: .3em 0 0; padding-left: 1.2em; }
+  .note-box li { margin: .3em 0; }
+  .warn-box { background: var(--warn-soft); border: 1px solid var(--warn); color: var(--ink); padding: 1em 1.2em; margin: 1em 0; font-size: 14px; }
+  ul.checklist { list-style: none; margin: .8em 0; padding: 0; }
+  ul.checklist li { padding: .5em 0; border-bottom: 1px solid var(--rule); display: flex; gap: .7em; font-size: 15px; }
+  ul.checklist li::before { content: "☐"; color: var(--accent); flex-shrink: 0; }
+  .footer-note { margin-top: 3em; padding-top: 1em; border-top: 1px solid var(--rule); font-family: var(--mono); font-size: 11.5px; color: var(--ink-faint); text-align: center; }
+  @media print { .page { padding: 1.5em 0 3em; } .goodscard { break-inside: avoid; } }
+</style>
+
+<div class="page">
+  <div class="doc-head"><span class="accent">PROOF · GUIDE</span><span>MIDJOURNEY WORKSHOP · GOODS</span></div>
+  <h1>미드저니 굿즈 제작 실습 가이드</h1>
+  <p class="subtitle">서울시기술교육원 컴퓨터그래픽디자인과 · 심화 실습 (캐릭터 → 굿즈 라인업)<br><code class="inline">니지-실습가이드</code>·<code class="inline">레퍼런스-실습가이드</code>·<code class="inline">에디터-실습가이드</code>·<code class="inline">리텍스처-실습가이드</code>를 먼저 끝낸 뒤 진행하세요.<br><strong>기준 버전: v8.2 / niji 7</strong></p>
+
+  <h2><span class="kicker">Concept</span>이 가이드가 다루는 것</h2>
+  <p>캐릭터·일러스트를 낱장으로 만드는 것과, 그것을 <strong>여러 굿즈 품목에 일관되게 확장</strong>하는 것은 다른 작업입니다. 원본 캐릭터 확정 → 품목별 최적화 → 레퍼런스/리텍스처로 라인업 확장 → 목업 프레젠테이션까지, 실제 굿즈 브랜드가 신제품을 개발하는 순서를 따라갑니다.</p>
+
+  <h2><span class="kicker">Part 1</span>굿즈 디자인 기초</h2>
+  <h3 class="sub">인쇄 기초 개념 — 프롬프트보다 먼저 알아야 하는 것</h3>
+  <table>
+    <tr><th>개념</th><th>의미</th><th>실무 수치</th></tr>
+    <tr><td>도련 (Bleed)</td><td>재단 시 밀림을 대비해 디자인을 여백보다 더 크게 확장하는 영역</td><td>보통 상하좌우 3mm</td></tr>
+    <tr><td>안전 여백 (Safe Zone)</td><td>로고·텍스트 등 중요 요소가 잘리지 않도록 안쪽에 두는 여백</td><td>가장자리에서 3~5mm 안쪽</td></tr>
+    <tr><td>해상도</td><td>인쇄용 이미지의 최소 해상도</td><td>300dpi 이상</td></tr>
+  </table>
+  <div class="warn-box">Midjourney는 도련·안전여백을 자동으로 지켜주지 않습니다. <strong>여백이 넉넉한 구도</strong>로 생성한 뒤, 편집 툴(에디터의 Move/Resize 또는 포토샵)에서 실제 인쇄 사이즈에 맞춰 재단선을 직접 배치하세요.</div>
+
+  <h3 class="sub">굿즈 종류별 특성 비교</h3>
+  <table>
+    <tr><th>품목</th><th>핵심 요구사항</th><th>비율/형태</th></tr>
+    <tr><td>스티커</td><td>배경 없는 단일 오브젝트, 두꺼운 외곽선(다이컷 대응)</td><td>1:1</td></tr>
+    <tr><td>폰케이스</td><td>세로로 긴 구도, 상단 카메라 홀 부분은 여백으로 비워둠</td><td>세로 (약 9:19.5)</td></tr>
+    <tr><td>에코백</td><td>가슴 높이 중앙 프린트 영역, 단순한 실루엣</td><td>1:1 또는 4:5</td></tr>
+    <tr><td>머그컵</td><td>원통형 표면에 감기는 가로로 긴 배너형 구도</td><td>가로로 긴 형태</td></tr>
+    <tr><td>키링·뱃지</td><td>아주 작은 사이즈에서도 식별되는 심플한 형태</td><td>1:1</td></tr>
+    <tr><td>엽서·포스트카드</td><td>여백 있는 일러스트 + 뒷면 메시지 공간</td><td>3:2</td></tr>
+  </table>
+
+  <h3 class="sub">1페이지 브리프</h3>
+  <pre class="prompt">캐릭터/컨셉명: ______________________
+타깃: ______________________
+톤앤매너 키워드 3개: ______________________
+확장할 품목 (택 3 이상): 스티커 / 폰케이스 / 에코백 / 머그컵 / 키링·뱃지 / 엽서</pre>
+
+  <h2><span class="kicker">Part 2</span>캐릭터·일러스트 원본 만들기</h2>
+  <ol style="padding-left:1.3em; font-size:14.5px;">
+    <li style="margin:.5em 0;">니지 7로 캐릭터 설정화를 만듭니다. 배경·소품 없이 캐릭터가 명확히 보이는 구도를 추천합니다.</li>
+    <li style="margin:.5em 0;">여러 결과 중 가장 마음에 드는 1장을 <strong>마스터 이미지</strong>로 확정합니다.</li>
+    <li style="margin:.5em 0;">Upscale 후 이미지 URL을 확보해둡니다. 이후 모든 품목 작업에서 이 URL을 참조 이미지로 사용합니다.</li>
+  </ol>
+  <pre class="prompt">full body character concept sheet, a small chibi hedgehog character with
+soft rounded spikes, friendly smile, simple flat colors, thick clean
+outline, white background, front view
+--niji 7 --ar 1:1</pre>
+  <pre class="prompt">내 마스터 캐릭터 이미지 URL: ______________________</pre>
+
+  <h2><span class="kicker">Part 3</span>품목별 프롬프트</h2>
+  <p>각 프롬프트는 Part 2의 마스터 이미지 URL을 참조 이미지로 앞에 붙여 사용하는 것을 전제로 합니다.</p>
+
+  <div class="goodscard">
+    <span class="id">G-01</span><h4>스티커</h4>
+    <pre class="prompt">[마스터 이미지 URL] cute character sticker design, waving one paw, simple
+flat colors, thick clean outline, white background, sticker die-cut style
+--cref [마스터 이미지 URL] --cw 100 --ar 1:1</pre>
+    <p class="point"><strong>포인트</strong>: 배경은 반드시 흰색 단색으로 유지해야 다이컷(칼선) 작업이 쉽습니다.</p>
+  </div>
+
+  <div class="goodscard">
+    <span class="id">G-02</span><h4>폰케이스</h4>
+    <pre class="prompt">[마스터 이미지 URL] phone case design mockup, character positioned in the
+lower two-thirds of the case, plenty of empty space near the top for the
+camera cutout area, simple flat colors, clean vector illustration
+--cref [마스터 이미지 URL] --cw 100 --ar 9:16</pre>
+    <p class="point"><strong>포인트</strong>: 상단에 카메라 컷아웃이 들어갈 여백을 비워두라고 명시해야 실제 제작 시 캐릭터가 잘리지 않습니다.</p>
+  </div>
+
+  <div class="goodscard">
+    <span class="id">G-03</span><h4>에코백</h4>
+    <pre class="prompt">[마스터 이미지 URL] tote bag print design, character centered in the
+middle of the composition, simple silhouette, single or two-color flat
+illustration suitable for screen printing, plain background
+--cref [마스터 이미지 URL] --cw 100 --ar 1:1</pre>
+    <p class="point"><strong>포인트</strong>: 에코백 인쇄는 실크스크린 방식이 많아 색상 수를 줄인 단순한 형태가 실제 제작에 유리합니다.</p>
+  </div>
+
+  <div class="goodscard">
+    <span class="id">G-04</span><h4>머그컵</h4>
+    <pre class="prompt">[마스터 이미지 URL] wide horizontal banner illustration of the character
+repeated in a simple pattern, designed to wrap around a cylindrical mug
+surface, flat colors, seamless composition
+--cref [마스터 이미지 URL] --cw 60 --ar 21:9</pre>
+    <p class="point"><strong>포인트</strong>: 머그컵은 원통형이라 좌우가 이어져 보이는 배너형 구도가 필요합니다. --cw를 낮춰(60) 패턴화하면서도 캐릭터 특징은 유지되게 조절합니다.</p>
+  </div>
+
+  <div class="goodscard">
+    <span class="id">G-05</span><h4>키링·뱃지</h4>
+    <pre class="prompt">[마스터 이미지 URL] extremely simplified character icon, bold thick
+outline, minimal detail, designed to be legible at very small size,
+single flat color background
+--cref [마스터 이미지 URL] --cw 100 --ar 1:1</pre>
+    <p class="point"><strong>포인트</strong>: 실물 키링은 3~5cm로 매우 작습니다. 디테일이 많으면 뭉개지므로 최대한 단순화하세요.</p>
+  </div>
+
+  <div class="goodscard">
+    <span class="id">G-06</span><h4>엽서·포스트카드</h4>
+    <pre class="prompt">[마스터 이미지 URL] postcard illustration, character placed off-center
+with generous negative space around, soft background scene matching the
+character's mood, editorial illustration style
+--cref [마스터 이미지 URL] --cw 80 --ar 3:2</pre>
+    <p class="point"><strong>포인트</strong>: 엽서는 여백을 살려 감성적인 장면으로 확장하기 좋은 품목입니다. 뒷면에는 메시지 공간이 필요하다는 것도 고려하세요.</p>
+  </div>
+
+  <div class="warn-box">참고: --cref는 v6·niji 6 전용입니다. niji 7 캐릭터에 v6 cref를 적용하면 버전이 섞이므로, 니지 7 캐릭터의 완전한 동일성이 필요하면 위 프롬프트의 캐릭터 묘사 문장(생김새·색상)을 매번 동일하게 반복 입력하는 방식으로 대체하세요. (레퍼런스-실습가이드의 "v8.1/v8.2에서 캐릭터 일관성 유지하기 대안" 참고)</div>
+
+  <h2><span class="kicker">Part 4</span>레퍼런스·리텍스처로 라인업 확장</h2>
+  <h3 class="sub">컬러웨이(Colorway) 확장하기</h3>
+  <p>같은 캐릭터를 색상만 다르게 여러 벌 제안하면 "시즌 에디션"처럼 라인업을 풍성하게 만들 수 있습니다.</p>
+  <pre class="prompt">① 원본 (Part 3의 스티커 결과 활용)</pre>
+  <pre class="prompt">② Retexture — pastel lavender and mint color palette instead of the
+original colors, same character shape and outline</pre>
+  <pre class="prompt">② Retexture — warm autumn orange and brown color palette instead of the
+original colors, same character shape and outline</pre>
+
+  <h3 class="sub">콜라보/시즌 테마로 확장하기</h3>
+  <pre class="prompt">[마스터 이미지 URL] the character wearing a small winter scarf and hat,
+warm holiday mood
+--cref [마스터 이미지 URL] --cw 80 --sref [브랜드 무드보드 URL] --sw 120 --ar 1:1</pre>
+
+  <h2><span class="kicker">Part 5</span>목업 프레젠테이션</h2>
+  <p>완성 일러스트를 그대로 제출하지 말고, 실제 제품처럼 보이는 목업 위에 합성해 제시하세요.</p>
+
+  <div class="goodscard">
+    <span class="id">M-01</span><h4>스티커 플랫레이</h4>
+    <pre class="prompt">flat lay photography of blank white sticker sheets scattered on a wooden
+desk, soft natural light, minimal props like a pen and washi tape,
+top-down angle
+--ar 1:1 --raw</pre>
+  </div>
+  <div class="goodscard">
+    <span class="id">M-02</span><h4>폰케이스 손에 든 컷</h4>
+    <pre class="prompt">a hand holding a blank phone case, soft natural lighting, minimal
+lifestyle photography, blurred cozy background
+--ar 4:5 --raw</pre>
+  </div>
+  <div class="goodscard">
+    <span class="id">M-03</span><h4>에코백 착용 컷</h4>
+    <pre class="prompt">a person casually carrying a blank plain tote bag over their shoulder,
+outdoor natural lighting, candid lifestyle photography
+--ar 4:5 --raw</pre>
+  </div>
+  <div class="goodscard">
+    <span class="id">M-04</span><h4>머그컵 테이블 연출</h4>
+    <pre class="prompt">a blank white mug on a wooden table with soft morning light, minimal
+props, cozy cafe atmosphere
+--ar 1:1 --raw</pre>
+  </div>
+  <div class="goodscard">
+    <span class="id">M-05</span><h4>굿즈 매대 진열 컷</h4>
+    <pre class="prompt">a small retail display shelf with blank stickers, pins, and postcards
+neatly arranged, soft even lighting, minimal pop-up store aesthetic
+--ar 16:9 --raw</pre>
+  </div>
+  <p style="font-size:13.5px;"><strong>합성 순서</strong>: 목업 이미지를 먼저 생성 → 에디터의 Smart Select로 제품이 놓일 영역을 선택 → 완성된 굿즈 디자인을 포토샵/피그마에서 합성.</p>
+
+  <h2><span class="kicker">Part 6</span>포트폴리오 편집 가이드</h2>
+  <ol style="padding-left:1.3em; font-size:14.5px;">
+    <li style="margin:.5em 0;"><strong>표지</strong> — 캐릭터/브랜드명 + 대표 목업 이미지</li>
+    <li style="margin:.5em 0;"><strong>캐릭터 소개</strong> — 마스터 이미지 + 컨셉 설명</li>
+    <li style="margin:.5em 0;"><strong>품목별 적용</strong> — G-01~G-06 중 선택한 3개 이상을 나란히 배치</li>
+    <li style="margin:.5em 0;"><strong>컬러웨이/시즌 확장</strong> — Part 4의 리텍스처 결과</li>
+    <li style="margin:.5em 0;"><strong>목업 프레젠테이션</strong> — M-01~M-05 중 3장 이상</li>
+    <li style="margin:.5em 0;"><strong>회고</strong> — 일관성을 유지하기 위해 어떤 판단을 했는지 서술</li>
+  </ol>
+  <pre class="prompt">AI 활용: Midjourney v8.2/niji 7 이미지 생성, Retexture 컬러웨이 확장
+디자인 기여: 캐릭터 컨셉 기획, 품목별 레이아웃 설계, 목업 합성, 포트폴리오 편집</pre>
+
+  <h2><span class="kicker">Curriculum</span>실습 커리큘럼 (3회차)</h2>
+  <table>
+    <tr><th>회차</th><th>학습 주제</th><th>실습 산출물</th></tr>
+    <tr><td>1</td><td>굿즈 기초·인쇄 개념 + 캐릭터 원본 확정</td><td>1페이지 브리프 + 캐릭터 원본</td></tr>
+    <tr><td>2</td><td>품목별 프롬프트 실습 (3품목 이상)</td><td>품목별 디자인 3종</td></tr>
+    <tr><td>3</td><td>레퍼런스·리텍스처 확장 + 목업 프레젠테이션 + 포트폴리오 정리</td><td>컬러웨이 1세트 + 목업 5장 + 포트폴리오 스프레드</td></tr>
+  </table>
+
+  <h2><span class="kicker">Rubric</span>평가 루브릭</h2>
+  <table>
+    <tr><th>평가 항목</th><th>배점</th><th>기준</th></tr>
+    <tr><td>캐릭터/컨셉 완성도</td><td>20</td><td>원본 캐릭터의 개성과 브랜드 적합성</td></tr>
+    <tr><td>일관성 유지</td><td>25</td><td>품목 간 캐릭터 동일성(색·형태·비율)이 유지되는가</td></tr>
+    <tr><td>품목별 최적화</td><td>20</td><td>각 품목의 구도·여백 요구사항을 반영했는가</td></tr>
+    <tr><td>목업 프레젠테이션</td><td>20</td><td>실제 제품처럼 보이는 설득력 있는 연출인가</td></tr>
+    <tr><td>포트폴리오 구성</td><td>15</td><td>라인업 전체를 하나의 스토리로 편집했는가</td></tr>
+  </table>
+
+  <h2><span class="kicker">Tip</span>팁 &amp; 주의사항</h2>
+  <div class="note-box">
+    <ul>
+      <li>프롬프트만으로는 도련·안전여백을 지킬 수 없습니다. 반드시 편집 툴에서 실제 인쇄 사이즈 기준으로 재배치하세요.</li>
+      <li>스티커·키링처럼 작게 인쇄되는 품목은 디테일을 최대한 단순화해야 실물에서 뭉개지지 않습니다.</li>
+      <li>--cref는 v6 전용이라는 점을 잊지 마세요. niji 7 캐릭터는 캐릭터 묘사 문장을 반복 입력하는 방식으로 동일성을 유지하세요.</li>
+      <li>컬러웨이 확장은 Retexture, 브랜드 무드 확장은 --sref로 도구를 구분해서 쓰면 더 빨리 원하는 결과에 도달합니다.</li>
+      <li>목업은 반드시 "빈 제품"으로 먼저 만들고, 디자인은 후반 합성으로 얹으세요.</li>
+    </ul>
+  </div>
+
+  <h2><span class="kicker">제출</span>제출 체크리스트</h2>
+  <ul class="checklist">
+    <li>캐릭터/일러스트 원본 1종 확정 (Part 2)</li>
+    <li>품목별 적용 디자인 3종 이상 (Part 3)</li>
+    <li>컬러웨이 확장 1세트 이상 (Part 4)</li>
+    <li>목업 프레젠테이션 3장 이상 (Part 5)</li>
+    <li>굿즈 라인업 포트폴리오 스프레드 1편 (Part 6)</li>
+    <li>파일명: 이름_굿즈_품목명.png 형식으로 저장</li>
+  </ul>
+
+  <div class="footer-note">서울시기술교육원 컴퓨터그래픽디자인과 · 미드저니 굿즈 제작 실습 가이드</div>
+</div>
